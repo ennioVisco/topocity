@@ -1,10 +1,3 @@
-import           AbsCity
-import           BX.PlaceGraph
-import           Data.Maybe
-import           Data.Tree.NTree.TypeDefs
-import           Generics.BiGUL.Interpreter
-import           Text.XML.HXT.Core
-
 {-}
 main :: IO ()
 main = do
@@ -61,7 +54,7 @@ dlog2 = "../out/log2.txt"
 main :: IO ()
 main = putStrLn "Test suite not yet implemented"
 
-
+{-}
 
 -- .........................:::::::: TESTING ::::::::........................ --
 
@@ -100,3 +93,4 @@ bg1 =
         , NTree ("bc895ce59-031b-11e6-b420-2bdcc4ab5d7f","Building") []
         , NTree ("bc897a3bc-031b-11e6-b420-2bdcc4ab5d7f","Building") []
         ]
+-}
