@@ -1,5 +1,21 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
+-- ------------------------------------------------------------
+
+{- |
+   Module     : NTreeExtras
+
+   Maintainer : Ennio Visconti (ennio.visconti\@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   n-ary tree structure (rose trees) helpers
+   based on NTree implementation from HXT.
+
+-}
+
+-- ------------------------------------------------------------
+
 module Policy where
 
 import           AbsCity
@@ -18,7 +34,7 @@ class Policy where
             -> AbsCityTree
             -> AbsCityTree
 
--- | The method used to initialize a new node
+    -- | The method used to initialize a new node
     create  :: Stubs        -- ^ The /Stubs pot/ where to get the new model
             -> AbsCityTree  -- ^ The /Source Parent Node/
             -> PlaceGraph   -- ^ The new /View Node/

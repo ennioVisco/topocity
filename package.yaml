@@ -44,7 +44,9 @@ executables:
 tests:
   topocity-test:
     main:                Spec.hs
-    source-dirs:         test
+    source-dirs:
+    - test
+    - src
     ghc-options:
     - -threaded
     - -rtsopts
