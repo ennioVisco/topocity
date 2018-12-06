@@ -41,7 +41,7 @@ store source' "out.gml" "tout.gml"
 ## Development
 
 ### Testing & Code Analysis
-:warning: _Note: Unless specified in a different way, all commands are intended to be executed in the root of the project and require the [Stack platform][45cc488c]._
+:warning: _Note: Unless otherwise specified, all commands are intended to be executed in the root of the project and require the [Stack platform][45cc488c]._
 
 ---
 To run the code coverage of the testing platform run in your OS's CLI:
