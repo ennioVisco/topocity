@@ -1,6 +1,5 @@
 # topocity ![Status Badge - Travis CI](https://travis-ci.org/polaretto/topocity.svg?branch=master)
-Putback BX between **CityGML** and **Bigraphs**, powered by BiGUL
-
+Towards topological reasoning in smart cities environment. A Putback BX approach towards **Bigraphs** from **CityGML**. Powered by [BiGUL][5d8ff35d]
 
 ## Demo
 After installing the dependencies, execute the following commands in the REPL:
@@ -52,6 +51,13 @@ stack test --ghc-options "-fforce-recomp" --coverage
 
 and of course to just run the tests you can skip the `--coverage` flag.
 
+### Generate package dependency graph
+In order to generate the dependency graph (in this case the trivial dependency on the `base` package has been excluded):
+
+```sh
+stack dot --no-include-base --external | dot -Tpng -o out/wreq.png
+```
+
 ### Generate documentation
 
 To generate the updated documentation, you can write in the same way:
@@ -66,3 +72,5 @@ cloc.exe ../src ../test --report-file=reports/cloc_%DATE%.txt
 ```
 
 [45cc488c]: https://haskellstack.org "Haskell Stack Website"
+
+[5d8ff35d]: https://bitbucket.org/prl_tokyo/bigul/ "BiGUL: The Bidirectional Generic Update Language"

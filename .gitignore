@@ -1,3 +1,5 @@
 .stack-work/
 topocity.cabal
 *~
+out/
+tools/reports/
