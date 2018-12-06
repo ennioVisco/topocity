@@ -1,3 +1,14 @@
+import           Test.Tasty
+import           Test.Tasty.HUnit
+import           Test.Tasty.QuickCheck    as QC
+import           Test.Tasty.SmallCheck    as SC
+
+import           Data.List
+import           Data.Ord
+
+import           Data.Tree.NTree.TypeDefs
+import           NTreeExtras
+
 {-}
 main :: IO ()
 main = do
@@ -52,7 +63,36 @@ dlog1 = "../out/log1.txt"
 dlog2 = "../out/log2.txt"
 
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = defaultMain tests
+
+tests :: TestTree
+tests = testGroup "Tests" [properties, unitTests]
+
+properties :: TestTree
+properties = testGroup "Properties" [scProps, qcProps]
+
+scProps = testGroup "(checked by SmallCheck)"
+  [ SC.testProperty "sort == sort . reverse" $
+      \list -> sort (list :: [Int]) == sort (reverse list)
+  , SC.testProperty "Fermat's little theorem" $
+      \x -> ((x :: Integer)^7 - x) `mod` 7 == 0
+  ]
+
+qcProps = testGroup "(checked by QuickCheck)"
+  [ QC.testProperty "sort == sort . reverse" $
+      \list -> sort (list :: [Int]) == sort (reverse list)
+  , QC.testProperty "Fermat's little theorem" $
+      \x -> ((x :: Integer)^7 - x) `mod` 7 == 0
+  ]
+
+unitTests = testGroup "Unit tests"
+  [ testCase "List comparison (different length)" $
+      [1, 2, 3] `compare` [1,2] @?= GT
+
+  , testCase "NTree size test" $
+        assertEqual "Checking the size of: NTree 1 []" 1 (size (NTree 1 []))
+  ]
+
 
 {-}
 

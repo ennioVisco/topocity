@@ -1,5 +1,5 @@
 # topocity ![Status Badge - Travis CI](https://travis-ci.org/polaretto/topocity.svg?branch=master)
-Putback BX between CityGML and Bigraphs, powered by BiGUL
+Putback BX between **CityGML** and **Bigraphs**, powered by BiGUL
 
 
 ## Demo
@@ -37,3 +37,32 @@ source' = source &&& view'' >>> putSync
 ```haskell
 store source' "out.gml" "tout.gml"
 ```
+
+## Development
+
+### Testing & Code Analysis
+:warning: _Note: Unless specified in a different way, all commands are intended to be executed in the root of the project and require the [Stack platform][45cc488c]._
+
+---
+To run the code coverage of the testing platform run in your OS's CLI:
+
+```sh
+stack test --ghc-options "-fforce-recomp" --coverage
+```
+
+and of course to just run the tests you can skip the `--coverage` flag.
+
+### Generate documentation
+
+To generate the updated documentation, you can write in the same way:
+
+```sh
+stack haddock
+```
+
+While to generate the report of the Lines of Code (Windows-only), open a terminal at the `tools` directory and execute:
+```sh
+cloc.exe ../src ../test --report-file=reports/cloc_%DATE%.txt
+```
+
+[45cc488c]: https://haskellstack.org "Haskell Stack Website"
