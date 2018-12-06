@@ -1,4 +1,4 @@
-# topocity ![Status Badge - Travis CI](https://travis-ci.org/polaretto/topocity.svg?branch=master)
+# topocity ![Status Badge - Travis CI](https://travis-ci.com/polaretto/topocity.svg?branch=master)
 Towards topological reasoning in smart cities environment. A Putback BX approach towards **Bigraphs** from **CityGML**. Powered by [BiGUL][5d8ff35d]
 
 ## Demo
