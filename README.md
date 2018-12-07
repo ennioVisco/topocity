@@ -1,5 +1,9 @@
 # topocity ![Status Badge - Travis CI](https://travis-ci.com/polaretto/topocity.svg?branch=master)
-Towards topological reasoning in smart cities environment. A Putback BX approach towards **Bigraphs** from **CityGML**. Powered by [BiGUL][5d8ff35d]
+Towards topological representation of smart cities environment: a Putback BX approach towards **Bigraphs** from **CityGML**.
+Powered by [BiGUL][5d8ff35d].
+
+## NII-PKU-Milano Joint Workshop on Modeling and Management of Adaptivity
+Slides of the presentation are  available here: [PPT - OneDrive.com][d0df7ec1]
 
 ## Demo
 After installing the dependencies, execute the following commands in the REPL:
@@ -40,7 +44,7 @@ store source' "out.gml" "tout.gml"
 ## Development
 
 ### Testing & Code Analysis
-:warning: _Note: Unless otherwise specified, all commands are intended to be executed in the root of the project and require the [Stack platform][45cc488c]._
+:warning: _Note: Unless otherwise specified, all commands are meant to be executed at the root of the project and require the [Stack platform][45cc488c]._
 
 ---
 To run the code coverage of the testing platform run in your OS's CLI:
@@ -74,3 +78,5 @@ cloc.exe ../src ../test --report-file=reports/cloc_%DATE%.txt
 [45cc488c]: https://haskellstack.org "Haskell Stack Website"
 
 [5d8ff35d]: https://bitbucket.org/prl_tokyo/bigul/ "BiGUL: The Bidirectional Generic Update Language"
+
+[d0df7ec1]: https://1drv.ms/p/s!AnET_cFHzelg314Drc5QfjA_R2hd "Topocity Slides"
