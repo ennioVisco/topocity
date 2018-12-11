@@ -17,7 +17,7 @@
 
 module CityGML.Building.Types where
 
-import           CityGML.Geometry.Types
+import           CityGML.GML.Types
 
 import           GHC.Generics
 

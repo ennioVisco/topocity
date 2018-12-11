@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 -- ------------------------------------------------------------
 
 {- |
@@ -19,12 +17,10 @@ module CityGML.Types
     (
     module Core,
     module Building,
-    module Geometry
+    module GML
     )
 where
 
 import           CityGML.Building.Types as Building
 import           CityGML.Core.Types     as Core
-import           CityGML.Geometry.Types as Geometry
-
-import           GHC.Generics
+import           CityGML.GML.Types      as GML

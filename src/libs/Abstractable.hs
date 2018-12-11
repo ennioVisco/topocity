@@ -34,15 +34,27 @@ constrName = genericConstrName . from
 -- Class for transforming the HXT data structures in the abstract
 -- Tree representation used for performing BX
 
-class (Show o, Read o, Generic o, HasConstructor (Rep o)) => Abstractable o where
+class
+    (Show o, Read o, Generic o, HasConstructor (Rep o), Identifiable o) =>
+    Abstractable o
+    where
+
     absObj :: o -> AbsCityTree
-    absObj n = NTree ("UNKNOWN_ID", (constrName n, show n)) []
+    absObj n = NTree (getId n, (constrName n, show n)) []
 
     reiObj :: AbsCityTree -> o
     reiObj (NTree (_, (_, d)) _) = read d
 
-class (Show o, Read o, Generic o, HasConstructor (Rep o)) => AbstractLink o where
+class
+    (Show o, Read o, Generic o, HasConstructor (Rep o)) =>
+    AbstractLink o
+    where
+
     absLink :: o -> AbsRelation
     absLink n = ("UNKNOWN_ID", (constrName n, []))
 
     reiLink :: AbsRelation -> o
+
+
+class Identifiable o where
+    getId :: o -> String

@@ -1,4 +1,3 @@
-
 -- ------------------------------------------------------------
 
 {- |
@@ -19,22 +18,17 @@ module CityGML.Parsers
     (
     module Core,
     module Building,
-    module Geometry
+    module GML
     )
 where
 
 import           CityGML.Building.Parsers as Building
 import           CityGML.Core.Parsers     as Core
-import           CityGML.Geometry.Parsers as Geometry
+import           CityGML.GML.Parsers as GML
 import           CityGML.Namespaces
 import           CityGML.Types
 
 import           Text.XML.HXT.Core
-
-
-
-
-
 
 
 -- | Pickle a coordinates Triple

@@ -19,19 +19,13 @@ module CityGML.Core.Types where
 
 import           CityGML.Building.Types
 
+import           CityGML.GML.Types
+
 import           GHC.Generics
 
 data CityModel = CityModel
-    {   cName      :: String
-    ,   cBoundedBy :: BoundedBy
-    ,   cMembers   :: [CityObjectMember]
-    }   deriving (Read, Show, Eq, Generic)
-
-data BoundedBy = BoundedBy
-    {   srsDimension :: Int
-    ,   srsName      :: String
-    ,   lCorner      :: String
-    ,   uCorner      :: String
+    {   cFeature :: Feature
+    ,   cMembers :: [CityObjectMember]
     }   deriving (Read, Show, Eq, Generic)
 
 data CityObjectMember = Building

@@ -1,21 +1,21 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : CityGML.Geometry.Parsers
+   Module     : CityGML.GML.Geometry.Parsers
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
    Portability: portable
 
-   Parsers related to 'CityGML.Geometry.Types'
+   Parsers related to 'CityGML.GML.Geometry.Types'
 
 -}
 
 -- ------------------------------------------------------------
 
-module CityGML.Geometry.Parsers where
+module CityGML.GML.Geometry.Parsers where
 
-import           CityGML.Geometry.Types
+import           CityGML.GML.Types
 import           Text.XML.HXT.Core
 
 instance XmlPickler MultiSurface where

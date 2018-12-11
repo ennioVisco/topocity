@@ -3,13 +3,13 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : CityGML.Geometry.Types
+   Module     : CityGML.GML.Geometry.Types
 
    Maintainer : Ennio Visconti ("ennio.visconti\@mail.polimi.it")
    Stability  : stable
    Portability: portable
 
-   Types related to the Geometry model of CityGML.
+   Types related to the GML model of CityGML.
 
    Note: Combined geometries can be aggregates, complexes or composites of
    primitives.
@@ -28,7 +28,7 @@
 
 -- ------------------------------------------------------------
 
-module CityGML.Geometry.Types where
+module CityGML.GML.Geometry.Types where
 
 import           GHC.Generics
 

@@ -22,13 +22,10 @@ import           CityGML.Namespaces
 import           Text.XML.HXT.Core
 
 import           CityGML.Building.Parsers
-import           CityGML.Building.Types
+import           CityGML.GML.Parsers
 
 instance XmlPickler CityModel where
     xpickle = xpCityModel
-
-instance XmlPickler BoundedBy where
-    xpickle = xpBoundedBy
 
 instance XmlPickler Measure where
     xpickle = xpMeasure
@@ -37,24 +34,11 @@ xpCityModel :: PU CityModel
 xpCityModel
     = xpElem "CityModel" $
       xpNamespaces namespaces $
-      xpWrap ( uncurry3 CityModel
-             , \ c -> (cName c, cBoundedBy c, cMembers c)) $
-      xpTriple  (xpElem "gml:name" xpText)
-                xpBoundedBy
-                (xpList xpickle)
-
-xpBoundedBy :: PU BoundedBy
-xpBoundedBy
-  = xpElem "gml:boundedBy" $
-    xpElem "gml:Envelope"  $
-    xpWrap (\(d,n,l,u) -> BoundedBy d n l u
-           , \ b -> ( srsDimension b, srsName b
-                    , lCorner b, uCorner b )
-            ) $
-    xp4Tuple    (xpAttr "srsDimension"      xpPrim)
-                (xpAttr "srsName"           xpText)
-                (xpElem "gml:lowerCorner"   xpText)
-                (xpElem "gml:upperCorner"   xpText)
+      xpWrap    ( uncurry CityModel
+                , \ c -> (cFeature c, cMembers c)
+                ) $
+      xpPair    xpFeature
+                (xpList xpCityObjectMember)
 
 
 xpMeasure :: PU Measure

@@ -16,7 +16,7 @@
 
 module CityGML.Building.Parsers where
 
-import           CityGML.Geometry.Parsers
+import           CityGML.GML.Parsers
 import           CityGML.Types
 import           Text.XML.HXT.Core
 
