@@ -3,7 +3,7 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : NTreeExtras
+   Module     : Policy
 
    Maintainer : Ennio Visconti (ennio.visconti\@mail.polimi.it)
    Stability  : stable
