@@ -44,3 +44,32 @@ instance XmlPickler Lod1Model where
                         ) $
                 xpElem "bldg:lod1Solid" xpSolid
              ]
+
+instance XmlPickler AbstractBuilding where
+    xpickle = xpBuilding
+
+xpBuilding :: PU AbstractBuilding
+xpBuilding =
+    xpElem "bldg:Building"    $
+    xpWrap (\(i,h,f,r,s) -> Building i h f r s
+           , \ b -> ( bId b, bHeight b
+                    , bLod0FootPrint b, bLod0RoofEdge b
+                    , bLod1Solid b
+                    )
+    ) $
+    xp5Tuple    (xpAttr "gml:id"              xpText)
+                 xpMeasure
+                (xpOption xpickle)
+                (xpOption xpickle)
+                (xpOption xpickle)
+
+instance XmlPickler Measure where
+    xpickle = xpMeasure
+
+xpMeasure :: PU Measure
+xpMeasure
+  = xpElem "bldg:measuredHeight" $
+    xpWrap  ( uncurry Height
+            , \m -> (mUom m, mValue m)) $
+    xpPair  (xpAttr "uom" xpText)
+            xpPrim

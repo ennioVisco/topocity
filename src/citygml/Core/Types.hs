@@ -28,15 +28,24 @@ data CityModel = CityModel
     ,   cMembers :: [CityObjectMember]
     }   deriving (Read, Show, Eq, Generic)
 
-data CityObjectMember = Building
-    {   bId            :: String
-    ,   bHeight        :: Measure
-    ,   bLod0FootPrint :: Maybe Lod0Model
-    ,   bLod0RoofEdge  :: Maybe Lod0Model
-    ,   bLod1Solid     :: Maybe Lod1Model
-    }   deriving (Read, Show, Eq, Generic)
+data CityObjectMember =
+        Site Site
+    -- |   Veg  VegetationObject
+    -- |   Gen  GenericObject
+    -- |   Wtr  WaterObject
+    -- |   Tran Transportation
+    -- |   Dem  Relief
 
-data Measure = Height
-    {   mUom   :: String
-    ,   mValue :: Float
-    }   deriving (Read, Show, Eq, Generic)
+    -- |   Grp  CityObjectGroup
+    -- |   Frn  CityFurniture
+    -- |   Luse LandUse
+    deriving (Read, Show, Eq, Generic)
+
+
+
+data Site =
+        Bld AbstractBuilding
+    -- |   Brg AbstractBridge
+
+    -- |   Tun AbstractTunnel
+    deriving (Read, Show, Eq, Generic)

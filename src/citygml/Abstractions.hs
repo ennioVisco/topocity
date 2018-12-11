@@ -18,15 +18,17 @@ instance Abstractable CityModel where
 
 instance Abstractable CityObjectMember
 
+instance Identifiable AbstractBuilding where
+    getId (Building i _ _ _ _) = i
 
+instance Identifiable Site where
+    getId (Bld b) = getId b
 
 instance Identifiable CityObjectMember where
-    getId (Building i _ _ _ _) = i
+    getId (Site s) = getId s
 
 instance Identifiable CityModel where
     getId (CityModel f _) = getId f
-
-
 
 instance Identifiable Feature where
     getId (Feature g _) = getId g

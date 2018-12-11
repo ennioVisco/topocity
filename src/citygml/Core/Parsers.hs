@@ -27,8 +27,7 @@ import           CityGML.GML.Parsers
 instance XmlPickler CityModel where
     xpickle = xpCityModel
 
-instance XmlPickler Measure where
-    xpickle = xpMeasure
+
 
 xpCityModel :: PU CityModel
 xpCityModel
@@ -40,15 +39,6 @@ xpCityModel
       xpPair    xpFeature
                 (xpList xpCityObjectMember)
 
-
-xpMeasure :: PU Measure
-xpMeasure
-  = xpElem "bldg:measuredHeight" $
-    xpWrap  ( uncurry Height
-            , \m -> (mUom m, mValue m)) $
-    xpPair  (xpAttr "uom" xpText)
-            xpPrim
-
 -- | Extra Special Picklers
 
 xpNamespaces :: [(String, String)] -> PU a -> PU a
@@ -58,18 +48,30 @@ xpNamespaces xs v = foldr (uncurry xpAddFixedAttr) v xs
 instance XmlPickler CityObjectMember where
     xpickle = xpCityObjectMember
 
+instance XmlPickler Site where
+    xpickle = xpSite
+
 xpCityObjectMember :: PU CityObjectMember
 xpCityObjectMember
   = xpElem "cityObjectMember" $
-    xpElem "bldg:Building"    $
-    xpWrap (\(i,h,f,r,s) -> Building i h f r s
-           , \ b -> ( bId b, bHeight b
-                    , bLod0FootPrint b, bLod0RoofEdge b
-                    , bLod1Solid b
-                    )
-    ) $
-    xp5Tuple    (xpAttr "gml:id"              xpText)
-                 xpMeasure
-                (xpOption xpickle)
-                (xpOption xpickle)
-                (xpOption xpickle)
+    xpAlt tag ps
+        where
+        tag (Site _) = 0
+        ps =    [   xpWrap  ( Site
+                            , \ (Site s) -> s
+                            )
+                    xpSite
+                --,
+                ]
+
+xpSite :: PU Site
+xpSite
+  = xpAlt tag ps
+      where
+      tag (Bld _) = 0
+      ps =    [  xpWrap  ( Bld
+                          , \ (Bld b) -> b
+                          )
+                  xpBuilding
+              --,
+              ]
