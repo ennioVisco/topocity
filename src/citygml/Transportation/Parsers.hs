@@ -28,7 +28,7 @@ instance XmlPickler TransLod1Model where
         ps = [  xpWrap  ( TransLod1MultiSurf
                         , \ (TransLod1MultiSurf s) -> s
                         ) $
-                xpElem "trans:lod1MultiSurface" xpMultiSurface
+                xpElem "tran:lod1MultiSurface" xpMultiSurface
              ]
 
 instance XmlPickler TransportationObject where
@@ -36,7 +36,7 @@ instance XmlPickler TransportationObject where
 
 xpTransportation :: PU TransportationObject
 xpTransportation =
-    xpElem "trans:Road"    $
+    xpElem "tran:Road"    $
     xpWrap  (\(f,l1) -> Road f l1
             , \ w ->    ( transFeature w
                         , transLod1Model w

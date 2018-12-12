@@ -238,7 +238,7 @@ xpSolid
 xpTriangulatedSurface :: PU TriangulatedSurface
 xpTriangulatedSurface
   = xpElem "gml:TriangulatedSurface" $
-    xpElem "trianglePatches" $
+    xpElem "gml:trianglePatches" $
     xpWrap  ( Patches
             , \ (Patches pp) -> pp
             )
@@ -308,7 +308,7 @@ xpRectangle
     xpWrap  ( Rectangle
             , \ (Rectangle r) -> r
             )
-    xpRing
+    (xpElem "gml:exterior" xpRing)
 
 xpTriangle :: PU Triangle
 xpTriangle
@@ -316,7 +316,7 @@ xpTriangle
     xpWrap  ( Triangle
             , \ (Triangle r) -> r
             )
-    xpRing
+    (xpElem "gml:exterior" xpRing)
 
 xpRing :: PU Ring
 xpRing

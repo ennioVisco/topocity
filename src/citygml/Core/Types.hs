@@ -17,9 +17,14 @@
 
 module CityGML.Core.Types where
 
-import           CityGML.Building.Types
-
-import           CityGML.GML.Types
+import           CityGML.Bridge.Types         as Bridge
+import           CityGML.Building.Types       as Building
+import           CityGML.Generics.Types       as Generics
+import           CityGML.GML.Types            as GML
+import           CityGML.Relief.Types         as Relief
+import           CityGML.Transportation.Types as Transportation
+import           CityGML.Vegetation.Types     as Vegetation
+import           CityGML.WaterBody.Types      as WaterBody
 
 import           GHC.Generics
 
@@ -30,11 +35,11 @@ data CityModel = CityModel
 
 data CityObjectMember =
         Site Site
-    -- |   Veg  VegetationObject
-    -- |   Gen  GenericObject
-    -- |   Wtr  WaterObject
-    -- |   Tran Transportation
-    -- |   Dem  Relief
+    |   Veg  VegetationObject
+    |   Gen  GenericCityObject
+    |   Wtr  WaterObject
+    |   Tran TransportationObject
+    |   Dem  ReliefFeature
 
     -- |   Grp  CityObjectGroup
     -- |   Frn  CityFurniture
@@ -45,7 +50,7 @@ data CityObjectMember =
 
 data Site =
         Bld AbstractBuilding
-    -- |   Brg AbstractBridge
+    |   Brg AbstractBridge
 
     -- |   Tun AbstractTunnel
     deriving (Read, Show, Eq, Generic)

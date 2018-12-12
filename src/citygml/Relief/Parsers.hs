@@ -37,22 +37,21 @@ xpReliefFeature
              , \ f -> (demFFeature f, demFLod f, demComponents f)
              ) $
     xpTriple xpFeature
-             xpPrim
-             (xpList $ xpElem "dem:reliefComponent" xpRelief)
+             (xpElem "dem:lod" xpPrim)
+             (xpList xpRelief)
 
 xpReliefComponent :: PU ReliefComponent
 xpReliefComponent
-  = xpElem  "dem:ReliefFeature" $
-    xpWrap  ( uncurry ReliefComponent
+  = xpWrap  ( uncurry ReliefComponent
             , \ f -> (demCFeature f, demCLod f)
             ) $
-    xpPair xpFeature
-            xpPrim
+    xpPair  xpFeature
+            (xpElem "dem:lod" xpPrim)
 
 
 xpRelief :: PU Relief
 xpRelief
-  = xpElem "dem:ReliefComponent" $
+  = xpElem "dem:reliefComponent" $
     xpAlt tag ps
       where
       tag (TINRelief _ _)         = 0
@@ -63,7 +62,7 @@ xpRelief
                         , \ r -> ( demTINComponent r, demTin r )
                         ) $
                 xpPair  xpReliefComponent
-                        xpTriangulatedSurface
+                        (xpElem "dem:tin" xpTriangulatedSurface)
 
             ,   xpElem "dem:MassPointRelief" $
                 xpWrap  ( uncurry MassPointRelief
