@@ -22,6 +22,7 @@ module CityGML.Parsers
     module Core,
     module GML,
     module Generics,
+    module Relief,
     module Transportation,
     module Vegetation,
     module WaterBody
@@ -37,6 +38,7 @@ import           CityGML.Building.Parsers       as Building
 import           CityGML.Core.Parsers           as Core
 import           CityGML.Generics.Parsers       as Generics
 import           CityGML.GML.Parsers            as GML
+import           CityGML.Relief.Parsers         as Relief
 import           CityGML.Transportation.Parsers as Transportation
 import           CityGML.Vegetation.Parsers     as Vegetation
 import           CityGML.WaterBody.Parsers      as WaterBody

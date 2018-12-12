@@ -1,14 +1,14 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : CityGML.Building.Parsers
+   Module     : CityGML.WaterBody.Parsers
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
    Portability: portable
 
    Parsers (i.e. 'XMLPickler's) related to the Types defined in
-   'CityGML.Building.Types'.
+   'CityGML.WaterBody.Types'.
 
 -}
 

@@ -21,6 +21,7 @@ module CityGML.Types
     module Core,
     module Generics,
     module GML,
+    module Relief,
     module Transportation,
     module Vegetation,
     module WaterBody
@@ -33,6 +34,7 @@ import           CityGML.Building.Types       as Building
 import           CityGML.Core.Types           as Core
 import           CityGML.Generics.Types       as Generics
 import           CityGML.GML.Types            as GML
+import           CityGML.Relief.Types         as Relief
 import           CityGML.Transportation.Types as Transportation
 import           CityGML.Vegetation.Types     as Vegetation
 import           CityGML.WaterBody.Types      as WaterBody

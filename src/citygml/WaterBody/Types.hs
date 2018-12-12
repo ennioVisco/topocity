@@ -3,13 +3,13 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : CityGML.Building.Types
+   Module     : CityGML.WaterBody.Types
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
    Portability: portable
 
-   Types related to the Building module of the Thematic model of CityGML.
+   Types related to the WaterBody module of the Thematic model of CityGML.
 
 -}
 

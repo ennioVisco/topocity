@@ -225,6 +225,7 @@ xpSolid
                         ) $
                 xpPair  (xpElem "gml:exterior" xpSurface)
                         (xpList $ xpElem "gml:interior" xpSurface)
+
               , xpElem "gml:CompositeSolid" $
                 xpWrap  ( CompositeSolid
                         , \ (CompositeSolid ss) -> ss
