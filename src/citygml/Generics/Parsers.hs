@@ -22,13 +22,17 @@ import           Text.XML.HXT.Core
 
 
 instance XmlPickler GenLod1Model where
-    xpickle = xpAlt tag ps
+    xpickle = xpGenLod1Model
+
+xpGenLod1Model :: PU GenLod1Model
+xpGenLod1Model
+  = xpAlt tag ps
         where
         tag (GenLod1Geometry _) = 0
         ps = [  xpWrap  ( GenLod1Geometry
                         , \ (GenLod1Geometry s) -> s
                         ) $
-                xpElem "gen:lod1Geometry" xpGeometry
+                xpElem "gen:lod1Geometry" xpMultiSurface
              ]
 
 instance XmlPickler GenericCityObject where
@@ -37,10 +41,8 @@ instance XmlPickler GenericCityObject where
 xpGenerics :: PU GenericCityObject
 xpGenerics =
     xpElem "gen:GenericCityObject"    $
-    xpWrap  (\(f,l1) -> GenericCityObject f l1
-            , \ w ->    ( genFeature w
-                        , genLod1Model w
-                        )
+    xpWrap  ( \ (f,l1) -> GenericCityObject f l1
+            , \ g ->    ( genFeature g , genLod1Model g )
             ) $
     xpPair      xpFeature
-                (xpOption xpickle)
+                xpGenLod1Model

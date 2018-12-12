@@ -23,9 +23,9 @@ import           GHC.Generics
 
 data GenericCityObject = GenericCityObject
     {   genFeature   :: Feature
-    ,   genLod1Model :: Maybe GenLod1Model
+    ,   genLod1Model :: GenLod1Model
     }   deriving (Read, Show, Eq, Generic)
 
 
-data GenLod1Model = GenLod1Geometry Geometry
+data GenLod1Model = GenLod1Geometry MultiSurface
                  deriving (Read, Show, Eq, Generic)
