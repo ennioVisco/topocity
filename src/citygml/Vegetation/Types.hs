@@ -15,17 +15,17 @@
 
 -- ------------------------------------------------------------
 
-module CityGML.WaterBody.Types where
+module CityGML.Vegetation.Types where
 
 import           CityGML.GML.Types
 
 import           GHC.Generics
 
-data WaterObject = WaterBody
-    {   wtrFeature   :: Feature
-    ,   wtrLod1Model :: Maybe WtrLod1Model
+data VegetationObject = PlantCover
+    {   vegFeature   :: Feature
+    ,   vegLod1Model :: Maybe VegLod1Model
     }   deriving (Read, Show, Eq, Generic)
 
 
-data WtrLod1Model = WtrLod1MultiSurf MultiSurface
+data VegLod1Model = VegLod1MultiSurf MultiSurface
                  deriving (Read, Show, Eq, Generic)

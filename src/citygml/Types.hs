@@ -15,18 +15,24 @@
 
 module CityGML.Types
     (
-    module Core,
-    module WaterBody,
-    module Transportation,
-    module Building,
+    -- Export CityGML Modules
     module Bridge,
-    module GML
+    module Building,
+    module Core,
+    module Generics,
+    module GML,
+    module Transportation,
+    module Vegetation,
+    module WaterBody
     )
 where
 
+-- Import CityGML Modules
 import           CityGML.Bridge.Types         as Bridge
 import           CityGML.Building.Types       as Building
 import           CityGML.Core.Types           as Core
+import           CityGML.Generics.Types       as Generics
 import           CityGML.GML.Types            as GML
 import           CityGML.Transportation.Types as Transportation
+import           CityGML.Vegetation.Types     as Vegetation
 import           CityGML.WaterBody.Types      as WaterBody

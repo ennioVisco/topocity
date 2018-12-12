@@ -14,32 +14,32 @@
 
 -- ------------------------------------------------------------
 
-module CityGML.WaterBody.Parsers where
+module CityGML.Vegetation.Parsers where
 
 import           CityGML.GML.Parsers
 import           CityGML.Types
 import           Text.XML.HXT.Core
 
 
-instance XmlPickler WtrLod1Model where
+instance XmlPickler VegLod1Model where
     xpickle = xpAlt tag ps
         where
-        tag (WtrLod1MultiSurf _) = 0
-        ps = [  xpWrap  ( WtrLod1MultiSurf
-                        , \ (WtrLod1MultiSurf s) -> s
+        tag (VegLod1MultiSurf _) = 0
+        ps = [  xpWrap  ( VegLod1MultiSurf
+                        , \ (VegLod1MultiSurf s) -> s
                         ) $
-                xpElem "wtr:lod1MultiSurface" xpMultiSurface
+                xpElem "veg:lod1MultiSurface" xpMultiSurface
              ]
 
-instance XmlPickler WaterObject where
-    xpickle = xpWaterBody
+instance XmlPickler VegetationObject where
+    xpickle = xpVegetation
 
-xpWaterBody :: PU WaterObject
-xpWaterBody =
-    xpElem "wtr:WaterBody"    $
-    xpWrap  (\(f,l1) -> WaterBody f l1
-            , \ w ->    ( wtrFeature w
-                        , wtrLod1Model w
+xpVegetation :: PU VegetationObject
+xpVegetation =
+    xpElem "veg:PlantCover"    $
+    xpWrap  (\(f,l1) -> PlantCover f l1
+            , \ w ->    ( vegFeature w
+                        , vegLod1Model w
                         )
             ) $
     xpPair      xpFeature

@@ -32,8 +32,33 @@ module CityGML.GML.Geometry.Types where
 
 import           GHC.Generics
 
+-- ........................:::::::: _Geometry ::::::::...................... --
 
--- ...............:::::::: AbstractGeometricAggregate ::::::::.............. --
+data Geometry =
+        GC GeometricComplex
+    |   GP GeometricPrimitive
+    |   GA GeometricAggregate
+    deriving (Read, Show, Eq, Generic)
+
+-- .....................:::::::: GeometricComplex :::::..................... --
+
+newtype GeometricComplex = GeometricComplex [GeometricPrimitive]
+    deriving (Read, Show, Eq, Generic)
+
+-- ...............:::::::: _AbstractGeometricAggregate :::::................ --
+
+data GeometricAggregate =
+        MGE MultiGeometry
+    |   MSO MultiSolid
+    |   MSU MultiSurface
+    |   MCU MultiCurve
+    |   MPO MultiPoint
+    deriving (Read, Show, Eq, Generic)
+
+-- ...................:::::::: GeometricAggregates ::::::::................. --
+
+newtype MultiGeometry = MultiGeometry [Geometry]
+    deriving (Read, Show, Eq, Generic)
 
 newtype MultiSolid = MultiSolid [Solid]
     deriving (Read, Show, Eq, Generic)
@@ -49,25 +74,32 @@ newtype MultiPoint = MultiPoint [Point]
 
 -- ...................:::::::: GeometricPrimitive ::::::::.................. --
 
+data GeometricPrimitive =
+        SO Solid
+    |   SU Surface
+    |   CU Curve
+    |   PO Point
+    deriving (Read, Show, Eq, Generic)
+
 -- .........................:::::::: _Solid ::::::::........................ --
 data Solid =
-      Solid
+        Solid
         {   sdExterior ::  Surface
         ,   sdInterior :: [Surface]
         }
-    | CompositeSolid [Solid]
+    |   CompositeSolid [Solid]
     deriving (Read, Show, Eq, Generic)
 
 -- ........................:::::::: _Surface ::::::::....................... --
 
 data Surface =
-      Polygon
+        Polygon
         {   scExterior ::  Ring
         ,   scInterior :: [Ring]
         }
-    | CompositeSurface [Surface]
-    | Surface [SurfacePatch]
-    | OrientableSurface
+    |   CompositeSurface [Surface]
+    |   Surface [SurfacePatch]
+    |   OrientableSurface
         {   sOrientation :: String
         ,   baseSurface  :: Surface
         }
@@ -91,8 +123,8 @@ newtype Ring = LinearRing [Point]
 -- .........................:::::::: _Curve ::::::::........................ --
 
 data Curve =
-      LineString [Point]
-    | CompositeCurve [Curve]
+        LineString [Point]
+    |   CompositeCurve [Curve]
     deriving (Read, Show, Eq, Generic)
 
 -- ..........................:::::::: Point ::::::::........................ --

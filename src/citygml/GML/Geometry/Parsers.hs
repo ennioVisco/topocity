@@ -18,8 +18,36 @@ module CityGML.GML.Geometry.Parsers where
 import           CityGML.GML.Types
 import           Text.XML.HXT.Core
 
+-- ........................:::::::: _Geometry ::::::::...................... --
+instance XmlPickler Geometry where
+    xpickle = xpGeometry
+
+-- .....................:::::::: GeometricComplex ::::::::.................. --
+instance XmlPickler GeometricComplex where
+    xpickle = xpGeometricComplex
+
+-- ....................:::::::: GeometricAggregate ::::::::................. --
+instance XmlPickler GeometricAggregate where
+    xpickle = xpGeometricAggregate
+
+instance XmlPickler MultiGeometry where
+    xpickle = xpMultiGeometry
+
+instance XmlPickler MultiSolid where
+    xpickle = xpMultiSolid
+
 instance XmlPickler MultiSurface where
     xpickle = xpMultiSurface
+
+instance XmlPickler MultiCurve where
+    xpickle = xpMultiCurve
+
+instance XmlPickler MultiPoint where
+    xpickle = xpMultiPoint
+
+-- ....................:::::::: GeometricPrimitive ::::::::................. --
+instance XmlPickler GeometricPrimitive where
+    xpickle = xpGeometricPrimitive
 
 instance XmlPickler Curve where
     xpickle = xpCurve
@@ -48,7 +76,80 @@ instance XmlPickler Ring where
 instance XmlPickler Point where
     xpickle = xpPoint
 
+-- ........................:::::::: _Geometry ::::::::...................... --
+
+xpGeometry :: PU Geometry
+xpGeometry =
+    xpAlt tag ps
+        where
+        tag (GC _) = 0
+        tag (GP _) = 1
+        tag (GA _) = 2
+        ps  =   [   xpWrap  ( GC
+                            , \ (GC g) -> g
+                            )
+                    xpGeometricComplex
+                ,   xpWrap  ( GP
+                            , \ (GP g) -> g
+                            )
+                    xpGeometricPrimitive
+                ,   xpWrap  ( GA
+                            , \ (GA g) -> g
+                            )
+                    xpGeometricAggregate
+            ]
+
+-- .....................:::::::: GeometricComplex ::::::::.................. --
+
+xpGeometricComplex :: PU GeometricComplex
+xpGeometricComplex
+  = xpWrap  ( GeometricComplex
+            , \ (GeometricComplex gs) -> gs
+            )
+    (xpList $ xpElem "element" xpGeometricPrimitive)
+
+-- ....................:::::::: GeometricAggregate ::::::::................. --
+
+xpGeometricAggregate :: PU GeometricAggregate
+xpGeometricAggregate =
+    xpAlt tag ps
+        where
+        tag (MGE _) = 0
+        tag (MSO _) = 1
+        tag (MSU _) = 2
+        tag (MCU _) = 3
+        tag (MPO _) = 4
+        ps  =   [   xpWrap  ( MGE
+                            , \ (MGE g) -> g
+                            )
+                    xpMultiGeometry
+                ,   xpWrap  ( MSO
+                            , \ (MSO g) -> g
+                            )
+                    xpMultiSolid
+                ,   xpWrap  ( MSU
+                            , \ (MSU g) -> g
+                            )
+                    xpMultiSurface
+                ,   xpWrap  ( MCU
+                            , \ (MCU g) -> g
+                            )
+                    xpMultiCurve
+                ,   xpWrap  ( MPO
+                            , \ (MPO g) -> g
+                            )
+                    xpMultiPoint
+            ]
+
 -- ...............:::::::: AbstractGeometricAggregate ::::::::.............. --
+
+xpMultiGeometry :: PU MultiGeometry
+xpMultiGeometry
+  = xpElem "gml:MultiGeometry" $
+    xpWrap  ( MultiGeometry
+            , \ (MultiGeometry ss) -> ss
+            )
+    (xpList $ xpElem "gml:geometryMember" xpGeometry)
 
 xpMultiSolid :: PU MultiSolid
 xpMultiSolid
@@ -84,6 +185,31 @@ xpMultiPoint
 
 -- ...................:::::::: GeometricPrimitive ::::::::.................. --
 
+xpGeometricPrimitive :: PU GeometricPrimitive
+xpGeometricPrimitive =
+    xpAlt tag ps
+        where
+        tag (SO _) = 0
+        tag (SU _) = 1
+        tag (CU _) = 2
+        tag (PO _) = 3
+        ps  =   [   xpWrap  ( SO
+                            , \ (SO g) -> g
+                            )
+                    xpSolid
+                ,   xpWrap  ( SU
+                            , \ (SU g) -> g
+                            )
+                    xpSurface
+                ,   xpWrap  ( CU
+                            , \ (CU g) -> g
+                            )
+                    xpCurve
+                ,   xpWrap  ( PO
+                            , \ (PO g) -> g
+                            )
+                    xpPoint
+            ]
 
 -- .........................:::::::: _Solid ::::::::........................ --
 

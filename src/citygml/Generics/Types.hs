@@ -3,29 +3,29 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : CityGML.Building.Types
+   Module     : CityGML.Generics.Types
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
    Portability: portable
 
-   Types related to the Building module of the Thematic model of CityGML.
+   Types related to the Generics module of the Thematic model of CityGML.
 
 -}
 
 -- ------------------------------------------------------------
 
-module CityGML.WaterBody.Types where
+module CityGML.Generics.Types where
 
 import           CityGML.GML.Types
 
 import           GHC.Generics
 
-data WaterObject = WaterBody
-    {   wtrFeature   :: Feature
-    ,   wtrLod1Model :: Maybe WtrLod1Model
+data GenericCityObject = GenericCityObject
+    {   genFeature   :: Feature
+    ,   genLod1Model :: Maybe GenLod1Model
     }   deriving (Read, Show, Eq, Generic)
 
 
-data WtrLod1Model = WtrLod1MultiSurf MultiSurface
+data GenLod1Model = GenLod1Geometry Geometry
                  deriving (Read, Show, Eq, Generic)

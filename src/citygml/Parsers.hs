@@ -16,23 +16,33 @@
 
 module CityGML.Parsers
     (
-    module Core,
+    -- Export CityGML Modules
     module Bridge,
     module Building,
+    module Core,
     module GML,
+    module Generics,
     module Transportation,
+    module Vegetation,
     module WaterBody
     )
 where
 
+import           CityGML.Namespaces
+import           CityGML.Types
+
+-- Import CityGML Modules
 import           CityGML.Bridge.Parsers         as Bridge
 import           CityGML.Building.Parsers       as Building
 import           CityGML.Core.Parsers           as Core
+import           CityGML.Generics.Parsers       as Generics
 import           CityGML.GML.Parsers            as GML
-import           CityGML.Namespaces
 import           CityGML.Transportation.Parsers as Transportation
-import           CityGML.Types
+import           CityGML.Vegetation.Parsers     as Vegetation
 import           CityGML.WaterBody.Parsers      as WaterBody
+
+
+
 
 import           Text.XML.HXT.Core
 
