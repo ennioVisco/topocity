@@ -17,16 +17,22 @@
 module CityGML.Parsers
     (
     module Core,
+    module Bridge,
     module Building,
-    module GML
+    module GML,
+    module Transportation,
+    module WaterBody
     )
 where
 
-import           CityGML.Building.Parsers as Building
-import           CityGML.Core.Parsers     as Core
-import           CityGML.GML.Parsers as GML
+import           CityGML.Bridge.Parsers         as Bridge
+import           CityGML.Building.Parsers       as Building
+import           CityGML.Core.Parsers           as Core
+import           CityGML.GML.Parsers            as GML
 import           CityGML.Namespaces
+import           CityGML.Transportation.Parsers as Transportation
 import           CityGML.Types
+import           CityGML.WaterBody.Parsers      as WaterBody
 
 import           Text.XML.HXT.Core
 

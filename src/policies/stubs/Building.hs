@@ -2,7 +2,8 @@ module Policies.Stubs.Building (sBuilding) where
 
 import           CityGML.Types
 
-sBuilding i = Building i (Height "#m" 100) l0f l0r l1s
+sBuilding i = Building (sFeature i) (Height "#m" 100) l0f l0r l1s
+sFeature i = Feature (GML (Just i) [] Nothing) Nothing
 
 l0f = Just (FootPrint fp)
 l0r = Just (RoofEdge  re)

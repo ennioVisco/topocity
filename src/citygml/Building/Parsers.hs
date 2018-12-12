@@ -51,14 +51,14 @@ instance XmlPickler AbstractBuilding where
 xpBuilding :: PU AbstractBuilding
 xpBuilding =
     xpElem "bldg:Building"    $
-    xpWrap (\(i,h,f,r,s) -> Building i h f r s
-           , \ b -> ( bId b, bHeight b
-                    , bLod0FootPrint b, bLod0RoofEdge b
-                    , bLod1Solid b
-                    )
-    ) $
-    xp5Tuple    (xpAttr "gml:id"              xpText)
-                 xpMeasure
+    xpWrap  (\(i,h,f,r,s) -> Building i h f r s
+            , \ b ->    ( bFeature b, bHeight b
+                        , bLod0FootPrint b, bLod0RoofEdge b
+                        , bLod1Solid b
+                        )
+            ) $
+    xp5Tuple    xpFeature
+                xpMeasure
                 (xpOption xpickle)
                 (xpOption xpickle)
                 (xpOption xpickle)

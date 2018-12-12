@@ -15,28 +15,17 @@
 
 -- ------------------------------------------------------------
 
-module CityGML.Building.Types where
+module CityGML.WaterBody.Types where
 
 import           CityGML.GML.Types
 
 import           GHC.Generics
 
-data AbstractBuilding = Building
-    {   bFeature       :: Feature
-    ,   bHeight        :: Measure
-    ,   bLod0FootPrint :: Maybe Lod0Model
-    ,   bLod0RoofEdge  :: Maybe Lod0Model
-    ,   bLod1Solid     :: Maybe Lod1Model
+data WaterObject = WaterBody
+    {   wtrFeature   :: Feature
+    ,   wtrLod1Model :: Maybe WtrLod1Model
     }   deriving (Read, Show, Eq, Generic)
 
-data Lod0Model = FootPrint MultiSurface
-               | RoofEdge MultiSurface
-                deriving (Read, Show, Eq, Generic)
 
-data Lod1Model = Lod1Solid Solid
+data WtrLod1Model = Lod1MultiSurf MultiSurface
                  deriving (Read, Show, Eq, Generic)
-
-data Measure = Height
-    {   mUom   :: String
-    ,   mValue :: Float
-    }   deriving (Read, Show, Eq, Generic)

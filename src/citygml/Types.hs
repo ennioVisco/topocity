@@ -16,11 +16,17 @@
 module CityGML.Types
     (
     module Core,
+    module WaterBody,
+    module Transportation,
     module Building,
+    module Bridge,
     module GML
     )
 where
 
-import           CityGML.Building.Types as Building
-import           CityGML.Core.Types     as Core
-import           CityGML.GML.Types      as GML
+import           CityGML.Bridge.Types         as Bridge
+import           CityGML.Building.Types       as Building
+import           CityGML.Core.Types           as Core
+import           CityGML.GML.Types            as GML
+import           CityGML.Transportation.Types as Transportation
+import           CityGML.WaterBody.Types      as WaterBody

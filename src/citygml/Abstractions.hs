@@ -19,7 +19,7 @@ instance Abstractable CityModel where
 instance Abstractable CityObjectMember
 
 instance Identifiable AbstractBuilding where
-    getId (Building i _ _ _ _) = i
+    getId (Building i _ _ _ _) = getId i
 
 instance Identifiable Site where
     getId (Bld b) = getId b
