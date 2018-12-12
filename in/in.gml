@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CityModel xmlns="http://www.opengis.net/citygml/2.0" xmlns:app="http://www.opengis.net/citygml/appearance/2.0" xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:brg="http://www.opengis.net/citygml/bridge/2.0" xmlns:dem="http://www.opengis.net/citygml/relief/2.0" xmlns:gen="http://www.opengis.net/citygml/generics/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:luse="http://www.opengis.net/citygml/landuse/2.0" xmlns:tran="http://www.opengis.net/citygml/transportation/2.0" xmlns:veg="http://www.opengis.net/citygml/vegetation/2.0" xmlns:wtr="http://www.opengis.net/citygml/waterbody/2.0" xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/citygml/2.0">
+<CityModel 
+xmlns="http://www.opengis.net/citygml/2.0" 
+xmlns:app="http://www.opengis.net/citygml/appearance/2.0" 
+xmlns:bldg="http://www.opengis.net/citygml/building/2.0" 
+xmlns:brg="http://www.opengis.net/citygml/bridge/2.0" 
+xmlns:dem="http://www.opengis.net/citygml/relief/2.0" 
+xmlns:gen="http://www.opengis.net/citygml/generics/2.0" 
+xmlns:gml="http://www.opengis.net/gml" 
+xmlns:luse="http://www.opengis.net/citygml/landuse/2.0" 
+xmlns:tran="http://www.opengis.net/citygml/transportation/2.0" 
+xmlns:veg="http://www.opengis.net/citygml/vegetation/2.0" 
+xmlns:wtr="http://www.opengis.net/citygml/waterbody/2.0" 
+xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.opengis.net/citygml/2.0">
    <gml:name>my 3dfied map</gml:name>
    <gml:boundedBy>
       <gml:Envelope srsDimension="3" srsName="urn:ogc:def:crs:EPSG::7415">
