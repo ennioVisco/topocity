@@ -16,7 +16,20 @@ instance Abstractable CityModel where
             where
                 reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
-instance Abstractable CityObjectMember
+
+instance Abstractable AbstractBuilding --where
+    --reiObj (NTree (_, (_, d)) _) = Site (Bld (read d))
+
+
+instance Abstractable Site where
+    absObj (Bld b) = absObj b
+    reiObj d = Bld (reiObj d)
+
+instance Abstractable CityObjectMember where
+    absObj (Site s) = absObj s
+    reiObj d = Site (reiObj d)
+
+
 
 instance Identifiable AbstractBuilding where
     getId (Building f _ _ _ _) = getId f
