@@ -1,7 +1,7 @@
 name:                topocity
 version:             0.1.0.0
 github:              "polaretto/topocity"
-license:             UNLICENSE
+license:             OtherLicense
 author:              "Ennio Visconti"
 maintainer:          "ennio.visconti@gmail.com"
 copyright:           "2018 Ennio Visconti"
@@ -23,6 +23,8 @@ dependencies:
 - BiGUL
 - hxt
 - base >= 4.7 && < 5
+- graphviz
+- tagsoup
 
 library:
   source-dirs:
