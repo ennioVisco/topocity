@@ -1,3 +1,4 @@
+module IO.BGVisualizer where
 
 import           Data.GraphViz
 import           Data.GraphViz.Parsing
