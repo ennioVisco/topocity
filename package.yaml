@@ -25,6 +25,8 @@ dependencies:
 - base >= 4.7 && < 5
 - graphviz
 - tagsoup
+- text
+- pretty
 
 library:
   source-dirs:
