@@ -27,6 +27,8 @@ dependencies:
 - tagsoup
 - text
 - pretty
+- citygml4hs
+
 
 library:
   source-dirs:

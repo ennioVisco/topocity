@@ -1,11 +1,21 @@
-module CityGML.Abstractions where
+module Abstractions where
 
-import           Data.AbsCity
 import           Abstractable
+import           CityGML.ADEs.TopoADE
 import           CityGML.Types
+import           Data.AbsCity
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
+
+instance AbstractLink TopoRelation where
+        absLink (Near i ns) = (i, ("Near", map a ns))
+            where
+            a (TopoBuilding i) = (i, ("Building", ""))
+
+        reiLink (i, ("Near", ns)) = Near i (map r ns)
+            where
+            r (i, ("Building", _)) = TopoBuilding i
 
 instance Abstractable CityModel where
     absObj (CityModel f ms)

@@ -11,7 +11,7 @@ import           Data.Bigraphs
 import           BX.LinkGraph
 import           BX.PlaceGraph
 import           BX.Shared
-import           CityGML.Abstractions
+import           Abstractions
 import           CityGML.ADEs.TopoADE
 import           CityGML.Parsers
 import           CityGML.Types
