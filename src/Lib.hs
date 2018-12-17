@@ -1,29 +1,39 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
 module Lib
-    ( someFunc
+    ( someFunc -- stub for external access point
     ) where
 
-import           Data.AbsCity
-import           Abstractable
-import           Basics
-import           Data.Bigraphs
+import           Abstractions
+
 import           BX.LinkGraph
 import           BX.PlaceGraph
 import           BX.Shared
-import           Abstractions
+
 import           CityGML.ADEs.TopoADE
 import           CityGML.Parsers
 import           CityGML.Types
+
+import           Data.AbsCity
+import           Data.Bigraphs
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
+
 import           Generics.BiGUL
 import           Generics.BiGUL.Interpreter
 import           Generics.BiGUL.Lib
 import           Generics.BiGUL.TH
-import           IO
-import           NTreeExtras
+
+import           IO.Arrows
+import           IO.Files
+import           IO.Visualize
+
+import           Libs.Abstractable
+import           Libs.Basics
+import           Libs.NTreeExtras
+
 import           Text.XML.HXT.Core
+
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"

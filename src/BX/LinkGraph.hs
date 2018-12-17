@@ -13,11 +13,11 @@ import           Generics.BiGUL.TH
 
 import           GHC.Generics
 
-import           Basics
 import           BX.BiGUL.KeyAlign
 import           BX.Shared
 import           Data.AbsCity
 import           Data.Bigraphs
+import           Libs.Basics
 import           Policies.Default
 
 -- Make the internal structure of AbsTopology and LinkGraph transformable

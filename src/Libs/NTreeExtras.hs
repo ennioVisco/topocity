@@ -15,11 +15,11 @@
 
 -- ------------------------------------------------------------
 
-module NTreeExtras where
+module Libs.NTreeExtras where
 
-import           Basics
 import           Data.List
 import           Data.Tree.NTree.TypeDefs
+import           Libs.Basics
 
 
 --data NTree a = NTree a [NTree a]

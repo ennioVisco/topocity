@@ -28,6 +28,7 @@ dependencies:
 - text
 - pretty
 - citygml4hs
+- containers
 
 
 library:

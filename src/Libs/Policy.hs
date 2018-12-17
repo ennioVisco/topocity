@@ -16,11 +16,11 @@
 
 -- ------------------------------------------------------------
 
-module Policy where
+module Libs.Policy where
 
 import           Data.AbsCity
-import           Basics
 import           Data.Bigraphs
+import           Libs.Basics
 
 class Policy where
 

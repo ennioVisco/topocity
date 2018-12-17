@@ -5,11 +5,10 @@
 
 module BX.PlaceGraph (syncTree) where
 
-import           Data.AbsCity
-import           Basics
-import           Data.Bigraphs
 import           BX.BiGUL.KeyAlign
 import           BX.Shared
+import           Data.AbsCity
+import           Data.Bigraphs
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
 import           Generics.BiGUL
@@ -17,7 +16,8 @@ import           Generics.BiGUL.Interpreter
 import           Generics.BiGUL.Lib
 import           Generics.BiGUL.TH
 import           GHC.Generics
-import           NTreeExtras
+import           Libs.Basics
+import           Libs.NTreeExtras
 import           Policies.Default
 
 -- Make the internal structure of AbsCityTree and PlaceGraph transformable

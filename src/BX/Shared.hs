@@ -1,10 +1,10 @@
 module BX.Shared where
 
-import           Basics
 import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Tree.NTree.TypeDefs
-import           NTreeExtras
+import           Libs.Basics
+import           Libs.NTreeExtras
 
 -- ....................:::::: BASICS ::::::.................... --
 

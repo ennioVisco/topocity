@@ -1,10 +1,10 @@
 module Policies.Default where
 
-import           Data.AbsCity
-import           Basics
-import           Data.Bigraphs
 import           BX.Shared
+import           Data.AbsCity
+import           Data.Bigraphs
 import           Data.Tree.NTree.TypeDefs
+import           Libs.Basics
 import           Policies.Stubs.Building
 
 -- data Default =

@@ -1,4 +1,4 @@
-module Basics where
+module Libs.Basics where
 
 -- Stub type to represent Unique IDs
 type UID    = String

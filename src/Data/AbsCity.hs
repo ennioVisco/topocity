@@ -1,8 +1,8 @@
 module Data.AbsCity where
 
-import           Basics
 import           Data.Tree.NTree.TypeDefs
-import           NTreeExtras
+import           Libs.Basics
+import           Libs.NTreeExtras
 
 
 

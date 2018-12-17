@@ -4,7 +4,7 @@
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 
-module Abstractable where
+module Libs.Abstractable where
 
 import           Data.AbsCity
 import           Data.Tree.NTree.TypeDefs
