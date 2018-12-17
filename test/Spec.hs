@@ -7,7 +7,7 @@ import           Data.List
 import           Data.Ord
 
 import           Data.Tree.NTree.TypeDefs
-import           NTreeExtras
+import           Lib.NTreeExtras
 
 {-}
 main :: IO ()
