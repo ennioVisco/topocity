@@ -6,7 +6,7 @@
 
 module Abstractable where
 
-import           AbsCity
+import           Data.AbsCity
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
 

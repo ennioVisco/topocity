@@ -4,10 +4,10 @@ module Lib
     ( someFunc
     ) where
 
-import           AbsCity
+import           Data.AbsCity
 import           Abstractable
 import           Basics
-import           Bigraphs
+import           Data.Bigraphs
 import           BX.LinkGraph
 import           BX.PlaceGraph
 import           BX.Shared

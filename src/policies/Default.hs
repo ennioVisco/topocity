@@ -1,8 +1,8 @@
 module Policies.Default where
 
-import           AbsCity
+import           Data.AbsCity
 import           Basics
-import           Bigraphs
+import           Data.Bigraphs
 import           BX.Shared
 import           Data.Tree.NTree.TypeDefs
 import           Policies.Stubs.Building

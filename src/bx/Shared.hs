@@ -1,8 +1,8 @@
 module BX.Shared where
 
-import           AbsCity
 import           Basics
-import           Bigraphs
+import           Data.AbsCity
+import           Data.Bigraphs
 import           Data.Tree.NTree.TypeDefs
 import           NTreeExtras
 

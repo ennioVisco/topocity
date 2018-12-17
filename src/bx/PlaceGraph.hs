@@ -5,9 +5,9 @@
 
 module BX.PlaceGraph (syncTree) where
 
-import           AbsCity
+import           Data.AbsCity
 import           Basics
-import           Bigraphs
+import           Data.Bigraphs
 import           BX.BiGUL.KeyAlign
 import           BX.Shared
 import           Data.Maybe

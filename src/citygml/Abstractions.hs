@@ -1,6 +1,6 @@
 module CityGML.Abstractions where
 
-import           AbsCity
+import           Data.AbsCity
 import           Abstractable
 import           CityGML.Types
 import           Data.Maybe

@@ -1,9 +1,16 @@
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 
-module Bigraphs where
+module Data.Bigraphs where
 
 import           Basics
 import           Data.Tree.NTree.TypeDefs
 import           NTreeExtras
+
+import           Data.GraphViz
+import           Data.GraphViz.Parsing
+import           Data.GraphViz.Printing
+import           Data.Text.Lazy
 
 -- Bigraphs
 type BiGraph     = (PlaceGraph, LinkGraph)
@@ -16,15 +23,29 @@ type BiGraphEdge = (UID, (LinkType, [BiGraphNode]))
 type AbsHypergraph = NTree (BiGraphNode, [BiGraphEdge])
 
 
--- separateCouple :: AbsHypergraph -> BiGraph
--- separateCouple h = (fmap fst h,
---                     foldr combineNub [] $ (toList . fmap snd) h)
-
 mergeBiGraphs :: BiGraph -> AbsHypergraph
 mergeBiGraphs (p, l) = fmap (augmentBiNode l) p
 
 augmentBiNode :: LinkGraph -> BiGraphNode -> (BiGraphNode, [BiGraphEdge])
 augmentBiNode l n = (n, subGraph n l)
+
+data BiNode = BiNode String String
+
+instance PrintDot BiNode where
+    unqtDot (BiNode i t) = unqtDot i <> colon <+> unqtDot t
+
+    -- We have a space in there, so we need quotes.
+    toDot = doubleQuotes . unqtDot
+
+instance ParseDot BiNode where
+    parseUnqt = BiNode  <$> parseUnqt
+                        <*  character ':'
+                        <*  whitespace1
+                        <*> parseUnqt
+    -- Has at least one space, so it will be quoted.
+    parse = quotedParse parseUnqt
+
+doubleQuotes p = char '"' <> p <> char '"'
 
 -- TESTING
 l1 = [

@@ -1,4 +1,4 @@
-module AbsCity where
+module Data.AbsCity where
 
 import           Basics
 import           Data.Tree.NTree.TypeDefs

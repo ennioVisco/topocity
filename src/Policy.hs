@@ -18,9 +18,9 @@
 
 module Policy where
 
-import           AbsCity
+import           Data.AbsCity
 import           Basics
-import           Bigraphs
+import           Data.Bigraphs
 
 class Policy where
 

@@ -31,8 +31,6 @@ dependencies:
 library:
   source-dirs:
   - src
-  - src/data
-  - src/libs
 
 executables:
   topocity-exe:
