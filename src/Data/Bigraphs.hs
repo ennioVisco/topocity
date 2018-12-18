@@ -43,9 +43,9 @@ l2_2 =   [
 
 link_ =
     [
-        (1, "Touch", [("2", "Building"),("3", "Building")]),
-        (2, "Touch", [("2", "Building"),("4", "Building")]),
-        (2, "Touch", [("4", "Building"),("5", "Building")])
+        ("1", ("Touch", [("2", "Building"),("3", "Building")])),
+        ("2", ("Touch", [("2", "Building"),("4", "Building")])),
+        ("3", ("Touch", [("4", "Building"),("5", "Building")]))
     ]
 
 place =  NTree ("1", "City") l1

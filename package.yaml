@@ -24,12 +24,10 @@ dependencies:
 - hxt
 - base >= 4.7 && < 5
 - graphviz
-- tagsoup
 - text
-- pretty
 - citygml4hs
-- containers
-
+- fgl
+- process
 
 library:
   source-dirs:

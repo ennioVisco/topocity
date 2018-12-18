@@ -18,7 +18,7 @@ source = load "in.gml" "topo.gml"
 
 ```haskell
 view = source >>> getSync
-display view -- prints the result
+draw view -- generates the result graph files
 ```
 
 ### Changing the _View_
@@ -26,7 +26,7 @@ display view -- prints the result
 ```haskell
 view'  = view >>> addBuilding "demo1"
 view'' = view' >>> removeBuilding "bc8a0f2b5-031b-11e6-b420-2bdcc4ab5d7f"
-display view'' -- prints the result
+draw view'' -- generates the result graph files
 ```
 
 ### Reflecting the changes back to source with _Put_

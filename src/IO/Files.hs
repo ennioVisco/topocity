@@ -38,3 +38,6 @@ storeXML p  =    xpickleDocument p
 
 logTree :: (Show a) => FilePath -> IOSArrow (NTree a) (NTree a)
 logTree p = arrIO ( \ x -> do { writeFile p (show x); return x} )
+
+storeGraph :: FilePath -> IOSArrow String String
+storeGraph p = arrIO ( \ x -> do { writeFile p x; return x})

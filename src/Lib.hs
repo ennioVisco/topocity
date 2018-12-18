@@ -25,13 +25,16 @@ import           Generics.BiGUL.Lib
 import           Generics.BiGUL.TH
 
 import           IO.Arrows
+import           IO.BGVisualizer
 import           IO.Files
 import           IO.Visualize
 
 import           Libs.Abstractable
 import           Libs.Basics
 import           Libs.NTreeExtras
+import           Libs.Operations
 
+import           System.Process
 import           Text.XML.HXT.Core
 
 
@@ -59,6 +62,24 @@ store m p1 p2 = do
                             )
                          );
                     return ()
+
+draw :: IOSArrow XmlTree BiGraph -> FilePath -> FilePath -> IO ()
+draw g p1 p2 = do
+                    let f1 = outDir ++ p1
+                        f2 = outDir ++ p2
+                    runX (  g >>>
+                            drawBigraph >>>
+                            (fstA >>> storeGraph (f1 ++ ".dot"))
+                                &&&
+                            (sndA >>> storeGraph (f2 ++ ".dot"))
+                         );
+
+                    createProcess (proc "dot"
+                        ["-Tpng", f1 ++ ".dot", "-o", f1 ++ ".png" ]);
+                    createProcess (proc "dot"
+                        ["-Tpng", f2 ++ ".dot", "-o", f2 ++ ".png" ]);
+                    return ()
+
 
 splitter :: (Eq b) =>  IOSArrow (NTree (a, [b])) (NTree a, [b])
 splitter = arrIO (return . separateCouple)
@@ -136,26 +157,5 @@ loadCity    =   loadXML xpCityModel
 storeCity  :: FilePath -> IOSArrow CityModel XmlTree
 storeCity   =   storeXML xpCityModel
 
--- ........................:::::::: MODIFIERS ::::::::....................... --
-
-addBuilding :: UID -> IOSArrow BiGraph BiGraph
-addBuilding i = (fstA >>>
-                    arrIO (\t -> return $ addChild t n)
-                ) &&& sndA
-                where
-                    n = NTree (i, "Building") []
-
-removeBuilding :: UID -> IOSArrow BiGraph BiGraph
-removeBuilding i =  (fstA >>>
-                        arrIO (\t -> return $ removeChild t n)
-                    ) &&& sndA
-                    where
-                        n = NTree (i, "Building") []
-
-addNear :: (UID, UID, UID) -> IOSArrow [BiGraphEdge] [BiGraphEdge]
-addNear (x, y, z) = arrIO (\rs -> return $ r:rs)
-                    where r = (x, ("Near", [(y, "Building"),(z, "Building")]))
-
-removeNear :: UID -> IOSArrow [BiGraphEdge] [BiGraphEdge]
-removeNear i =  arrIO (return . filter f)
-                where f r = i /= key r
+drawBigraph :: IOSArrow BiGraph (String, String)
+drawBigraph = arrIO (\x -> return $ showBigraph $ bi2graph x)
