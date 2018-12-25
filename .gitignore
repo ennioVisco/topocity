@@ -3,3 +3,5 @@ topocity.cabal
 *~
 out/
 tools/reports/
+
+.vscode/
