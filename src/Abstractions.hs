@@ -28,12 +28,47 @@ instance Abstractable CityModel where
             where
                 reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
+{-
+    Building
+    {   bFeature       :: Feature
+    -- Building Optional Information
+    ,   bHeight        :: Maybe Measure
+    ,   bRoofType      :: Maybe String
+    ,   bYearOfConstr  :: Maybe String
+    ,   bFunction      :: Maybe String
+    ,   bStAboveGround :: Maybe Int
+    -- Building Models
+    ,   bLod0FootPrint :: Maybe BldgLod0Model
+    ,   bLod0RoofEdge  :: Maybe BldgLod0Model
+    ,   bLod1Solid     :: Maybe BldgLod1Model
+    ,   bLod3Solid     :: Maybe BldgLod3Model
+    -- Building External Interfaces
+    ,   bInstallations :: [BuildingInstallation]
+    ,   bBoundedBy     :: [BldgBoundary]
+    }
+-}
+instance Abstractable AbstractBuilding where
+    absObj b@(Building f _ _ _ _ _ _ _ _ _ _ bs)
+        = NTree (getId f, ("Building", show b))
+                (map absObj bs)
 
-instance Abstractable AbstractBuilding
+    reiObj (NTree (_, (_, d)) ms)
+        = reshape' (read d) ms
+            where
+                reshape' (Building g h s y r f l0f l0r l1 l3 i _) bs =
+                    Building g h s y r f l0f l0r l1 l3 i (map reiObj bs)
+
+
 
 instance Abstractable Opening
 
 instance Abstractable BldgBoundary
+
+instance Abstractable VegetationObject
+instance Abstractable GenericCityObject
+instance Abstractable WaterObject
+instance Abstractable TransportationObject
+instance Abstractable ReliefFeature
 
 instance Abstractable Site where
     absObj (Bld b) = absObj b
@@ -41,7 +76,11 @@ instance Abstractable Site where
 
 instance Abstractable CityObjectMember where
     absObj (Site s) = absObj s
-    reiObj d = Site (reiObj d)
+    absObj (Tran r) = absObj r
+    absObj _        = error "uncaught exception"
+
+    reiObj d@(NTree (_, ("Building", _)) _) = Site (reiObj d)
+    reiObj d@(NTree (_, ("Road", _)) _)     = Tran (reiObj d)
 
 -- Object Identifiers
 
@@ -54,6 +93,18 @@ instance Identifiable BldgBoundary where
     getId (Closure c) = getId c
     getId (Roof    r) = getId r
     getId (Ground  g) = getId g
+
+
+instance Identifiable VegetationObject where
+    getId (PlantCover f _) = getId f
+instance Identifiable GenericCityObject where
+    getId (GenericCityObject f _) = getId f
+instance Identifiable WaterObject where
+    getId (WaterBody f _) = getId f
+instance Identifiable TransportationObject where
+    getId (Road f _) = getId f
+instance Identifiable ReliefFeature where
+    getId (ReliefFeature f _ _) = getId f
 
 instance Identifiable WallSurface where
     getId (WallSurface f _ _) = getId f
