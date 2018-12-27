@@ -9,6 +9,7 @@ module Libs.Abstractable where
 import           Data.AbsCity
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
+import           Identifiable
 
 -- Class for getting the constructor name as in
 -- https://stackoverflow.com/questions/48179380/getting-the-data-constructor-name-as-a-string-using-ghc-generics
@@ -40,7 +41,7 @@ class
     where
 
     absObj :: o -> AbsCityTree
-    absObj n = NTree (getId n, (constrName n, show n)) []
+    absObj n = NTree (uid n, (constrName n, show n)) []
 
     reiObj :: AbsCityTree -> o
     reiObj (NTree (_, (_, d)) _) = read d
@@ -54,7 +55,3 @@ class
     absLink n = ("UNKNOWN_ID", (constrName n, []))
 
     reiLink :: AbsRelation -> o
-
-
-class Identifiable o where
-    getId :: o -> String

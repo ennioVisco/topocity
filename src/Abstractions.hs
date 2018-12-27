@@ -6,6 +6,7 @@ import           Data.AbsCity
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
+import           Identifiable
 import           Libs.Abstractable
 
 -- Object Abstractions
@@ -21,7 +22,7 @@ instance AbstractLink TopoRelation where
 
 instance Abstractable CityModel where
     absObj (CityModel f ms)
-        = NTree (getId f, ("CityModel", show (CityModel f ms))) (map absObj ms)
+        = NTree (uid f, ("CityModel", show (CityModel f ms))) (map absObj ms)
 
     reiObj (NTree (_, (_, d)) ms)
         = reshape' (read d) ms
@@ -48,21 +49,54 @@ instance Abstractable CityModel where
     }
 -}
 instance Abstractable AbstractBuilding where
-    absObj b@(Building f _ _ _ _ _ _ _ _ _ _ bs)
-        = NTree (getId f, ("Building", show b))
-                (map absObj bs)
+    absObj b@(Building (BldgData f _ _ _ _ _ bs ps _))
+        = NTree (uid f, ("Building", show b))
+                (concat [(map absObj bs), (map absObj ps)])
+    absObj b@(BuildingPart (BldgData f _ _ _ _ _ bs ps _))
+        = NTree (uid f, ("BuildingPart", show b))
+                (concat [(map absObj bs), (map absObj ps)])
 
-    reiObj (NTree (_, (_, d)) ms)
+    reiObj (NTree (_, ("Building", d)) ms)
         = reshape' (read d) ms
             where
-                reshape' (Building g h s y r f l0f l0r l1 l3 i _) bs =
-                    Building g h s y r f l0f l0r l1 l3 i (map reiObj bs)
+            reshape' (Building (BldgData g e bi ls it i bs _ a)) ps =
+                Building (BldgData g e bi ls it i bs (map reiObj ps) a)
+    reiObj (NTree (_, ("BuildingPart", d)) ms)
+        = reshape' (read d) ms
+            where
+            reshape' (BuildingPart (BldgData g e bi ls it i bs _ a)) ps =
+                BuildingPart (BldgData g e bi ls it i bs (map reiObj ps) a)
 
+instance Abstractable WallSurface where
+    absObj w@(WallSurface f _ _ os) = NTree (uid f, ("WallSurface", show w)) (map absObj os)
 
+    reiObj (NTree (_, ("WallSurface", d)) os)
+        = reshape' (read d) os
+            where
+            reshape' (WallSurface f l2 l3 _) os =
+                    WallSurface f l2 l3 (map reiObj os)
+
+instance Abstractable RoofSurface where
+    absObj w@(RoofSurface f _ _ os) = NTree (uid f, ("RoofSurface", show w)) (map absObj os)
+
+    reiObj (NTree (_, ("RoofSurface", d)) os)
+        = reshape' (read d) os
+            where
+            reshape' (RoofSurface f l2 l3 _) os =
+                    RoofSurface f l2 l3 (map reiObj os)
+
+instance Abstractable BuildingSurface
 
 instance Abstractable Opening
 
-instance Abstractable BldgBoundary
+instance Abstractable BldgBoundary where
+    absObj (Wall s) = absObj s
+    absObj (Roof s) = absObj s
+    absObj n        = NTree (uid n, (constrName n, show n)) []
+
+    reiObj w@(NTree (_, ("WallSurface", _)) _) = reiObj w
+    reiObj r@(NTree (_, ("RoofSurface", _)) _) = reiObj r
+    reiObj (NTree (_, (_, d)) _)               = read d
 
 instance Abstractable VegetationObject
 instance Abstractable GenericCityObject
@@ -81,59 +115,3 @@ instance Abstractable CityObjectMember where
 
     reiObj d@(NTree (_, ("Building", _)) _) = Site (reiObj d)
     reiObj d@(NTree (_, ("Road", _)) _)     = Tran (reiObj d)
-
--- Object Identifiers
-
-instance Identifiable Opening where
-    getId (Door f   _) = getId f
-    getId (Window f _) = getId f
-
-instance Identifiable BldgBoundary where
-    getId (Wall    w) = getId w
-    getId (Closure c) = getId c
-    getId (Roof    r) = getId r
-    getId (Ground  g) = getId g
-
-
-instance Identifiable VegetationObject where
-    getId (PlantCover f _) = getId f
-instance Identifiable GenericCityObject where
-    getId (GenericCityObject f _) = getId f
-instance Identifiable WaterObject where
-    getId (WaterBody f _) = getId f
-instance Identifiable TransportationObject where
-    getId (Road f _) = getId f
-instance Identifiable ReliefFeature where
-    getId (ReliefFeature f _ _) = getId f
-
-instance Identifiable WallSurface where
-    getId (WallSurface f _ _) = getId f
-
-instance Identifiable RoofSurface where
-    getId (RoofSurface f _ _) = getId f
-
-instance Identifiable BuildingSurface where
-    getId (BuildingSurface f _) = getId f
-
-instance Identifiable AbstractBuilding where
-    getId (Building f _ _ _ _ _ _ _ _ _ _ _) = getId f
-
-instance Identifiable Site where
-    getId (Bld b) = getId b
-
-instance Identifiable CityObjectMember where
-    getId (Site s) = getId s
-
-instance Identifiable CityModel where
-    getId (CityModel f _) = getId f
-
-instance Identifiable Feature where
-    getId (Feature g _) = getId g
-
-instance Identifiable GML where
-    getId (GML Nothing [] Nothing)                  = "UNKNOWN_ID"
-    getId (GML (Just i) _ _)                        = i
-    getId (GML _ (n:_) _) | isNothing (codeSpace n) = value n
-                          | otherwise               = fromJust (codeSpace n) ++
-                                                      value n
-    getId (GML _ _ (Just d))                        = d
