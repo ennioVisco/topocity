@@ -1,7 +1,10 @@
 .stack-work/
 topocity.cabal
 *~
-out/
-tools/reports/
 
 .vscode/
+
+out/
+tools/reports/
+tools/tags/__pycache__/*
+tools/tags/*.txt
