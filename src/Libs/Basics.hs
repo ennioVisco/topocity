@@ -31,3 +31,9 @@ combineNub [] ys = ys
 combineNub xs [] = xs
 combineNub xs (y:ys) | y `elem` xs = combineNub xs ys
                      | otherwise   = combineNub (y:xs) ys
+
+concomma :: String -> String -> String
+concomma x y = x ++ "," ++ y
+
+conbar ::  String -> String -> String
+conbar x y = x ++ " | " ++ y

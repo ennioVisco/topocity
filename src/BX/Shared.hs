@@ -37,11 +37,6 @@ dummyLink (NTree ((i, _), ls) _)
     = NTree ((i, ("Dummy","Error")), map project ls) []
 
 
-separateCouple :: (Eq b) => NTree (a, [b]) -> (NTree a, [b])
-separateCouple h = (fmap fst h, foldr combineNub [] $
-                    (toList . fmap snd) h)
-
-
 -- TODO: will be probablyremoved after refactoring of AbsCityNode
 project :: BiGraphEdge -> AbsRelation
 project (e, (t, ls)) = (e, (t, map pr ls))

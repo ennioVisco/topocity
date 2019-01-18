@@ -1,11 +1,17 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
 module Lib
-    ( someFunc -- stub for external access point
+    ( store,
+      load,
+      display,
+      get,
+      put,
+      wip
     ) where
 
 import           Abstractions
 
+import           BX.Arrows
 import           BX.LinkGraph
 import           BX.PlaceGraph
 import           BX.Shared
@@ -19,12 +25,8 @@ import           Data.Bigraphs
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
 
-import           Generics.BiGUL
-import           Generics.BiGUL.Interpreter
-import           Generics.BiGUL.Lib
-import           Generics.BiGUL.TH
-
 import           IO.Arrows
+import           IO.BGEncoder
 import           IO.BGVisualizer
 import           IO.Files
 import           IO.Visualize
@@ -38,8 +40,8 @@ import           System.Process
 import           Text.XML.HXT.Core
 
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+wip :: IO ()
+wip = putStrLn "Library CLI not yet implemented."
 
 
 inDir = "file:../in/"
@@ -80,54 +82,27 @@ draw g p1 p2 = do
                         ["-Tpng", f2 ++ ".dot", "-o", f2 ++ ".png" ]);
                     return ()
 
+bger :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
+bger g p1 = do
+                let f1 = outDir ++ p1
+                runX (  g >>>
+                        encodeBigraph >>>
+                        storeGraph (f1 ++ ".big")
+                     );
 
-splitter :: (Eq b) =>  IOSArrow (NTree (a, [b])) (NTree a, [b])
-splitter = arrIO (return . separateCouple)
-
-merger :: (a -> b) -> IOSArrow a b
-merger f = arrIO (return . f)
+                {-createProcess (proc "dot"
+                    ["-Tpng", f1 ++ ".dot", "-o", f1 ++ ".png" ]);
+                -}
+                return ()
 
 -- ...........................:::::::: BX ::::::::........................... --
 
-getSync :: IOSArrow AbsCity BiGraph
-getSync = merger mergeCityTopo >>> getTopo >>> arrIO (return . separateCouple)
+get :: IOSArrow XmlTree AbsCity -> IOSArrow XmlTree BiGraph
+get s = s >>> getSync
 
-putSync :: IOSArrow (AbsCity, BiGraph) AbsCity
-putSync =
-    (
-        (
-            ((fstA >>> fstA) &&& (sndA >>> fstA)) -- (AbsCityTree, PlaceGraph)
-            >>>
-            putCity
-        )
-        &&&
-        (
-            fstA >>> sndA
-        )
-        >>>
-        -- (AbsCityTree, [AbsEdge])
-        merger mergeCityTopo
-    ) -- AbsTopology
-    &&&
-    (
-        sndA >>> merger mergeBiGraphs
-    )
-    >>>
-    putTopo
-    >>>
-    splitter
-
-getTopo :: IOSArrow AbsTopology AbsHypergraph
-getTopo = arrIO (return . fromJust . get syncGraph)
-
-putTopo :: IOSArrow (AbsTopology, AbsHypergraph) AbsTopology
-putTopo = arrIO (\ (s, v) -> return $ fromJust $ put syncGraph s v)
-
-getCity :: IOSArrow AbsCityTree PlaceGraph
-getCity = arrIO (return . fromJust . get syncTree)
-
-putCity :: IOSArrow (AbsCityTree, PlaceGraph) AbsCityTree
-putCity = arrIO (\ (s, v) -> return $ fromJust $ put syncTree s v)
+put ::  IOSArrow XmlTree AbsCity -> IOSArrow XmlTree BiGraph
+        -> IOSArrow XmlTree AbsCity
+put s v = (s &&& v) >>> putSync
 
 -- ..................:::::::: ABSTRACTION HANDLERS ::::::::.................. --
 
@@ -159,3 +134,6 @@ storeCity   =   storeXML xpCityModel
 
 drawBigraph :: IOSArrow BiGraph (String, String)
 drawBigraph = arrIO (\x -> return $ showBigraph $ bi2graph x)
+
+encodeBigraph :: IOSArrow BiGraph String
+encodeBigraph = arrIO (\x -> return $ encodeBG x)

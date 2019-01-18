@@ -18,8 +18,12 @@ module IO.Arrows
     ( fstA
     , sndA
     , runXY
+    , merger
+    , splitter
     ) where
 
+import           Data.Tree.NTree.TypeDefs
+import           Libs.NTreeExtras
 import           Text.XML.HXT.Core
 
 -- ........................:::::::: IO Arrows ::::::::....................... --
@@ -36,3 +40,9 @@ runXY f g   =   let (ma, mb) = (runX *** runX) (f, g)
                         a <- ma
                         b <- mb
                         return (a, b)
+
+splitter :: (Eq b) =>  IOSArrow (NTree (a, [b])) (NTree a, [b])
+splitter = arrIO (return . separateCouple)
+
+merger :: (a -> b) -> IOSArrow a b
+merger f = arrIO (return . f)

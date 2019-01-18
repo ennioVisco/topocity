@@ -106,7 +106,10 @@ findNodes :: (Eq a) => a -> NTree a -> [NTree a]
 findNodes p n@(NTree p' cs) | p == p'   = n : concatMap (findNodes p) cs
                            | otherwise = concatMap (findNodes p) cs
 
-
+-- Given a Tree on a (a, b), returns a Tree on a
+separateCouple :: (Eq b) => NTree (a, [b]) -> (NTree a, [b])
+separateCouple h = (fmap fst h, foldr combineNub [] $
+                    (toList . fmap snd) h)
 
 -- checks if the provided function is True down to the leaves
 check :: (NTree a -> NTree b -> Bool) -> NTree a -> NTree b -> Bool

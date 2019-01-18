@@ -51,10 +51,10 @@ instance Abstractable CityModel where
 instance Abstractable AbstractBuilding where
     absObj b@(Building (BldgData f _ _ _ _ _ bs ps _))
         = NTree (uid f, ("Building", show b))
-                (concat [(map absObj bs), (map absObj ps)])
+                (map absObj bs ++ map absObj ps)
     absObj b@(BuildingPart (BldgData f _ _ _ _ _ bs ps _))
         = NTree (uid f, ("BuildingPart", show b))
-                (concat [(map absObj bs), (map absObj ps)])
+                (map absObj bs ++ map absObj ps)
 
     reiObj (NTree (_, ("Building", d)) ms)
         = reshape' (read d) ms
