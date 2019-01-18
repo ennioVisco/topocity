@@ -1,3 +1,19 @@
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : BX.Arrows
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Lifters for transforming bx operators in IO arrows.
+
+-}
+
+-- ------------------------------------------------------------
+
 module BX.Arrows where
 
 import           BX.LinkGraph
@@ -18,7 +34,7 @@ import           Generics.BiGUL.TH
 -- ...........................:::::::: BX ::::::::........................... --
 
 getSync :: IOSArrow AbsCity BiGraph
-getSync = merger mergeCityTopo >>> getTopo >>> arrIO (return . separateCouple)
+getSync = lifter mergeCityTopo >>> getTopo >>> arrIO (return . separatePair)
 
 putSync :: IOSArrow (AbsCity, BiGraph) AbsCity
 putSync =
@@ -34,11 +50,11 @@ putSync =
         )
         >>>
         -- (AbsCityTree, [AbsEdge])
-        merger mergeCityTopo
+        lifter mergeCityTopo
     ) -- AbsTopology
     &&&
     (
-        sndA >>> merger mergeBiGraphs
+        sndA >>> lifter mergeBiGraphs
     )
     >>>
     putTopo

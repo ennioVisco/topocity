@@ -9,8 +9,8 @@
    Stability  : stable
    Portability: portable
 
-   n-ary tree structure (rose trees) helpers
-   based on NTree implementation from HXT.
+   Policy interfaces. Currently only for documentation purposes,
+   however at some point Policies will be instances of this class.
 
 -}
 

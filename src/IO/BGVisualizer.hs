@@ -1,3 +1,19 @@
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : [Experimental] IO.BGVisualizer
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : experimental
+   Portability: portable
+
+   Module for encoding a bigraph into dot (i.e. GraphViz) syntax.
+
+-}
+
+-- ------------------------------------------------------------
+
 module IO.BGVisualizer where
 
 import           Data.Bigraphs
@@ -11,29 +27,8 @@ import           Data.Text.Lazy                    (Text, pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.NTreeExtras
 
-{-}
-data BiNode = BiNode String String
-    deriving (Show, Eq)
-
-instance PrintDot BiNode where
-    unqtDot (BiNode i t) = unqtDot i <> colon <+> unqtDot t
-
-    -- We have a space in there, so we need quotes.
-    toDot = doubleQuotes . unqtDot
-
-instance ParseDot BiNode where
-    parseUnqt = BiNode  <$> parseUnqt
-                        <*  character ':'
-                        <*  whitespace1
-                        <*> parseUnqt
-    -- Has at least one space, so it will be quoted.
-    parse = quotedParse parseUnqt
-
-doubleQuotes p = char '"' <> p <> char '"'
--}
-
-
 type Dictionary = [(Node, BiGraphNode)]
+
 keyDic :: NTree BiGraphNode -> Dictionary
 keyDic t = inc 1 $ toList t
 
@@ -45,7 +40,6 @@ findKey :: (Eq a) => [(Int, a)] -> a -> Int
 findKey []     d              = 0    -- using 0 to mark an error
 findKey (x:xs) d | snd x == d = fst x
                  | otherwise  = findKey xs d
-
 
 edge :: NTree BiGraphNode -> [(Node, Node, String)]
 edge t@(NTree _ cs) = let dic = keyDic t
@@ -66,24 +60,11 @@ bi2graph (p, l) = let nodes = keyDic p
 showBigraph :: (Gr Text Text, Gr Text Text) -> (String, String)
 showBigraph (p, l) = (genGraph p, genGraph l)
 
-t2g :: Gr Text Text
-t2g = let nodes = keyDic place
-        in mkGraph (map tos2 nodes) (map tos3 $ edge place)
-
-g2g :: Gr Text Text
-g2g = let nodes = keyDic place
-     in mkGraph (map tos2 nodes) (map (convertLink nodes) link_)
-
 tos2 :: (Node, BiGraphNode) -> (Node, Text)
 tos2 (x, y) = (x, pack $ showN y)
 
 tos3 :: (Node, Node, String) -> (Node, Node, Text)
 tos3 (x, y, z) = (x, y, pack z)
-
-b2g :: Gr Text Text
-b2g = let nodes = keyDic place
-     in mkGraph (map tos2 nodes)
-        (map tos3 (edge place) ++ map (convertLink nodes) link_)
 
 convertLink :: Dictionary -> BiGraphEdge -> (Node, Node, Text)
 convertLink d (i, (t, n:ns)) =  let l = pack $ showN (i, t)
@@ -101,5 +82,22 @@ genGraph x = unpack $ renderDot $ toDot $ graphToDot
                 } x
             where   fn (_,l)   = [textLabel l]
                     fe (_,_,l) = [textLabel l]
+
+-- ........................:::::::: TESTING ::::::::........................ --
+
+{-
+t2g :: Gr Text Text
+t2g = let nodes = keyDic place
+        in mkGraph (map tos2 nodes) (map tos3 $ edge place)
+
+g2g :: Gr Text Text
+g2g = let nodes = keyDic place
+     in mkGraph (map tos2 nodes) (map (convertLink nodes) link_)
+
+b2g :: Gr Text Text
+b2g = let nodes = keyDic place
+     in mkGraph (map tos2 nodes)
+        (map tos3 (edge place) ++ map (convertLink nodes) link_)
+-}
 
 -- storeGraph x = writeFile "test.dot" (genGraph x)

@@ -29,25 +29,6 @@ instance Abstractable CityModel where
             where
                 reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
-{-
-    Building
-    {   bFeature       :: Feature
-    -- Building Optional Information
-    ,   bHeight        :: Maybe Measure
-    ,   bRoofType      :: Maybe String
-    ,   bYearOfConstr  :: Maybe String
-    ,   bFunction      :: Maybe String
-    ,   bStAboveGround :: Maybe Int
-    -- Building Models
-    ,   bLod0FootPrint :: Maybe BldgLod0Model
-    ,   bLod0RoofEdge  :: Maybe BldgLod0Model
-    ,   bLod1Solid     :: Maybe BldgLod1Model
-    ,   bLod3Solid     :: Maybe BldgLod3Model
-    -- Building External Interfaces
-    ,   bInstallations :: [BuildingInstallation]
-    ,   bBoundedBy     :: [BldgBoundary]
-    }
--}
 instance Abstractable AbstractBuilding where
     absObj b@(Building (BldgData f _ _ _ _ _ bs ps _))
         = NTree (uid f, ("Building", show b))

@@ -1,3 +1,21 @@
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : Libs.Operations
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Some modifiers over 'BiGraph's used to simulate bigraph
+   transformations.
+   For testing purposes only.
+
+-}
+
+-- ------------------------------------------------------------
+
 module Libs.Operations where
 
 import           BX.Shared

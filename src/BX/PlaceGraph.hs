@@ -3,6 +3,21 @@
 {-# LANGUAGE TemplateHaskell     #-}
 {-# LANGUAGE TypeFamilies        #-}
 
+-- ------------------------------------------------------------
+
+{- |
+   Module     : BX.PlaceGraph
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Module responsible for the BX on the Place Graph part of the Bigraph.
+
+-}
+
+-- ------------------------------------------------------------
+
 module BX.PlaceGraph (syncTree) where
 
 import           BX.BiGUL.KeyAlign
@@ -79,59 +94,3 @@ printPut bx s v = displayTree $ fromJust $ put bx s v
 
 printGet :: BiGUL AbsCityTree PlaceGraph -> AbsCityTree -> IO()
 printGet bx s = displayTree $ fromJust $ get bx s
-
-pp = printPut syncTree
-gg = printGet syncTree
-
-
--- TESTING
-cgml =  NTree (1, ("City","City1"))
-        [
-            NTree (2, ("Building", "Building2"))
-            [
-                NTree (5, ("Door","Door5")) [],
-                NTree (6, ("Window","Window6")) []
-            ],
-            NTree (3, ("Building", "Building3")) [],
-            NTree (4, ("Building", "Building4")) []
-        ]
-
-bg1 =   NTree (1, "City")
-        [
-            NTree (2, "Building")
-            [
-                NTree (5, "Door") []
-            ],
-            NTree (3, "Building") [],
-            NTree (4, "Building") []
-        ]
-
-bg2 =   NTree (1, "City")
-        [
-            NTree (2, "Building")
-            [
-                NTree (5, "Door") [],
-                NTree (6, "Window") []
-            ],
-            NTree (4, "Building") []
-        ]
-
-bg3 =   NTree (1, "City")
-        [
-            NTree (2, "Building")
-            [
-                NTree (5, "Door") [],
-                NTree (6, "Window") []
-            ],
-            NTree (7, "Building") []
-        ]
-
-bg4 =   NTree (1, "City")
-        [
-            NTree (3, "Building")
-            [
-                NTree (7, "Door") [],
-                NTree (8, "Window") []
-            ],
-            NTree (5, "Building") []
-        ]

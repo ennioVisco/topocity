@@ -1,51 +1,51 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
+-- ------------------------------------------------------------
+
+{- |
+   Module     : Lib
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Main entry point of the library. It exposes the available interfaces.
+
+-}
+
+-- ------------------------------------------------------------
+
 module Lib
-    ( store,
-      load,
-      display,
-      get,
-      put,
-      wip
+    ( -- bger,      -- generates a bigraphER graph.
+      display,      -- logs a bigraph in stdout.
+      -- draw,      -- generates a .dot file with a bigraph.
+      get,          -- performs BX get.
+      load,         -- loads a model.
+      store,        -- stores a model.
+      -- policy,    -- sets the current policy.
+      put,          -- performs BX put.
+      wip           -- placeholder function with a warning.
     ) where
 
 import           Abstractions
-
 import           BX.Arrows
-import           BX.LinkGraph
-import           BX.PlaceGraph
-import           BX.Shared
-
 import           CityGML.ADEs.TopoADE
-import           CityGML.Parsers
-import           CityGML.Types
-
+import           CityGML.Parsers      (xpCityModel)
+import           CityGML.Types        (CityModel)
 import           Data.AbsCity
 import           Data.Bigraphs
-import           Data.Maybe
-import           Data.Tree.NTree.TypeDefs
-
 import           IO.Arrows
-import           IO.BGEncoder
-import           IO.BGVisualizer
 import           IO.Files
 import           IO.Visualize
-
 import           Libs.Abstractable
-import           Libs.Basics
-import           Libs.NTreeExtras
-import           Libs.Operations
-
-import           System.Process
+import           Settings
 import           Text.XML.HXT.Core
 
+-- Only needed for testing purposes when running GHCi from this file.
+-- import           Libs.Operations
 
 wip :: IO ()
 wip = putStrLn "Library CLI not yet implemented."
-
-
-inDir = "file:../in/"
-outDir = "../out/"
 
 -- .........................:::::::: HELPERS ::::::::........................ --
 
@@ -64,36 +64,6 @@ store m p1 p2 = do
                             )
                          );
                     return ()
-
-draw :: IOSArrow XmlTree BiGraph -> FilePath -> FilePath -> IO ()
-draw g p1 p2 = do
-                    let f1 = outDir ++ p1
-                        f2 = outDir ++ p2
-                    runX (  g >>>
-                            drawBigraph >>>
-                            (fstA >>> storeGraph (f1 ++ ".dot"))
-                                &&&
-                            (sndA >>> storeGraph (f2 ++ ".dot"))
-                         );
-
-                    createProcess (proc "dot"
-                        ["-Tpng", f1 ++ ".dot", "-o", f1 ++ ".png" ]);
-                    createProcess (proc "dot"
-                        ["-Tpng", f2 ++ ".dot", "-o", f2 ++ ".png" ]);
-                    return ()
-
-bger :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
-bger g p1 = do
-                let f1 = outDir ++ p1
-                runX (  g >>>
-                        encodeBigraph >>>
-                        storeGraph (f1 ++ ".big")
-                     );
-
-                {-createProcess (proc "dot"
-                    ["-Tpng", f1 ++ ".dot", "-o", f1 ++ ".png" ]);
-                -}
-                return ()
 
 -- ...........................:::::::: BX ::::::::........................... --
 
@@ -131,9 +101,3 @@ loadCity    =   loadXML xpCityModel
 
 storeCity  :: FilePath -> IOSArrow CityModel XmlTree
 storeCity   =   storeXML xpCityModel
-
-drawBigraph :: IOSArrow BiGraph (String, String)
-drawBigraph = arrIO (\x -> return $ showBigraph $ bi2graph x)
-
-encodeBigraph :: IOSArrow BiGraph String
-encodeBigraph = arrIO (\x -> return $ encodeBG x)

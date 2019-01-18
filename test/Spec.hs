@@ -38,10 +38,10 @@ main = do
                     putCity
                     -- end of testing
 
-                -- logTree dlog1 >>>
+                -- dumpTree dlog1 >>>
 
                 >>>
-                -- logTree dlog2 >>>
+                -- dumpTree dlog2 >>>
                 reifyCity
                 >>>
                 storeCity  pb

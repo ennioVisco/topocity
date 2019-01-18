@@ -21,9 +21,8 @@ import           Data.List
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 
-
---data NTree a = NTree a [NTree a]
 {-
+data NTree a = NTree a [NTree a]
 -- ......................:::::: CLASSES INSTANCE ::::::..................... --
 
 instance (Show a) => Show (NTree a) where
@@ -107,8 +106,8 @@ findNodes p n@(NTree p' cs) | p == p'   = n : concatMap (findNodes p) cs
                            | otherwise = concatMap (findNodes p) cs
 
 -- Given a Tree on a (a, b), returns a Tree on a
-separateCouple :: (Eq b) => NTree (a, [b]) -> (NTree a, [b])
-separateCouple h = (fmap fst h, foldr combineNub [] $
+separatePair :: (Eq b) => NTree (a, [b]) -> (NTree a, [b])
+separatePair h = (fmap fst h, foldr combineNub [] $
                     (toList . fmap snd) h)
 
 -- checks if the provided function is True down to the leaves

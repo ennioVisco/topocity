@@ -2,11 +2,24 @@
 Towards topological representation of smart cities environment: a Putback BX approach towards **Bigraphs** from **CityGML**.
 Powered by [BiGUL][5d8ff35d].
 
-## NII-PKU-Milano Joint Workshop on Modeling and Management of Adaptivity
-Slides of the presentation are  available here: [PPT - OneDrive.com][d0df7ec1]
+## Installation
+Currently it is recommended to execute `topocity` via [Stack platform][45cc488c], since it is cross-platform, virtualizable, and takes care of all dependencies automatically.
 
-## Demo
-After installing the dependencies, execute the following commands in the REPL:
+:warning: _Note: Git is required by Stack to pull needed pacakges. In addition, drawing commands require [GraphViz][927a319c] installed system-wide._
+
+After cloning/downloading this repository go to its directory and
+launch it via command line:
+
+
+```
+stack ghci src/Lib.hs
+```
+
+## Usage Guidelines
+
+To experiment with `topocity`, you can execute the following commands in the REPL. Note that input files are taken from the `in` directory while output files are generated into the `out` directory. To change this, change the paths in `Settings.hs` variables.
+
+The following commands use some demo files provided with this repository, however other input can be used, despite currently there is a very limited support of CityGML features related to the current state of development of the [citygml4hs][4d6757c3] library.
 
 ### Loading the CityGML _Source_
 
@@ -17,28 +30,30 @@ source = load "in.gml" "topo.gml"
 ### Showing the result of _Get_
 
 ```haskell
-view = source >>> getSync
-draw view -- generates the result graph files
+view = get source -- performs the forward BX: CityGML -> Bigraph
+display view'' -- prints in stdout the internal representation of the graph
 ```
 
 ### Changing the _View_
 
+Wrappers to simulate changes in the bigraph
+
 ```haskell
-view'  = view >>> addBuilding "demo1"
-view'' = view' >>> removeBuilding "bc8a0f2b5-031b-11e6-b420-2bdcc4ab5d7f"
-draw view'' -- generates the result graph files
+view'  = addBuilding "demo1" view
+view'' = removeBuilding "bc8a0f2b5-031b-11e6-b420-2bdcc4ab5d7f" view'
+display view'' -- prints in stdout the internal representation of the graph
 ```
 
 ### Reflecting the changes back to source with _Put_
 
 ```haskell
-source' = source &&& view'' >>> putSync
+source' = put source view''  -- performs the putback BX: CityGML <- Bigraph
 ```
 
 ### Storing back the new _Source_
 
 ```haskell
-store source' "out.gml" "tout.gml"
+store source' "out.gml" "tout.gml" -- Stores the new CityGML and ADE files
 ```
 
 ## Development
@@ -75,8 +90,10 @@ While to generate the report of the Lines of Code (Windows-only), open a termina
 cloc.exe ../src ../test --report-file=reports/cloc_%DATE%.txt
 ```
 
+[4d6757c3]: https://github.com/ennioVisco/citygml4hs "citygml4hs"
+
+[927a319c]: https://www.graphviz.org/ "GraphViz"
+
 [45cc488c]: https://haskellstack.org "Haskell Stack Website"
 
 [5d8ff35d]: https://bitbucket.org/prl_tokyo/bigul/ "BiGUL: The Bidirectional Generic Update Language"
-
-[d0df7ec1]: https://1drv.ms/p/s!AnET_cFHzelg314Drc5QfjA_R2hd "Topocity Slides"

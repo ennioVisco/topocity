@@ -1,25 +1,25 @@
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : [Experimental] IO.BGEncoder
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : experimental
+   Portability: portable
+
+   Module for encoding a bigraph into BigraphER syntax.
+
+-}
+
+-- ------------------------------------------------------------
+
 module IO.BGEncoder where
 
 import           Data.Bigraphs
-import           Data.Graph.Inductive.Example
-import           Data.Graph.Inductive.Graph
-import           Data.Graph.Inductive.PatriciaTree (Gr)
-import           Data.GraphViz
-import           Data.GraphViz.Parsing
-import           Data.GraphViz.Printing
-import           Data.Text.Lazy                    (Text, pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 import           Libs.NTreeExtras
-
-type Dictionary = [(Node, BiGraphNode)]
-
-keyDic :: NTree BiGraphNode -> Dictionary
-keyDic t = inc 1 $ toList t
-    where
-        -- inc :: Int -> [a] -> [(Int, a)]
-        inc n  [x]   = [(n, x)]
-        inc n (x:xs) = (n, x) : inc (n + 1) xs
 
 encodeBG :: BiGraph -> String
 encodeBG b = let h = mergeBiGraphs b

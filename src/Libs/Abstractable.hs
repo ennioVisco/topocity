@@ -4,6 +4,24 @@
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : Libs.Abstractable
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Module responsible for abstracting 'CityGML' objects into
+   generic city objects of 'AbsCity'.
+
+-}
+
+-- ------------------------------------------------------------
+
+
 module Libs.Abstractable where
 
 import           Data.AbsCity

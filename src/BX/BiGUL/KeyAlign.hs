@@ -1,3 +1,20 @@
+
+-- ------------------------------------------------------------
+
+{- |
+   Module     : BX.BiGUL.KeyAlign
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   Module extracted by BiGUL official examples on <https://bitbucket.org/prl_tokyo/bigul BiGUL - PRL Tokyo>
+
+-}
+
+-- ------------------------------------------------------------
+
+
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TemplateHaskell  #-}
 {-# LANGUAGE TypeFamilies     #-}

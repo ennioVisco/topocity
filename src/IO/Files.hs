@@ -36,8 +36,10 @@ storeXML p  =    xpickleDocument p
 
 -- ....................:::::::: DEBUGGING HELPERS ::::::::................... --
 
-logTree :: (Show a) => FilePath -> IOSArrow (NTree a) (NTree a)
-logTree p = arrIO ( \ x -> do { writeFile p (show x); return x} )
+-- | pass-through arrow that stores a Tree
+dumpTree :: (Show a) => FilePath -> IOSArrow (NTree a) (NTree a)
+dumpTree p = arrIO ( \ x -> do { writeFile p (show x); return x} )
 
-storeGraph :: FilePath -> IOSArrow String String
-storeGraph p = arrIO ( \ x -> do { writeFile p x; return x})
+-- | pass-through arrow that stores a BiGraph
+dumpGraph :: FilePath -> IOSArrow String String
+dumpGraph p = arrIO ( \ x -> do { writeFile p x; return x})
