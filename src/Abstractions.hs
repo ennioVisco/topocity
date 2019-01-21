@@ -30,23 +30,23 @@ instance Abstractable CityModel where
                 reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
 instance Abstractable AbstractBuilding where
-    absObj b@(Building (BldgData f _ _ _ _ _ bs ps _))
+    absObj b@(Building (BldgData f _ _ _ _ bs ps _))
         = NTree (uid f, ("Building", show b))
                 (map absObj bs ++ map absObj ps)
-    absObj b@(BuildingPart (BldgData f _ _ _ _ _ bs ps _))
+    absObj b@(BuildingPart (BldgData f _ _ _ _ bs ps _))
         = NTree (uid f, ("BuildingPart", show b))
                 (map absObj bs ++ map absObj ps)
 
     reiObj (NTree (_, ("Building", d)) ms)
         = reshape' (read d) ms
             where
-            reshape' (Building (BldgData g e bi ls it i bs _ a)) ps =
-                Building (BldgData g e bi ls it i bs (map reiObj ps) a)
+            reshape' (Building (BldgData g bi ls it i bs _ a)) ps =
+                Building (BldgData g bi ls it i bs (map reiObj ps) a)
     reiObj (NTree (_, ("BuildingPart", d)) ms)
         = reshape' (read d) ms
             where
-            reshape' (BuildingPart (BldgData g e bi ls it i bs _ a)) ps =
-                BuildingPart (BldgData g e bi ls it i bs (map reiObj ps) a)
+            reshape' (BuildingPart (BldgData g bi ls it i bs _ a)) ps =
+                BuildingPart (BldgData g bi ls it i bs (map reiObj ps) a)
 
 instance Abstractable WallSurface where
     absObj w@(WallSurface f _ _ os) = NTree (uid f, ("WallSurface", show w)) (map absObj os)
