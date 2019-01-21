@@ -1,33 +1,27 @@
-module Abstractions where
 
-import           CityGML.ADEs.TopoADE
+-- ------------------------------------------------------------
+
+{- |
+   Module     : Abstractions.CityGML.Building
+
+   Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
+   Stability  : stable
+   Portability: portable
+
+   This module contains the instances of the Abstractable class
+   from 'CityGML.Modules.Building'.
+
+-}
+
+-- ------------------------------------------------------------
+
+module Abstractions.CityGML.Building where
+
+import           Abstractions.Abstractable
 import           CityGML.Types
-import           Data.AbsCity
-import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
-import           GHC.Generics
 import           Identifiable
-import           Libs.Abstractable
 
--- Object Abstractions
-
-instance AbstractLink TopoRelation where
-        absLink (Near i ns) = (i, ("Near", map a ns))
-            where
-            a (TopoBuilding i) = (i, ("Building", ""))
-
-        reiLink (i, ("Near", ns)) = Near i (map r ns)
-            where
-            r (i, ("Building", _)) = TopoBuilding i
-
-instance Abstractable CityModel where
-    absObj (CityModel f ms)
-        = NTree (uid f, ("CityModel", show (CityModel f ms))) (map absObj ms)
-
-    reiObj (NTree (_, (_, d)) ms)
-        = reshape' (read d) ms
-            where
-                reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
 instance Abstractable AbstractBuilding where
     absObj b@(Building (BldgData f _ _ _ _ bs ps _))
@@ -78,21 +72,3 @@ instance Abstractable BldgBoundary where
     reiObj w@(NTree (_, ("WallSurface", _)) _) = reiObj w
     reiObj r@(NTree (_, ("RoofSurface", _)) _) = reiObj r
     reiObj (NTree (_, (_, d)) _)               = read d
-
-instance Abstractable VegetationObject
-instance Abstractable GenericCityObject
-instance Abstractable WaterObject
-instance Abstractable TransportationObject
-instance Abstractable ReliefFeature
-
-instance Abstractable Site where
-    absObj (Bld b) = absObj b
-    reiObj d = Bld (reiObj d)
-
-instance Abstractable CityObjectMember where
-    absObj (Site s) = absObj s
-    absObj (Tran r) = absObj r
-    absObj _        = error "uncaught exception"
-
-    reiObj d@(NTree (_, ("Building", _)) _) = Site (reiObj d)
-    reiObj d@(NTree (_, ("Road", _)) _)     = Tran (reiObj d)

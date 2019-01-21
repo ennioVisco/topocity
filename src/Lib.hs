@@ -27,17 +27,17 @@ module Lib
       wip           -- placeholder function with a warning.
     ) where
 
-import           Abstractions
+import           Abstractions.Abstractable
+import           Abstractions.Abstractions
 import           BX.Arrows
 import           CityGML.ADEs.TopoADE
-import           CityGML.Parsers      (xpCityModel)
-import           CityGML.Types        (CityModel)
+import           CityGML.Parsers           (xpCityModel)
+import           CityGML.Types             (CityModel)
 import           Data.AbsCity
 import           Data.Bigraphs
 import           IO.Arrows
 import           IO.Files
 import           IO.Visualize
-import           Libs.Abstractable
 import           Settings
 import           Text.XML.HXT.Core
 

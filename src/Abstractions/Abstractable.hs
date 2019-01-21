@@ -22,7 +22,7 @@
 -- ------------------------------------------------------------
 
 
-module Libs.Abstractable where
+module Abstractions.Abstractable where
 
 import           Data.AbsCity
 import           Data.Tree.NTree.TypeDefs
