@@ -25,6 +25,7 @@ instance Abstractable TransportationObject where
     absObj (TCRO r) = absObj r
     absObj (TCRA r) = absObj r
     absObj (TCSQ s) = absObj s
+    absObj (TCTR t) = absObj t
     absObj (TA   a) = absObj a
     absObj (AT   a) = absObj a
 

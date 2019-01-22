@@ -5,8 +5,7 @@ import           CityGML.Types
 sBuilding i =
     Building
         ( BldgData
-            (sObject i)
-            []
+            (ssObject i)
             (BuildingInfo Nothing Nothing (Just $ Height "#m" 100) Nothing Nothing)
             (BuildingModels l0f l0r l1s Nothing Nothing)
             (BuildingIntersections Nothing Nothing)
@@ -16,7 +15,7 @@ sBuilding i =
             Nothing
         )
 
-sObject  i = CityObject (sFeature i) Nothing Nothing [] [] Nothing Nothing []
+ssObject  i = CityObject (sFeature i) Nothing Nothing [] [] Nothing Nothing []
 sFeature i = Feature (GML (Just i) [] Nothing) Nothing
 
 l0f = Just (FootPrint fp)
