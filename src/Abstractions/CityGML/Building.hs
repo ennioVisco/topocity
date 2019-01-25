@@ -19,6 +19,7 @@ module Abstractions.CityGML.Building where
 
 import           Abstractions.Abstractable
 import           CityGML.Types
+import           Data.Data
 import           Data.Tree.NTree.TypeDefs
 import           Identifiable
 
@@ -67,7 +68,7 @@ instance Abstractable Opening
 instance Abstractable BldgBoundary where
     absObj (Wall s) = absObj s
     absObj (Roof s) = absObj s
-    absObj n        = NTree (uid n, (constrName n, show n)) []
+    absObj n        = NTree (uid n, (show $ toConstr n, show n)) []
 
     reiObj w@(NTree (_, ("WallSurface", _)) _) = reiObj w
     reiObj r@(NTree (_, ("RoofSurface", _)) _) = reiObj r

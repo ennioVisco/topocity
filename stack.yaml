@@ -65,4 +65,4 @@ packages:
 extra-deps:
 - BiGUL-1.0.1
 - git: https://github.com/ennioVisco/citygml4hs.git
-  commit: '8f2149b'
+  commit: '36c6a75'
