@@ -64,5 +64,6 @@ packages:
 # compiler-check: newer-minor
 extra-deps:
 - BiGUL-1.0.1
+- structured-cli-2.5.0.2
 - git: https://github.com/ennioVisco/citygml4hs.git
-  commit: '36c6a75'
+  commit: '26f4fd4'

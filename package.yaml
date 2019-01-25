@@ -28,6 +28,7 @@ dependencies:
 - citygml4hs
 - fgl
 - process
+- turtle
 
 library:
   source-dirs:
@@ -43,6 +44,9 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - topocity
+    - structured-cli
+    - data-default
+    - mtl
 
 tests:
   topocity-test:
@@ -60,3 +64,4 @@ tests:
     - tasty-smallcheck
     - tasty-quickcheck
     - tasty-hspec
+    - turtle
