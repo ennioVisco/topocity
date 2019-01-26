@@ -66,4 +66,4 @@ extra-deps:
 - BiGUL-1.0.1
 - structured-cli-2.5.0.2
 - git: https://github.com/ennioVisco/citygml4hs.git
-  commit: 'a9139b0'
+  commit: 'c085e6b'
