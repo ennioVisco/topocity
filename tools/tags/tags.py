@@ -1,15 +1,20 @@
-# Returns a list of tags used in an xml file
-
 from storage import *
 from collections import Counter
 import xml.etree.ElementTree as ET
+from re import sub
+from tempfile import mkstemp
+from shutil import move
+from os import fdopen, remove
 
-#DIR_PATH = '../../../../../Downloads/_TESI/DA_WISE_GML/DA_WISE_GMLs/'
-DIR_PATH = '../../../../../Downloads/_TESI/NYC_Flatiron_Streetpace_CityGML_LoD2/gml/'
-#DIR_PATH = '../../../../../Downloads/_TESI/Delft.gml/full/'
-#DIR_PATH = '../../../../../Downloads/CityGML_BUILDINGS_LOD2_NOTEXTURES_678504x2/'
+PATH_PREFIX = '../../../../../Downloads/'
+DIR_PATH = PATH_PREFIX + 'CityGML_BUILDINGS_LOD2_NOTEXTURES_678504x2/'
 
 def main():
+    file = DIR_PATH + 'nyc.gml'
+    getTagsFromListOfFile()
+
+# Returns the list of tags in the provided file
+def getTagsFromListOfFile():
     files = list_dir(DIR_PATH)
     elemList = []
     name = ""
@@ -31,6 +36,48 @@ def main():
     elemList = clearNS(set(elemList))
     store("tags.txt", '\n'.join(elemList))
 
+
+
+# load and parse the file
+def getElements(p):
+    xmlTree = ET.parse(p)
+
+    elemList = []
+
+    for elem in xmlTree.iter():
+        elemList.append(elem.tag)
+
+    # now I remove duplicities - by convertion to set and back to list
+    elemList = list(set(elemList))
+
+    # Just printing out the result
+    return elemList
+
+# Method for counting tags in a file
+def count_tags(filename):
+        my_tags = []
+        for event, element in ET.iterparse(filename):
+            my_tags.append(element.tag)
+        my_keys = Counter(my_tags).keys()
+        my_values = Counter(my_tags).values()
+        my_dict = dict(zip(my_keys, my_values))
+        return my_dict
+
+# Method for replacing lines in a file
+# Example usage:
+# replace(file, r"<gml:posList .*<\/gml:posList>", "<gml:posList />")
+def replace(file_path, find, repl):
+    #Create temp file
+    fh, abs_path = mkstemp()
+    with fdopen(fh,'w') as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                line = sub(find, repl, line)
+                new_file.write(line)
+    #Move new file
+    move(abs_path, file_path)
+
+#Method used to rewrite namespaces in a readable format
 def clearNS(elems):
     for e in elems:
         for ns, url in namespaces.items():
@@ -40,21 +87,7 @@ def clearNS(elems):
             e = n
     return elems
 
-# load and parse the file
-def getElements(p):
-    xmlTree = ET.parse(p)
-
-    elemList = []
-
-    for elem in xmlTree.iter():
-      elemList.append(elem.tag) # indent this by tab, not two spaces as I did here
-
-    # now I remove duplicities - by convertion to set and back to list
-    elemList = list(set(elemList))
-
-    # Just printing out the result
-    return elemList
-
+# Fixed set of namespaces
 namespaces = {
     "tran:": "{http://www.opengis.net/citygml/transportation/2.0}",
     "core:": "{http://www.opengis.net/citygml/2.0}",
@@ -69,17 +102,6 @@ namespaces = {
     "app:": "{http://www.opengis.net/citygml/appearance/2.0}"
 }
 
-import xml.etree.ElementTree as ET
-
-
-def count_tags(filename):
-        my_tags = []
-        for event, element in ET.iterparse(filename):
-            my_tags.append(element.tag)
-        my_keys = Counter(my_tags).keys()
-        my_values = Counter(my_tags).values()
-        my_dict = dict(zip(my_keys, my_values))
-        return my_dict
 
 if __name__ == '__main__':
     main()
