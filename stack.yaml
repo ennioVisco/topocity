@@ -67,4 +67,4 @@ extra-deps:
 - turtle-1.3.6
 - structured-cli-2.5.0.2
 - git: https://github.com/ennioVisco/citygml4hs.git
-  commit: 'cce7240'
+  commit: 'ab5fc3e1e843bcc0fd19689f1ac37dd2ff135cbc'
