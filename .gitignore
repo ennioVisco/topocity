@@ -5,6 +5,7 @@ topocity.cabal
 .vscode/
 
 out/
+docs/index.html
 tools/reports/
 tools/tags/__pycache__/*
 tools/tags/*.txt

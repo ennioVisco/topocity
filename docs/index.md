@@ -1,5 +1,4 @@
 This website collects data sources and generated models examples from **topocity**.
-For actual use of these models refer to [topocity][4e32e58b].
 
 # Models Used
 
