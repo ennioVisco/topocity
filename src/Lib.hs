@@ -16,15 +16,22 @@
 -- ------------------------------------------------------------
 
 module Lib
-    ( -- bger,      -- generates a bigraphER graph.
-      display,      -- logs a bigraph in stdout.
-      -- draw,      -- generates a .dot file with a bigraph.
-      get,          -- performs BX get.
-      load,         -- loads a model.
-      store,        -- stores a model.
-      -- policy,    -- sets the current policy.
-      put,          -- performs BX put.
-      wip           -- placeholder function with a warning.
+    ( -- bger,        -- generates a bigraphER graph.
+      display,        -- logs a bigraph in stdout.
+      dump,           -- dumps the BiGraph in a file
+      -- draw,        -- generates a .dot file with a bigraph.
+      get,            -- performs BX get.
+      load,           -- loads a model.
+      store,          -- stores a model.
+      -- policy,      -- sets the current policy.
+      put,            -- performs BX put.
+
+      addBuilding,    -- demo helper for adding a building
+      removeBuilding, -- demo helper for removing a building
+      addNear,        -- demo helper for adding a link
+      removeNear,     -- demo helper for removing a link
+
+      wip             -- placeholder function with a warning.
     ) where
 
 import           Abstractions.Abstractable
@@ -38,6 +45,7 @@ import           Data.Bigraphs
 import           IO.Arrows
 import           IO.Files
 import           IO.Visualize
+import           Libs.Operations
 import           Settings
 import           Text.XML.HXT.Core
 
@@ -52,6 +60,12 @@ wip = putStrLn "Library CLI not yet implemented."
 load :: FilePath -> FilePath -> IOSArrow XmlTree  AbsCity
 load c t = (loadCity  (inDir ++ c) &&& loadTopo (inDir ++ t))
             >>> (abstractCity *** abstractTopo)
+
+dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
+dump m p = do
+                runX (m >>> encodeBigraph >>> dumpGraph p);
+                return ()
+
 
 store :: IOSArrow XmlTree AbsCity -> FilePath -> FilePath -> IO ()
 store m p1 p2 = do

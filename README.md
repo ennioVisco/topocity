@@ -31,7 +31,7 @@ source = load "in.gml" "topo.gml"
 
 ```haskell
 view = get source -- performs the forward BX: CityGML -> Bigraph
-display view'' -- prints in stdout the internal representation of the graph
+display view -- prints in stdout the internal representation of the graph
 ```
 
 ### Changing the _View_

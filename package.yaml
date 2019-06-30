@@ -22,13 +22,13 @@ description:         Please see the README on GitHub at <https://github.com/pola
 dependencies:
 - BiGUL
 - hxt
-- base >= 4.7 && < 5
+- base >= 4.7 && < 4.10
 - graphviz
 - text
 - citygml4hs
 - fgl
 - process
-- turtle
+- directory
 
 library:
   source-dirs:
@@ -44,7 +44,6 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - topocity
-    - structured-cli
     - data-default
     - mtl
 
@@ -64,4 +63,3 @@ tests:
     - tasty-smallcheck
     - tasty-quickcheck
     - tasty-hspec
-    - turtle
