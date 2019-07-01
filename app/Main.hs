@@ -32,7 +32,7 @@ storeHandler (c, a) = do
     sysLog $ "Storing the GET result in '" ++ p ++ "'..."
     dump (get $ load c a) (outDir ++ outFile)
     sysLog "Bigraph stored correctly."
-    root
+    -- root
 
 printHandler :: (FilePath, FilePath) -> String -> IO ()
 printHandler (c, a) "y" = do
