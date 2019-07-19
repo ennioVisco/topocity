@@ -35,8 +35,3 @@ instance AbstractLink TopoRelation where
         reiLink (i, ("Near", ns)) = Near i (map r ns)
             where
             r (i, ("Building", _)) = TopoBuilding i
-
-instance Abstractable VegetationObject
-instance Abstractable GenericCityObject
-instance Abstractable WaterObject
-instance Abstractable ReliefFeature

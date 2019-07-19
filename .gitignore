@@ -1,9 +1,11 @@
 .stack-work/
 topocity.cabal
+stack.yaml.lock
 *~
 
 .vscode/
 
+in/local/
 out/
 docs/index.html
 tools/reports/
