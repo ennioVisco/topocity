@@ -7,5 +7,6 @@ topocity.cabal
 out/
 docs/index.html
 tools/reports/
+tools/downloader/files/
 tools/tags/__pycache__/*
 tools/tags/*.txt
