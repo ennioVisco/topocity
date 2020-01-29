@@ -1,4 +1,5 @@
 This website collects data sources and generated models examples from **topocity**.
+For instructions on how to use the tool, refer to the repository [README][3f3dffe2].
 
 # Models Used
 
@@ -28,7 +29,7 @@ Please, feel free to create an issue if you find errors/bugs [here][8bd7ba53].
 
 [4e32e58b]: https://github.com/ennioVisco/topocity "Topocity"
 [8bd7ba53]: https://github.com/ennioVisco/topocity/issues "Topocity - Issue Tracker (GitHub)"
-
+[3f3dffe2]: ../README.md "topocity - README"
 
 [74557c32]: https://www.opengeodata.nrw.de/produkte/geobasis/3d-gm/3d-gm_lod1/3d-gm_lod1_05120000_Remscheid_EPSG25832_CityGML.zip "Remscheid LOD1 CityGML Model"
 [fa27df69]: http://www.3dcitydb.net/3dcitydb/fileadmin/public/datasets/NYC/NYC_street_space_extract/NYC_Flatiron_Streetpace_CityGML_LoD2.zip "New York - TUM"

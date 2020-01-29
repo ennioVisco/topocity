@@ -70,6 +70,31 @@ stack test --ghc-options "-fforce-recomp" --coverage
 
 and of course to just run the tests you can skip the `--coverage` flag.
 
+### Profiling
+It requires to build the tool with profiling flag enabled, therefore:
+
+```sh
+stack build --profile
+```
+
+After the build completes, the program can be run in the following way to collect profiling data:
+```sh
+stack exec --profile topocity-exe -- +RTS -h -p
+```
+The `h` flag is used to generate a heap profile, while the `p` flag is used to generate the classical cpu profile.
+
+To visualize them (provided they have been installed them before), one can use:
+```sh
+stack exec hp2pretty topocity-exe.EXE.hp
+```
+for memory graph (svg image) and
+```sh
+stack exec profiteur topocity-exe.EXE.prof
+```
+for CPU interactive graph (html).
+
+:warning: _Note: the actual report filename subextension may vary depending on the OS and other settings of the environment._
+
 ### Generate package dependency graph
 In order to generate the dependency graph (in this case the trivial dependency on the `base` package has been excluded):
 

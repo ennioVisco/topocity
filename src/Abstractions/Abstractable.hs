@@ -32,7 +32,7 @@ class
     where
 
     absObj :: o -> AbsCityTree
-    absObj n = NTree (uid n, (show $ toConstr n, show n)) []
+    absObj n = NTree (uid n, (constructorToString n, show n)) []
 
     reiObj :: AbsCityTree -> o
     reiObj (NTree (_, (_, d)) _) = read d
@@ -46,6 +46,10 @@ class
     absLink n = ("UNKNOWN_ID", (show $ toConstr n, []))
 
     reiLink :: AbsRelation -> o
+
+
+constructorToString :: (Show o, Data o) => o -> String
+constructorToString n = show $ toConstr n
 
 -- | 'filterObjects' gets a list of abstract objects and a String corresponding
 -- to the datatype constructor and returns a list of reified objects having

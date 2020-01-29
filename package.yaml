@@ -22,6 +22,7 @@ description:         Please see the README on GitHub at <https://github.com/pola
 dependencies:
 - BiGUL
 - hxt
+- hxt-expat
 - base >= 4.7 && < 4.10
 - graphviz
 - text

@@ -18,12 +18,14 @@ module IO.Files where
 
 import           Data.Tree.NTree.TypeDefs
 import           Text.XML.HXT.Core
+import           Text.XML.HXT.Expat
 
 -- .......................:::::::: XML Loader ::::::::....................... --
 
 loadXML :: PU a -> FilePath -> IOSArrow XmlTree a
 loadXML  p  =   xunpickleDocument p
                     [ withValidate no           -- don't validate source
+                    , withExpat yes
                     , withRemoveWS yes          -- remove extra whitespaces
                     , withPreserveComment no    -- remove comments
                     ]                           -- file path passed implicitly
