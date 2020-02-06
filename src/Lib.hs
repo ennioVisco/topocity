@@ -57,7 +57,7 @@ wip = putStrLn "Library CLI not yet implemented."
 -- .........................:::::::: HELPERS ::::::::........................ --
 
 load :: FilePath -> FilePath -> IOSArrow XmlTree  AbsCity
-load c t = (loadCity  c &&& loadTopo t)
+load c t = (loadCity c &&& loadTopo t)
             >>> (abstractCity *** abstractTopo)
 
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
