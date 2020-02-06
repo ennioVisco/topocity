@@ -23,9 +23,11 @@ import           IO.BGEncoder
 import           IO.BGVisualizer
 import           IO.Files
 import           Libs.NTreeExtras
-import           Settings
 import           System.Process
 import           Text.XML.HXT.Core
+
+-- | WARNING: outDir should be moved to app package and managed by user input!
+outDir = "/out/"
 
 -- | 'display' simply outputs the raw Tree and List underlying a bigraph.
 display :: (Show a, Show b) => IOSArrow XmlTree (NTree a, [b]) -> IO ()

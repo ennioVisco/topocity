@@ -26,6 +26,7 @@ loadXML :: PU a -> FilePath -> IOSArrow XmlTree a
 loadXML  p  =   xunpickleDocument p
                     [ withValidate no           -- don't validate source
                     , withExpat yes
+--                    , withTrace 1               -- debug mode
                     , withRemoveWS yes          -- remove extra whitespaces
                     , withPreserveComment no    -- remove comments
                     ]                           -- file path passed implicitly

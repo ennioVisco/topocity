@@ -1,13 +1,12 @@
 module Main where
 
 import           Cli
-import           Data.Version     (showVersion)
+import           Data.Version       (showVersion)
 import           Lib
-import           Paths_topocity   (version)
+import           Paths_topocity     (version)
 import           Settings
 import           System.Directory
-
-outFile = "out-get.txt"
+import           System.Environment
 
 root :: IO ()
 root = do
@@ -28,9 +27,15 @@ getHandler fs = do
 
 storeHandler :: (FilePath, FilePath) -> IO ()
 storeHandler (c, a) = do
-    p <- canonicalizePath (outDir ++ outFile)
+    d <- getCurrentDirectory
+    p <- canonicalizePath (d ++ outDir ++ outFile)
     sysLog $ "Storing the GET result in '" ++ p ++ "'..."
-    dump (get $ load c a) (outDir ++ outFile)
+    -- for some reasons, HXT doesn't accept full paths?!
+    let cc = "file:" ++ "./" ++ inDir ++ c
+    let aa = "file:" ++ "./" ++ inDir ++ a
+    sysLog $ "CityGML model at '" ++ cc ++ "'..."
+    sysLog $ "ADE model at '" ++ aa ++ "'..."
+    dump (get $ load cc aa) (d ++ outDir ++ outFile)
     sysLog "Bigraph stored correctly."
     -- root
 
@@ -52,5 +57,15 @@ header = do
 
 main :: IO ()
 main = do
-    header
-    root
+          args <- getArgs
+          case args of
+            []     -> do
+                          header
+                          sysLog "User Input Mode."
+                          root
+            [m]    -> error "Either supply two files or no one."
+            [m, r] -> do
+                          header
+                          sysLog "Arguments Input Mode."
+                          storeHandler (m, r)
+            _      -> error "Too many arguments."

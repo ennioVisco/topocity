@@ -17,7 +17,10 @@
 module Settings where
 
 -- | Default directory where to get input files
-inDir = "file:../in/"
+inDir = "/in/"
 
 -- | Default directory where to put output files
-outDir = "../out/"
+outDir = "/out/"
+
+-- | Default output file
+outFile = "out-get.txt"

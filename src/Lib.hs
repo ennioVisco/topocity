@@ -46,7 +46,6 @@ import           IO.Arrows
 import           IO.Files
 import           IO.Visualize
 import           Libs.Operations
-import           Settings
 import           Text.XML.HXT.Core
 
 -- Only needed for testing purposes when running GHCi from this file.
@@ -58,7 +57,7 @@ wip = putStrLn "Library CLI not yet implemented."
 -- .........................:::::::: HELPERS ::::::::........................ --
 
 load :: FilePath -> FilePath -> IOSArrow XmlTree  AbsCity
-load c t = (loadCity  (inDir ++ c) &&& loadTopo (inDir ++ t))
+load c t = (loadCity  c &&& loadTopo t)
             >>> (abstractCity *** abstractTopo)
 
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
@@ -72,9 +71,9 @@ store m p1 p2 = do
                     runX (  m      >>>
                             (reifyCity *** reifyTopo)  >>>
                             (
-                                storeCity (outDir ++ p1)
+                                storeCity p1
                                 ***
-                                storeTopo (outDir ++ p2)
+                                storeTopo p2
                             )
                          );
                     return ()
