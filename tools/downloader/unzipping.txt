@@ -1,0 +1,15 @@
+# bash useful commands
+
+unzip -j /path/to/file.zip -d other_folder
+
+# replace in all files
+sed -i -- 's/foo/bar/g' *.baz    ## files ending in .baz
+
+
+
+# From /topocity:
+unzip -j "tools/downloader/files/*.zip" -d in/vienna
+
+# remove core: prefix
+sed -i -- 's+<core:+<+g' *.gml
+sed -i -- 's+</core:+</+g' *.gml

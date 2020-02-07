@@ -25,9 +25,10 @@ def main():
 
 def runner(file1, file2, log, old_log):
     sys.stdout = log
-    process = subprocess.Popen(['stack', 'exec', 'topocity-exe', file1, file2],
-                           stdout=subprocess.PIPE,
-                           universal_newlines=True)
+    process = subprocess.Popen([r'stack', 'exec', r'topocity-exe', file1, file2],
+                            shell=True, stderr=subprocess.DEVNULL,
+                            stdout=subprocess.PIPE,
+                            universal_newlines=True)
 
     while True:
         output = process.stdout.readline().strip()
