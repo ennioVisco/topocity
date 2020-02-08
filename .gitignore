@@ -6,10 +6,12 @@ stack.yaml.lock
 .vscode/
 
 in/local/
+in/vienna/
 out/
 docs/index.html
 tools/reports/
 tools/merger/files/
 tools/downloader/files/
-tools/tags/__pycache__/*
+__pycache__/
 tools/tags/*.txt
+*.log
