@@ -28,7 +28,7 @@ def main():
 def runner(file, log, old_log):
     sys.stdout = log
     cmd = [ 'java', r'-jar', r'citygml-tools.jar',
-            r'-i', file, r'-d', '0', r'-c', 'e', r'-o', r'../../out/vienna/']
+            r'-i', file, r'-d', '-1', r'-c', 'e', r'-o', r'../../out/vienna/']
     process = subprocess.Popen(cmd,
                             shell=True, stderr=subprocess.DEVNULL,
                             stdout=subprocess.PIPE,
