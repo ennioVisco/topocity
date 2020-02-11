@@ -57,11 +57,3 @@ combineNub [] ys = ys
 combineNub xs [] = xs
 combineNub xs (y:ys) | y `elem` xs = combineNub xs ys
                      | otherwise   = combineNub (y:xs) ys
-
--- | String concatenation by comma ( , ).
-concomma :: String -> String -> String
-concomma x y = x ++ "," ++ y
-
--- | String concatenation by bar ( | ).
-conbar ::  String -> String -> String
-conbar x y = x ++ " | " ++ y

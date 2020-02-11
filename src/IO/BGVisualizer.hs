@@ -57,7 +57,7 @@ bi2graph (p, l) = let nodes = keyDic p
                          mkGraph (map tos2 nodes)
                                             (map (convertLink nodes) l)
                         )
-showBigraph :: (Gr Text Text, Gr Text Text) -> (String, String)
+showBigraph :: (Gr Text Text, Gr Text Text) -> (Text, Text)
 showBigraph (p, l) = (genGraph p, genGraph l)
 
 tos2 :: (Node, BiGraphNode) -> (Node, Text)
@@ -74,8 +74,8 @@ convertLink d (i, (t, n:ns)) =  let l = pack $ showN (i, t)
 showN :: (String, String) -> String
 showN (i, t) = "(" ++ i ++ "," ++ t ++ ")"
 
-genGraph :: Graph gr => gr Text Text -> String
-genGraph x = unpack $ renderDot $ toDot $ graphToDot
+genGraph :: Graph gr => gr Text Text -> Text
+genGraph x = renderDot $ toDot $ graphToDot
              nonClusteredParams
                 {   fmtNode = fn
                 ,   fmtEdge = fe

@@ -16,6 +16,8 @@
 
 module IO.Files where
 
+import           Data.Text
+import           Data.Text.IO             as T
 import           Data.Tree.NTree.TypeDefs
 import           Text.XML.HXT.Core
 import           Text.XML.HXT.Expat
@@ -41,8 +43,8 @@ storeXML p  =    xpickleDocument p
 
 -- | pass-through arrow that stores a Tree
 dumpTree :: (Show a) => FilePath -> IOSArrow (NTree a) (NTree a)
-dumpTree p = arrIO ( \ x -> do { writeFile p (show x); return x} )
+dumpTree p = arrIO ( \ x -> do { Prelude.writeFile p (show x); return x} )
 
 -- | pass-through arrow that stores a BiGraph
-dumpGraph :: FilePath -> IOSArrow String String
-dumpGraph p = arrIO ( \ x -> do { writeFile p x; return x})
+dumpGraph :: FilePath -> IOSArrow Text Text
+dumpGraph p = arrIO ( \ x -> do { T.writeFile p x; return x})

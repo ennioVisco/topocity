@@ -18,7 +18,7 @@
 
 -- ------------------------------------------------------------
 
-module BX.LinkGraph (syncGraph) where
+module BX.LinkGraph (syncGraph,syncIO) where
 
 import           Data.Tree.NTree.TypeDefs
 import           Generics.BiGUL
@@ -42,6 +42,16 @@ deriveBiGULGeneric ''NTree
 
 -- ......................:::::: BX ::::::...................... --
 
+--foreign import c:t syncIOcall "my_func" myFunc :: Int -> IO Double
+pp :: IO (AbsTopology -> LinkGraph -> AbsTopology)
+pp = return refresh
+
+syncIO :: IO (BiGUL AbsTopology AbsHypergraph)
+syncIO = pp >>= syncIOB
+
+
+syncIOB :: (AbsTopology -> LinkGraph -> AbsTopology) -> IO (BiGUL AbsTopology AbsHypergraph)
+syncIOB p = return (sync p)
 
 syncGraph :: BiGUL AbsTopology AbsHypergraph
 syncGraph = sync refresh
@@ -50,17 +60,17 @@ sync :: (AbsTopology -> LinkGraph -> AbsTopology) -> BiGUL AbsTopology AbsHyperg
 sync p = Case
     -- If the topology graphs are different, update source by using policy p
     [ $(adaptive [|\(NTree (_, ls) _) (NTree (_, ls') _)
-                    -> not (ls `equivLink` ls')           |])
+                    -> not (ls `equivLink` ls')         |])
         ==> \ s (NTree (_, vls) _) -> p s vls
 
     -- else, replace the data and map the algorithm to children
     , $(normal [|\(NTree (_, ls) _) (NTree (_, ls') _)
                     -> ls `equivLink` ls' |]
                [| noCond |])
-        ==> $(update    [p| NTree ( (i, (t, _)) , ls) c   |]
-                        [p| NTree ( (i,  t    ) , ls) c   |]
+        ==> $(update    [p| NTree ( (i, (t, _)) , ls) c |]
+                        [p| NTree ( (i,  t    ) , ls) c |]
                         [d| i  = Replace; t = Replace;
-                            ls = align2;  c = (align p)   |]
+                            ls = align2;  c = (align p) |]
              )
     ]
 

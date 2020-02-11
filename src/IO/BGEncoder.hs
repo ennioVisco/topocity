@@ -17,34 +17,53 @@
 module IO.BGEncoder where
 
 import           Data.Bigraphs
+import           Data.Text                as Text
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 import           Libs.NTreeExtras
 
-encodeBG :: BiGraph -> String
+encodeBG :: BiGraph -> Text
 encodeBG b = let h = mergeBiGraphs b
-                in encodeCtrls h ++ "big a0 = " ++ toRules h ++ ";\n"
+                in append (encodeCtrls h)
+                 $ append (pack "big a0 = ")
+                 $ append (toRules h) (pack ";\n")
 
-encodeCtrls :: AbsHypergraph -> String
-encodeCtrls n@(NTree d cs) = foldr ((++).showCtrl) (showCtrl n) cs
 
-toRules :: AbsHypergraph -> String
+encodeCtrls :: AbsHypergraph -> Text
+encodeCtrls n@(NTree d cs) = Prelude.foldr (append.showCtrl) (showCtrl n) cs
+
+toRules :: AbsHypergraph -> Text
 toRules n@(NTree _ []) = nodeToRule n
-toRules n@(NTree _ cs) = nodeToRule n ++ ".(" ++
-                            foldr (conbar.toRules) "" cs ++ ")"
+toRules n@(NTree _ cs) = append (nodeToRule n)
+                       $ append (pack ".(")
+                       $ append (Prelude.foldr (conbar.toRules) (pack "") cs) (pack ")")
 
-nodeToRule :: AbsHypergraph -> String
-nodeToRule (NTree (d, ls) _) = showNode d ++ linksToRules ls
+nodeToRule :: AbsHypergraph -> Text
+nodeToRule (NTree (d, ls) _) = showNode d `append` linksToRules ls
 
-linksToRules :: [BiGraphEdge] -> String
-linksToRules []     = ""
-linksToRules (x:xs) = "{" ++ foldr (concomma.showLink) (showLink x) xs ++ "}"
+linksToRules :: [BiGraphEdge] -> Text
+linksToRules []     = pack ""
+linksToRules (x:xs) = append (pack "{")
+                    $ append (Prelude.foldr (concomma.showLink) (showLink x) xs)
+                             (pack "}")
 
-showLink :: BiGraphEdge -> String
-showLink (i, (t, _)) = i ++ "-" ++ t
+showLink :: BiGraphEdge -> Text
+showLink (i, (t, _)) = pack $ i ++ "-" ++ t
 
-showNode :: BiGraphNode -> String
-showNode (i, t) = i ++ "-" ++ t
+showNode :: BiGraphNode -> Text
+showNode (i, t) = pack $ i ++ "-" ++ t
 
-showCtrl :: AbsHypergraph -> String
-showCtrl (NTree (n, ls) _) = "ctrl " ++ showNode n ++ " = " ++ show (length ls) ++ ";\n"
+showCtrl :: AbsHypergraph -> Text
+showCtrl (NTree (n, ls) _) = append (pack "ctrl ")
+                           $ append (showNode n)
+                           $ append (pack " = ")
+                           $ append (pack $ show $ Prelude.length ls)
+                                    (pack ";\n")
+
+-- | String concatenation by comma ( , ).
+concomma :: Text -> Text -> Text
+concomma x y = append x $ append (pack ",") y
+
+-- | String concatenation by bar ( | ).
+conbar ::  Text -> Text -> Text
+conbar x y = append x $ append (pack " | ") y

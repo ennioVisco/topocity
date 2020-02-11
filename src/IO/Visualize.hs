@@ -17,6 +17,9 @@
 module IO.Visualize where
 
 import           Data.Bigraphs
+import           Data.Text                as T
+import           Data.Text.IO             as I
+import           Data.Text.Lazy           as L
 import           Data.Tree.NTree.TypeDefs
 import           IO.Arrows
 import           IO.BGEncoder
@@ -34,7 +37,7 @@ display :: (Show a, Show b) => IOSArrow XmlTree (NTree a, [b]) -> IO ()
 display d = do
                 place <- runX $ d >>> fstA >>> arrIO (return . printTree)
                 links <- runX $ d >>> sndA >>> arrIO return
-                putStr $ showString (head place) [];
+                I.putStr $ T.pack $ showString (Prelude.head place) [];
                 print links;
                 return ()
 
@@ -43,7 +46,7 @@ display d = do
 encode :: IOSArrow XmlTree BiGraph -> IO ()
 encode d = do
             bg <- runX $ d >>> arrIO return
-            putStr $ encodeBG (head bg);
+            I.putStr $ encodeBG (Prelude.head bg);
             return ()
 
 -- .....................:::::::: EXPERIMENTAL ::::::::...................... --
@@ -80,8 +83,14 @@ bger g p1 = do
                 return ()
 
 
-encodeBigraph :: IOSArrow BiGraph String
+encodeBigraph :: IOSArrow BiGraph T.Text
 encodeBigraph = arrIO (\x -> return $ encodeBG x)
 
-drawBigraph :: IOSArrow BiGraph (String, String)
-drawBigraph = arrIO (\x -> return $ showBigraph $ bi2graph x)
+drawBigraphL :: IOSArrow BiGraph (L.Text, L.Text)
+drawBigraphL = arrIO (\x -> return $ showBigraph $ bi2graph x)
+
+drawBigraph :: IOSArrow BiGraph (T.Text, T.Text)
+drawBigraph = drawBigraphL >>> (strictify *** strictify)
+
+strictify :: IOSArrow L.Text T.Text
+strictify = arrIO (return . L.toStrict)
