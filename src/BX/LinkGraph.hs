@@ -54,7 +54,7 @@ syncIOB :: (AbsTopology -> LinkGraph -> AbsTopology) -> IO (BiGUL AbsTopology Ab
 syncIOB p = return (sync p)
 
 syncGraph :: BiGUL AbsTopology AbsHypergraph
-syncGraph = sync refresh
+syncGraph = {-# SCC "TC_syncGraph" #-} sync refresh
 
 sync :: (AbsTopology -> LinkGraph -> AbsTopology) -> BiGUL AbsTopology AbsHypergraph
 sync p = Case
