@@ -41,7 +41,7 @@ deriveBiGULGeneric ''NTree
 -- ......................:::::: BX ::::::...................... --
 
 syncTree :: BiGUL AbsCityTree PlaceGraph
-syncTree = Case
+syncTree = {-# SCC "TC_GetTree" #-} Case
 
     -- if
     [ $(adaptive [|\s v -> not (equiv s v)|])

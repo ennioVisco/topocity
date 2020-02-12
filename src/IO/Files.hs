@@ -47,4 +47,4 @@ dumpTree p = arrIO ( \ x -> do { Prelude.writeFile p (show x); return x} )
 
 -- | pass-through arrow that stores a BiGraph
 dumpGraph :: FilePath -> IOSArrow Text Text
-dumpGraph p = arrIO ( \ x -> do { T.writeFile p x; return x})
+dumpGraph p = arrIO ( \ x -> do { {-# SCC "TC_ViewStore" #-} T.writeFile p x; return x})

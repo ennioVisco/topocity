@@ -61,8 +61,8 @@ load c t = (loadCity c &&& loadTopo t)
             >>> (abstractCity *** abstractTopo)
 
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
-dump m p = do
-                runX (m >>> encodeBigraph >>> dumpGraph p);
+dump m p =  do
+                runX (m >>>  encodeBigraph >>>  dumpGraph p);
                 return ()
 
 
@@ -90,13 +90,13 @@ put s v = (s &&& v) >>> putSync
 -- ..................:::::::: ABSTRACTION HANDLERS ::::::::.................. --
 
 abstractTopo :: IOSArrow [TopoRelation] [AbsRelation]
-abstractTopo = arrIO (return . map absLink)
+abstractTopo = {-# SCC "TC_abstractTopo" #-}  arrIO (return . map absLink)
 
 reifyTopo :: IOSArrow [AbsRelation] [TopoRelation]
 reifyTopo = arrIO (return . map reiLink)
 
 abstractCity  :: IOSArrow CityModel AbsCityTree
-abstractCity  = arrIO (return . absObj)
+abstractCity  =  arrIO ({-# SCC "TC_abstractCity" #-} return . absObj)
 
 reifyCity  :: IOSArrow AbsCityTree CityModel
 reifyCity  = arrIO (return . reiObj)
@@ -104,13 +104,13 @@ reifyCity  = arrIO (return . reiObj)
 -- ...........................:::::::: IO ::::::::........................... --
 
 loadTopo   :: FilePath -> IOSArrow XmlTree [TopoRelation]
-loadTopo  f = loadXML xpRelSet f >>> arrIO (\(Rels rs) -> return rs)
+loadTopo  f = {-# SCC "TC_loadTopo" #-}  loadXML xpRelSet f >>> arrIO (\(Rels rs) -> return rs)
 
 storeTopo  :: FilePath -> IOSArrow [TopoRelation] XmlTree
 storeTopo f = arrIO (return . Rels) >>> storeXML xpRelSet f
 
 loadCity   :: FilePath -> IOSArrow XmlTree CityModel
-loadCity    =   loadXML xpCityModel
+loadCity    =   {-# SCC "TC_loadCity" #-}  loadXML xpCityModel
 
 storeCity  :: FilePath -> IOSArrow CityModel XmlTree
 storeCity   =   storeXML xpCityModel

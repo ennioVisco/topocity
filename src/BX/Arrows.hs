@@ -34,7 +34,7 @@ import           Generics.BiGUL.TH
 -- ...........................:::::::: BX ::::::::........................... --
 
 getSync :: IOSArrow AbsCity BiGraph
-getSync = lifter mergeCityTopo >>> getTopo >>> arrIO (return . separatePair)
+getSync =  lifter mergeCityTopo >>> getTopo >>> arrIO (return . separatePair)
 
 putSync :: IOSArrow (AbsCity, BiGraph) AbsCity
 putSync =

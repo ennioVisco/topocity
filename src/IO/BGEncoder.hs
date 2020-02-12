@@ -23,7 +23,7 @@ import           Libs.Basics
 import           Libs.NTreeExtras
 
 encodeBG :: BiGraph -> Text
-encodeBG b = let h = mergeBiGraphs b
+encodeBG b = {-# SCC "TC_ViewEncode" #-} let h = mergeBiGraphs b
                 in append (encodeCtrls h)
                  $ append (pack "big a0 = ")
                  $ append (toRules h) (pack ";\n")
