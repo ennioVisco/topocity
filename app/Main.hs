@@ -1,50 +1,60 @@
 module Main where
 
 import           Cli
-import           Data.Version       (showVersion)
+import           Control.Arrow.ArrowNF
+import           Data.AbsCity
+import           Data.Bigraphs
+import           Data.Version          (showVersion)
 import           Lib
-import           Paths_topocity     (version)
+import           Paths_topocity        (version)
 import           Settings
 import           System.Directory
 import           System.Environment
+import           Text.XML.HXT.Core     as XML
+
+-- instance ArrowNF IOSArrow
 
 root :: IO ()
 root = do
     sysLog "Insert the filename you want to load..."
     fs <- prompt
-    p1 <- canonicalizePath $ fst $ files fs
-    p2 <- canonicalizePath $ snd $ files fs
-    sysLog $ "'" ++ p1 ++ "' and '"
-                 ++ p2 ++ "' correctly loaded."
-    getHandler (files fs)
+    -- For now, we only allow GET transformations when compiled
+    doGet (files fs)
 
-getHandler :: (FilePath, FilePath) -> IO ()
-getHandler fs = do
+doGet :: (FilePath, FilePath) -> IO ()
+doGet fs = do
     sysLog "Do you want to print the GET transformation? (y/N)"
     p <- prompt
-    printHandler fs p
-    storeHandler fs
+    s <- loadHandler fs
+    let v = rnfA $ get s
+    printHandler p v
+    storeHandler (fst fs) v -- filename used for naming the output
 
-storeHandler :: (FilePath, FilePath) -> IO ()
-storeHandler (c, a) = do
-    d <- getCurrentDirectory
-    p <- canonicalizePath (d ++ outDir ++ outFile)
-    sysLog $ "Storing the GET result in '" ++ p ++ "'..."
+loadHandler :: (FilePath, FilePath) -> IO (IOSArrow XmlTree AbsCity)
+loadHandler (f1, f2) = do
     -- for some reasons, HXT doesn't accept full paths?!
-    let cc = "file:" ++ "./" ++ inDir ++ c
-    let aa = "file:" ++ "./" ++ inDir ++ a
-    sysLog $ "CityGML model at '" ++ cc ++ "'..."
-    sysLog $ "ADE model at '" ++ aa ++ "'..."
-    dump (get $ load cc aa) (d ++ outDir ++ outFile)
-    sysLog "Bigraph stored correctly."
-    -- root
+    let c = "file:" ++ "./" ++ inDir ++ f1 -- CityGML source
+    let a = "file:" ++ "./" ++ inDir ++ f2 -- CityGML ADE
+    sysLog $ "Loading CityGML model at: " ++ c
+    sysLog $ "Loading CityGML ADE model at: " ++ a
+    let model = rnfA $ load c a
+    sysLog "Model loaded correctly..."
+    return model
 
-printHandler :: (FilePath, FilePath) -> String -> IO ()
-printHandler (c, a) "y" = do
-    sysLog "Ok, I'll print it now."
-    display (get $ load c a)
-printHandler x "yes" = printHandler x "y"
-printHandler _ _ = sysLog "Ok, I won't print it."
+storeHandler :: FilePath -> IOSArrow XmlTree BiGraph -> IO ()
+storeHandler c v = do
+    d <- getCurrentDirectory
+    let o = d ++ outDir ++ outFile
+    p <- canonicalizePath o
+    sysLog $ "Storing the GET result in '" ++ p ++ "'..."
+    dump v o
+    sysLog "Bigraph stored correctly."
+
+printHandler :: String -> IOSArrow XmlTree BiGraph -> IO ()
+printHandler "y"   v = do sysLog "Ok, I'll print it now."
+                          display v
+printHandler "yes" v = printHandler "y" v
+printHandler _     _ = sysLog "Ok, I won't print it."
 
 exit :: IO ()
 exit = sysLog "See you the next time. Bye!"
@@ -62,10 +72,10 @@ main = do
             []     -> do
                           header
                           sysLog "User Input Mode."
-                          root
+                          Main.root
             [m]    -> error "Either supply two files or no one."
             [m, r] -> do
                           header
                           sysLog "Arguments Input Mode."
-                          storeHandler (m, r)
+                          doGet (m, r)
             _      -> error "Too many arguments."
