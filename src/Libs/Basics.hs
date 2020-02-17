@@ -17,6 +17,8 @@
 
 module Libs.Basics where
 
+import           Data.Text (Text)
+
 -- | Symbolic type to represent Unique IDs.
 type UID    = String
 
@@ -24,10 +26,10 @@ type UID    = String
 type Type   = String
 
 -- | Generic data type, usually used by serializing complex data types.
-type Data = String
+type Data = Text
 
 -- | Stubs type, used by 'Policies'.
-type Stubs = [(String, String)]
+type Stubs = [(Text, Text)]
 
 -- | Always True Function.
 noCond :: a -> Bool

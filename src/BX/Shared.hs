@@ -18,6 +18,7 @@ module BX.Shared where
 
 import           Data.AbsCity
 import           Data.Bigraphs
+import           Data.Text                (pack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 import           Libs.NTreeExtras
@@ -55,17 +56,17 @@ equiv = check1 (=@=)
 project :: BiGraphEdge -> AbsRelation
 project (e, (t, ls)) = (e, (t, map pr ls))
     where
-        pr (i, t) = (i, (t, ""))
+        pr (i, t) = (i, (t, pack ""))
 
 
 -- ...............:::::: Dummy Generators ::::::............... --
 
 dummyNode :: PlaceGraph -> AbsCityTree
-dummyNode (NTree (i, _) _) = NTree (i, ("Dummy","Error")) []
+dummyNode (NTree (i, _) _) = NTree (i, ("Dummy", pack "Error")) []
 
 dummyNode2 :: BiGraphNode -> AbsCityNode
-dummyNode2 (i, t) = (i, (t, ""))
+dummyNode2 (i, t) = (i, (t, pack ""))
 
 dummyLink :: AbsHypergraph -> AbsTopology
 dummyLink (NTree ((i, _), ls) _)
-    = NTree ((i, ("Dummy","Error")), map project ls) []
+    = NTree ((i, ("Dummy", pack "Error")), map project ls) []

@@ -21,6 +21,7 @@ module Abstractions.Abstractions where
 import           Abstractions.Abstractable
 import           CityGML.ADEs.TopoADE
 import           CityGML.Types
+import           Data.Text                 (pack)
 import           Data.Tree.NTree.TypeDefs
 
 import           Abstractions.CityGML.Core
@@ -30,7 +31,7 @@ import           Abstractions.CityGML.Core
 instance AbstractLink TopoRelation where
         absLink (Near i ns) = (i, ("Near", map a ns))
             where
-            a (TopoBuilding i) = (i, ("", ""))
+            a (TopoBuilding i) = (i, ("", pack ""))
 
         reiLink (i, ("Near", ns)) = Near i (map r ns)
             where

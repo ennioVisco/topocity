@@ -20,6 +20,7 @@ module Abstractions.Abstractable where
 
 import           Data.AbsCity
 import           Data.Data
+import           Data.Text                (pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
 import           Identifiable
@@ -32,10 +33,10 @@ class
     where
 
     absObj :: o -> AbsCityTree
-    absObj n = NTree (uid n, (constructorToString n, show n)) []
+    absObj n = NTree (uid n, (constructorToString n, pack $ show n)) []
 
     reiObj :: AbsCityTree -> o
-    reiObj (NTree (_, (_, d)) _) = read d
+    reiObj (NTree (_, (_, d)) _) = read $ unpack d
 
 class
     (Show o, Read o, Generic o, Data o) =>

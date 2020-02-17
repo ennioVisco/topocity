@@ -19,6 +19,7 @@ module Abstractions.CityGML.Core where
 
 import           Abstractions.Abstractable
 import           CityGML.Types
+import           Data.Text                           (pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           Identifiable
 
@@ -27,10 +28,10 @@ import           Abstractions.CityGML.Transportation
 
 instance Abstractable CityModel where
     absObj (CityModel f ms)
-        = NTree (uid f, ("CityModel", show (CityModel f ms))) (map absObj ms)
+        = NTree (uid f, ("CityModel", pack $ show (CityModel f ms))) (map absObj ms)
 
     reiObj (NTree (_, (_, d)) ms)
-        = reshape' (read d) ms
+        = reshape' (read $ unpack d) ms
             where
                 reshape' (CityModel f _) ms = CityModel f (map reiObj ms)
 
@@ -46,11 +47,11 @@ instance Abstractable Site where
 
 instance Abstractable ReliefFeature where
     absObj (ReliefFeature f l cs)
-        =  NTree (uid f, ("ReliefFeature", show (ReliefFeature f l cs)))
+        =  NTree (uid f, ("ReliefFeature", pack $ show (ReliefFeature f l cs)))
                  (map absObj cs)
 
     reiObj (NTree (_, ("ReliefFeature", d)) ms)
-        = reshape' (read d::ReliefFeature) ms
+        = reshape' (read $ unpack d::ReliefFeature) ms
             where
                 reshape' (ReliefFeature f l _) ms = ReliefFeature f l (map reiObj ms)
 

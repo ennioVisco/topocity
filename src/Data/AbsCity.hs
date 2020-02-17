@@ -16,6 +16,7 @@
 
 module Data.AbsCity where
 
+import           Data.Text                (pack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 import           Libs.NTreeExtras
@@ -38,4 +39,4 @@ mergeCityTopo :: AbsCity -> AbsTopology
 mergeCityTopo (c, l) = fmap (augmentCNode l) c
 
 augmentCNode :: [AbsRelation] -> AbsCityNode -> (AbsCityNode, [AbsRelation])
-augmentCNode ls n@(i, (_, _)) = (n, subGraph (i, ("", "")) ls)
+augmentCNode ls n@(i, (_, _)) = (n, subGraph (i, ("", pack "")) ls)

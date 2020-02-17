@@ -23,7 +23,7 @@ import           Data.Graph.Inductive.PatriciaTree (Gr)
 import           Data.GraphViz
 import           Data.GraphViz.Parsing
 import           Data.GraphViz.Printing
-import           Data.Text.Lazy                    (Text, pack, unpack)
+import           Data.Text.Lazy                    (Text, append, pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.NTreeExtras
 
@@ -57,22 +57,25 @@ bi2graph (p, l) = let nodes = keyDic p
                          mkGraph (map tos2 nodes)
                                             (map (convertLink nodes) l)
                         )
+
 showBigraph :: (Gr Text Text, Gr Text Text) -> (Text, Text)
 showBigraph (p, l) = (genGraph p, genGraph l)
 
 tos2 :: (Node, BiGraphNode) -> (Node, Text)
-tos2 (x, y) = (x, pack $ showN y)
+tos2 (x, y) = (x, showN y)
 
 tos3 :: (Node, Node, String) -> (Node, Node, Text)
 tos3 (x, y, z) = (x, y, pack z)
 
 convertLink :: Dictionary -> BiGraphEdge -> (Node, Node, Text)
-convertLink d (i, (t, n:ns)) =  let l = pack $ showN (i, t)
+convertLink d (i, (t, n:ns)) =  let l = showN (i, t)
                                     key = findKey d
                                     in (key n, key $ head ns, l)
 
-showN :: (String, String) -> String
-showN (i, t) = "(" ++ i ++ "," ++ t ++ ")"
+showN :: (String, String) -> Text
+showN (i, t) = pack "(" `append` pack i `append`
+               pack "," `append` pack t `append` pack ")"
+
 
 genGraph :: Graph gr => gr Text Text -> Text
 genGraph x = renderDot $ toDot $ graphToDot

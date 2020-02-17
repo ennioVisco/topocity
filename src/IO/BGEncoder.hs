@@ -17,7 +17,7 @@
 module IO.BGEncoder where
 
 import           Data.Bigraphs
-import           Data.Text                as Text
+import           Data.Text                (Text, append, pack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
 import           Libs.NTreeExtras
@@ -48,10 +48,10 @@ linksToRules (x:xs) = append (pack "{")
                              (pack "}")
 
 showLink :: BiGraphEdge -> Text
-showLink (i, (t, _)) = pack $ i ++ "-" ++ t
+showLink (i, (t, _)) = pack i `append` pack "-" `append` pack t
 
 showNode :: BiGraphNode -> Text
-showNode (i, t) = pack $ i ++ "-" ++ t
+showNode (i, t) = pack i `append` pack "-" `append` pack t
 
 showCtrl :: AbsHypergraph -> Text
 showCtrl (NTree (n, ls) _) = append (pack "ctrl ")
