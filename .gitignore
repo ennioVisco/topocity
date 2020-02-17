@@ -6,6 +6,7 @@ stack.yaml.lock
 .vscode/
 
 in/local/
+in/vienna/
 out/
 docs/index.html
 tools/reports/
@@ -13,6 +14,6 @@ tools/merger/files/
 tools/downloader/files/
 __pycache__/
 tools/tags/*.txt
-in/vienna/
 *.hp
 *.prof
+*.log
