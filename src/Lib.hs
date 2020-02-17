@@ -57,7 +57,7 @@ load c t = (loadCity c &&& loadTopo t)
 
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
 dump m p =  do
-                runX (m >>>  encodeBigraph >>>  dumpGraph p);
+                runX (m >>>  rawBigraph >>>  dumpGraph p);
                 return ()
 
 

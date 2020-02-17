@@ -83,11 +83,16 @@ bger g p1 = do
                 return ()
 
 
+rawBigraph :: IOSArrow BiGraph T.Text
+rawBigraph = arrIO (\(x,y) -> return $ pack $ printTree x ++ sList y)
+             where
+               sList xs = unlines $ map show xs
+
 encodeBigraph :: IOSArrow BiGraph T.Text
-encodeBigraph = arrIO (\x -> return $ encodeBG x)
+encodeBigraph = arrIO $ return . encodeBG
 
 drawBigraphL :: IOSArrow BiGraph (L.Text, L.Text)
-drawBigraphL = arrIO (\x -> return $ showBigraph $ bi2graph x)
+drawBigraphL = arrIO $ return . showBigraph . bi2graph
 
 drawBigraph :: IOSArrow BiGraph (T.Text, T.Text)
 drawBigraph = drawBigraphL >>> (strictify *** strictify)
