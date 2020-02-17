@@ -29,9 +29,7 @@ module Lib
       addBuilding,    -- demo helper for adding a building
       removeBuilding, -- demo helper for removing a building
       addNear,        -- demo helper for adding a link
-      removeNear,     -- demo helper for removing a link
-
-      wip             -- placeholder function with a warning.
+      removeNear     -- demo helper for removing a link
     ) where
 
 import           Abstractions.Abstractable
@@ -50,9 +48,6 @@ import           Text.XML.HXT.Core
 
 -- Only needed for testing purposes when running GHCi from this file.
 -- import           Libs.Operations
-
-wip :: IO ()
-wip = putStrLn "Library CLI not yet implemented."
 
 -- .........................:::::::: HELPERS ::::::::........................ --
 

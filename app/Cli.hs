@@ -1,5 +1,7 @@
 module Cli where
 
+import           Data.Time.Clock
+import           Data.Time.Format
 import           System.IO
 
 getUserInput :: IO String
@@ -20,7 +22,9 @@ files :: String -> (FilePath, FilePath)
 files fs = (head $ words fs, head $ tail $ words fs)
 
 sysLog :: String -> IO ()
-sysLog s = putStrLn $ yellow ++ s ++ white
+sysLog s = do time <-  getCurrentTime
+              let t = formatTime defaultTimeLocale "%H:%M:%S"  time
+              putStrLn $ yellow ++ "[" ++ t ++ "] " ++ s ++ white
 
 cyan :: String
 cyan = "\x1b[36m"

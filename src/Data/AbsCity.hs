@@ -38,4 +38,4 @@ mergeCityTopo :: AbsCity -> AbsTopology
 mergeCityTopo (c, l) = fmap (augmentCNode l) c
 
 augmentCNode :: [AbsRelation] -> AbsCityNode -> (AbsCityNode, [AbsRelation])
-augmentCNode ls n@(i, (t, _)) = (n, subGraph (i, (t, "")) ls)
+augmentCNode ls n@(i, (_, _)) = (n, subGraph (i, ("", "")) ls)

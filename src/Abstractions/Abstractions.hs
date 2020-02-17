@@ -30,8 +30,8 @@ import           Abstractions.CityGML.Core
 instance AbstractLink TopoRelation where
         absLink (Near i ns) = (i, ("Near", map a ns))
             where
-            a (TopoBuilding i) = (i, ("Building", ""))
+            a (TopoBuilding i) = (i, ("", ""))
 
         reiLink (i, ("Near", ns)) = Near i (map r ns)
             where
-            r (i, ("Building", _)) = TopoBuilding i
+            r (i, ("", _)) = TopoBuilding i

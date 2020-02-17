@@ -27,6 +27,7 @@ doGet fs = do
     p <- prompt
     s <- loadHandler fs
     let v = rnfA $ get s
+    sysLog "GET transformation completed correctly."
     printHandler p v
     storeHandler (fst fs) v -- filename used for naming the output
 
