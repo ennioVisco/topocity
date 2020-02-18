@@ -19,17 +19,23 @@ root = do
     sysLog "Insert the filename you want to load..."
     fs <- prompt
     -- For now, we only allow GET transformations when compiled
-    doGet (files fs)
+    askGet (files fs)
 
-doGet :: (FilePath, FilePath) -> IO ()
-doGet fs = do
+askGet :: (FilePath, FilePath) -> IO ()
+askGet fs = do
     sysLog "Do you want to print the GET transformation? (y/N)"
     p <- prompt
-    s <- loadHandler fs
-    let v = rnfA $ get s
+    v <- doGet fs
     sysLog "GET transformation completed correctly."
     printHandler p v
     storeHandler (fst fs) v -- filename used for naming the output
+
+doGet :: (FilePath, FilePath) -> IO (IOSArrow XmlTree BiGraph)
+doGet fs = do
+    s <- loadHandler fs
+    let v = rnfA $ get s
+    sysLog "GET transformation completed correctly."
+    return v
 
 loadHandler :: (FilePath, FilePath) -> IO (IOSArrow XmlTree AbsCity)
 loadHandler (f1, f2) = do
@@ -78,5 +84,10 @@ main = do
             [m, r] -> do
                           header
                           sysLog "Arguments Input Mode."
-                          doGet (m, r)
+                          askGet (m, r)
+            [m, r, "d"] -> do
+                          header
+                          sysLog "Demo Mode."
+                          v <- doGet (m, r)
+                          storeHandler m v -- filename used for naming the output
             _      -> error "Too many arguments."
