@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns        #-}
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell     #-}
@@ -24,6 +25,7 @@ import           BX.BiGUL.KeyAlign
 import           BX.Shared
 import           Data.AbsCity
 import           Data.Bigraphs
+import           Data.List
 import           Data.Maybe
 import           Data.Tree.NTree.TypeDefs
 import           Generics.BiGUL
@@ -62,9 +64,9 @@ align = keyAlign tKey tKey syncTree dummyNode
 syncChildren :: AbsCityTree -> [PlaceGraph] -> AbsCityTree
 syncChildren n@(NTree _ cs) vcs = alignChildren (_sc n cs vcs) vcs
     where
-        _sc n scs vcs = foldl
+        _sc !n !scs !vcs = foldl'
                             (add scs)
-                            (foldl
+                            (foldl'
                                 (del vcs)
                                 n
                                 scs

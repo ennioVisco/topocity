@@ -28,14 +28,17 @@ loadXML :: PU a -> FilePath -> IOSArrow XmlTree a
 loadXML  p  =   xunpickleDocument p
                     [ withValidate no           -- don't validate source
                     , withExpat yes
---                    , withTrace 1               -- debug mode
-                    , withRemoveWS yes          -- remove extra whitespaces
+                    , withStrictInput yes       -- eager loading
+                    , withCanonicalize yes
+                    , withTrace 0                -- debug mode
+                    , withRemoveWS yes           -- remove extra whitespaces
                     , withPreserveComment no    -- remove comments
                     ]                           -- file path passed implicitly
 
 storeXML :: PU a -> FilePath -> IOSArrow a XmlTree
 storeXML p  =    xpickleDocument p
-                    [ withIndent yes            -- indent XML
+                    [ withIndent no            -- indent XML
+                    , withOutputEncoding isoLatin1
                     ]                           -- file path passed implicitly
 
 
@@ -46,5 +49,5 @@ dumpTree :: (Show a) => FilePath -> IOSArrow (NTree a) (NTree a)
 dumpTree p = arrIO ( \ x -> do { Prelude.writeFile p (show x); return x} )
 
 -- | pass-through arrow that stores a BiGraph
-dumpGraph :: FilePath -> IOSArrow Text Text
-dumpGraph p = arrIO ( \ x -> do { {-# SCC "TC_ViewStore" #-} T.writeFile p x; return x})
+storeToFile :: FilePath -> IOSArrow Text Text
+storeToFile p = arrIO ( \ x -> do { {-# SCC "TC_ViewStore" #-} T.writeFile p x; return x})

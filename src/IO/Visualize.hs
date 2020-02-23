@@ -57,9 +57,9 @@ draw g p1 p2 = do
                         f2 = outDir ++ p2
                     runX (  g >>>
                             drawBigraph >>>
-                            (fstA >>> dumpGraph (f1 ++ ".dot"))
+                            (fstA >>> storeToFile (f1 ++ ".dot"))
                                 &&&
-                            (sndA >>> dumpGraph (f2 ++ ".dot"))
+                            (sndA >>> storeToFile (f2 ++ ".dot"))
                          );
 
                     createProcess (proc "dot"
@@ -73,7 +73,7 @@ bger g p1 = do
                 let f1 = outDir ++ p1
                 runX (  g >>>
                         encodeBigraph >>>
-                        dumpGraph (f1 ++ ".big")
+                        storeToFile (f1 ++ ".big")
                      );
 
                 -- call BigraphER:

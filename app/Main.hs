@@ -1,3 +1,5 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Main where
 
 import           Cli
@@ -5,6 +7,7 @@ import           Control.Arrow.ArrowNF
 import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Version          (showVersion)
+import           IO.Files              (storeXML)
 import           Lib
 import           Paths_topocity        (version)
 import           Settings
@@ -21,11 +24,38 @@ root = do
     -- For now, we only allow GET transformations when compiled
     askGet (files fs)
 
+demo :: (FilePath, FilePath) -> IO ()
+demo fs = do
+    -- load
+    {-
+    let c = "file:" ++ "./" ++ inDir ++ (fst fs) -- CityGML source
+    let a = "file:" ++ "./" ++ inDir ++ (snd fs) -- CityGML ADE
+    sysLog $ "Loading CityGML model at: " ++ c
+    sysLog $ "Loading CityGML ADE model at: " ++ a
+    let model = load2 c a
+    sysLog "Model loaded correctly..."
+    -}
+
+    -- get
+    v <- doGet fs
+
+    -- store
+    d <- getCurrentDirectory
+    let o = d ++ outDir
+    let o1 = o ++ "_city.gml"
+    let o2 = o ++ "_topo.gml"
+    p <- canonicalizePath o
+    sysLog $ "Storing the result in '" ++ p ++ "'..."
+    --store2 model (o ++ f1) (o ++ f2)
+    dump2 v (o ++ outFile)
+    sysLog "Bigraph stored correctly."
+    return ()
+
 askGet :: (FilePath, FilePath) -> IO ()
 askGet fs = do
     sysLog "Do you want to print the GET transformation? (y/N)"
     p <- prompt
-    v <- doGet fs
+    !v <- doGet fs
     sysLog "GET transformation completed correctly."
     printHandler p v
     storeHandler (fst fs) v -- filename used for naming the output
@@ -44,9 +74,11 @@ loadHandler (f1, f2) = do
     let a = "file:" ++ "./" ++ inDir ++ f2 -- CityGML ADE
     sysLog $ "Loading CityGML model at: " ++ c
     sysLog $ "Loading CityGML ADE model at: " ++ a
-    let model = rnfA $ load c a
+    let model = load2 c a
     sysLog "Model loaded correctly..."
-    return model
+    let abmodel = abstract2 model
+    sysLog "Model abstracted correctly..."
+    return abmodel
 
 storeHandler :: FilePath -> IOSArrow XmlTree BiGraph -> IO ()
 storeHandler c v = do
@@ -88,6 +120,7 @@ main = do
             [m, r, "d"] -> do
                           header
                           sysLog "Demo Mode."
-                          v <- doGet (m, r)
-                          storeHandler m v -- filename used for naming the output
+                          -- v <- doGet (m, r)
+                          demo (m, r)
+                          --storeHandler m v -- filename used for naming the output
             _      -> error "Too many arguments."

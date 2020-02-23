@@ -66,7 +66,7 @@ extra-deps:
 - BiGUL-1.0.1
 - hexpat-0.20.13
 - git: https://github.com/ennioVisco/citygml4hs.git
-  commit: '4593d18edae6e884b5604deffd23176e9bdfa67c'
+  commit: '603b9c60479b099b27bc69481e5beb05db6ee839'
 
 flags:
   hexpat:

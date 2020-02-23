@@ -29,7 +29,12 @@ module Lib
       addBuilding,    -- demo helper for adding a building
       removeBuilding, -- demo helper for removing a building
       addNear,        -- demo helper for adding a link
-      removeNear     -- demo helper for removing a link
+      removeNear,     -- demo helper for removing a link
+      -- DEBUGGING
+      load2,
+      dump2,
+      abstract2,
+      store2
     ) where
 
 import           Abstractions.Abstractable
@@ -40,6 +45,8 @@ import           CityGML.Parsers           (xpCityModel)
 import           CityGML.Types             (CityModel)
 import           Data.AbsCity
 import           Data.Bigraphs
+import           Data.Binary               (Binary, encodeFile)
+import           Data.Text                 (Text, pack)
 import           IO.Arrows
 import           IO.Files
 import           IO.Visualize
@@ -55,16 +62,40 @@ load :: FilePath -> FilePath -> IOSArrow XmlTree AbsCity
 load c t = (loadCity c &&& loadTopo t)
             >>> (abstractCity *** abstractTopo)
 
+load2 :: FilePath -> FilePath -> IOSArrow XmlTree (CityModel, [TopoRelation])
+load2 c t = loadCity c &&& loadTopo t
+
+abstract2 :: IOSArrow XmlTree (CityModel, [TopoRelation]) -> IOSArrow XmlTree AbsCity
+abstract2 m =  m >>> abstractCity *** abstractTopo
+
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
 dump m p =  do
-                runX (m >>>  rawBigraph >>>  dumpGraph p);
+                runX (m >>>  rawBigraph >>>  storeToFile p);
                 return ()
 
+toText :: (Show a) => IOSArrow a Text
+toText = lifter (pack . show)
+
+dump2 :: (Binary a) => IOSArrow XmlTree a -> FilePath -> IO ()
+dump2 m p = do
+                runX (m >>> arrIO (encodeFile p));
+                return ()
 
 store :: IOSArrow XmlTree AbsCity -> FilePath -> FilePath -> IO ()
 store m p1 p2 = do
                     runX (  m      >>>
                             (reifyCity *** reifyTopo)  >>>
+                            (
+                                storeCity p1
+                                ***
+                                storeTopo p2
+                            )
+                         );
+                    return ()
+
+store2 :: IOSArrow XmlTree (CityModel, [TopoRelation]) -> FilePath -> FilePath -> IO ()
+store2 m p1 p2 = do
+                    runX (  m      >>>
                             (
                                 storeCity p1
                                 ***

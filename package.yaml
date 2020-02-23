@@ -31,6 +31,7 @@ dependencies:
 - process
 - directory
 - time
+- binary
 
 library:
   source-dirs:
