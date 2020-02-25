@@ -28,8 +28,8 @@ demo :: (FilePath, FilePath) -> IO ()
 demo fs = do
     -- load
     {-
-    let c = "file:" ++ "./" ++ inDir ++ (fst fs) -- CityGML source
-    let a = "file:" ++ "./" ++ inDir ++ (snd fs) -- CityGML ADE
+    let c = "file:" ++ "./" ++ inDir ++ fst fs -- CityGML source
+    let a = "file:" ++ "./" ++ inDir ++ snd fs -- CityGML ADE
     sysLog $ "Loading CityGML model at: " ++ c
     sysLog $ "Loading CityGML ADE model at: " ++ a
     let model = load2 c a
@@ -46,7 +46,7 @@ demo fs = do
     let o2 = o ++ "_topo.gml"
     p <- canonicalizePath o
     sysLog $ "Storing the result in '" ++ p ++ "'..."
-    --store2 model (o ++ f1) (o ++ f2)
+    --store2 model (o ++ fst fs) (o ++ snd fs)
     dump2 v (o ++ outFile)
     sysLog "Bigraph stored correctly."
     return ()

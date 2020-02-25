@@ -46,7 +46,7 @@ runXY f g   =   let (ma, mb) = (runX *** runX) (f, g)
 
 -- | Takes a tree of a pair of an element and a list and returns a pair of
 -- | a tree of that element and a list
-splitter :: (Eq b) =>  IOSArrow (NTree (a, [b])) (NTree a, [b])
+splitter :: (Ord b) =>  IOSArrow (NTree (a, [b])) (NTree a, [b])
 splitter = arrIO (return . separatePair)
 
 -- | Takes a function and lifts it to an IO state arrow

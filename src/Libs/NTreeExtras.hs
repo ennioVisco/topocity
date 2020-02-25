@@ -106,7 +106,7 @@ findNodes p n@(NTree p' cs) | p == p'   = n : concatMap (findNodes p) cs
                            | otherwise = concatMap (findNodes p) cs
 
 -- Given a Tree on a (a, b), returns a Tree on a
-separatePair :: (Eq b) => NTree (a, [b]) -> (NTree a, [b])
+separatePair :: (Ord b) => NTree (a, [b]) -> (NTree a, [b])
 separatePair h = (fmap fst h, foldr combineNub [] $
                     (toList . fmap snd) h)
 

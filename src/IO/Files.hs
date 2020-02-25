@@ -37,7 +37,7 @@ loadXML  p  =   xunpickleDocument p
 
 storeXML :: PU a -> FilePath -> IOSArrow a XmlTree
 storeXML p  =    xpickleDocument p
-                    [ withIndent no            -- indent XML
+                    [ withIndent yes            -- indent XML
                     , withOutputEncoding isoLatin1
                     ]                           -- file path passed implicitly
 
