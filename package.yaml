@@ -32,6 +32,7 @@ dependencies:
 - directory
 - time
 - binary
+- data-ordlist
 
 library:
   source-dirs:
