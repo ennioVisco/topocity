@@ -2,7 +2,7 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : IO.Arrows
+   Module     : Libs.Arrows
 
    Maintainer : Ennio Visconti (ennio.visconti\@mail.polimi.it)
    Stability  : stable
@@ -14,10 +14,10 @@
 
 -- ------------------------------------------------------------
 
-module IO.Arrows
+module Libs.Arrows
     ( fstA
     , sndA
-    , runXY
+    --, runXY
     , lifter
     , splitter
     ) where
@@ -36,6 +36,7 @@ fstA = arrIO (\(a, _) -> return a)
 sndA :: IOSArrow (a, b) b
 sndA = arrIO (\(_, b) -> return b)
 
+{-
 -- | Runs two different programs for an IO state arrow over a pair.
 runXY :: IOSArrow XmlTree a -> IOSArrow XmlTree b -> IO ([a], [b])
 runXY f g   =   let (ma, mb) = (runX *** runX) (f, g)
@@ -43,6 +44,7 @@ runXY f g   =   let (ma, mb) = (runX *** runX) (f, g)
                         a <- ma
                         b <- mb
                         return (a, b)
+-}
 
 -- | Takes a tree of a pair of an element and a list and returns a pair of
 -- | a tree of that element and a list

@@ -16,7 +16,7 @@
 
 -- ------------------------------------------------------------
 
-module Libs.Policy where
+module Policies.Policy where
 
 import           Data.AbsCity
 import           Data.Bigraphs

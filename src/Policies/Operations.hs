@@ -2,7 +2,7 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : Libs.Operations
+   Module     : Policies.Operations
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
@@ -16,12 +16,12 @@
 
 -- ------------------------------------------------------------
 
-module Libs.Operations where
+module Policies.Operations where
 
 import           BX.Shared
 import           Data.Bigraphs
 import           Data.Tree.NTree.TypeDefs
-import           IO.Arrows
+import           Libs.Arrows
 import           Libs.Basics
 import           Libs.NTreeExtras
 import           Text.XML.HXT.Core

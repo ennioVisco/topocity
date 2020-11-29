@@ -21,7 +21,7 @@ import           Data.Text                as T (Text, pack)
 import           Data.Text.IO             as I (putStr)
 import           Data.Text.Lazy           as L (Text, toStrict)
 import           Data.Tree.NTree.TypeDefs
-import           IO.Arrows
+import           Libs.Arrows
 import           IO.BGEncoder
 import           IO.BGVisualizer
 import           IO.Files

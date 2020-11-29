@@ -21,7 +21,6 @@ module Data.Bigraphs where
 
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
-import           Libs.NTreeExtras
 
 -- ......................:::::::: Data Types ::::::::....................... --
 

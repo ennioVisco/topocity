@@ -16,10 +16,10 @@
 -- ------------------------------------------------------------
 
 module Lib
-    ( -- bger,        -- generates a bigraphER graph.
+    ( bger,        -- generates a bigraphER graph.
       display,        -- logs a bigraph in stdout.
       dump,           -- dumps the BiGraph in a file
-      -- draw,        -- generates a .dot file with a bigraph.
+      draw,        -- generates a .dot file with a bigraph.
       get,            -- performs BX get.
       load,           -- loads a model.
       store,          -- stores a model.
@@ -47,14 +47,15 @@ import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Binary               (Binary, encodeFile)
 import           Data.Text                 (Text, pack)
-import           IO.Arrows
+import           Libs.Arrows
 import           IO.Files
 import           IO.Visualize
-import           Libs.Operations
+import           Policies.Operations
 import           Text.XML.HXT.Core
 
--- Only needed for testing purposes when running GHCi from this file.
--- import           Libs.Operations
+-- The following is only needed for testing purposes 
+-- when running GHCi from this file.
+-- import           Policies.Operations
 
 -- .........................:::::::: HELPERS ::::::::........................ --
 
@@ -62,10 +63,10 @@ load :: FilePath -> FilePath -> IOSArrow XmlTree AbsCity
 load c t = (loadCity c &&& loadTopo t)
             >>> (abstractCity *** abstractTopo)
 
-load2 :: FilePath -> FilePath -> IOSArrow XmlTree (CityModel, [TopoRelation])
+load2 :: FilePath -> FilePath -> IOSArrow XmlTree CityGML
 load2 c t = loadCity c &&& loadTopo t
 
-abstract2 :: IOSArrow XmlTree (CityModel, [TopoRelation]) -> IOSArrow XmlTree AbsCity
+abstract2 :: IOSArrow XmlTree CityGML -> IOSArrow XmlTree AbsCity
 abstract2 m =  m >>> abstractCity *** abstractTopo
 
 dump :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
@@ -93,7 +94,7 @@ store m p1 p2 = do
                          );
                     return ()
 
-store2 :: IOSArrow XmlTree (CityModel, [TopoRelation]) -> FilePath -> FilePath -> IO ()
+store2 :: IOSArrow XmlTree CityGML -> FilePath -> FilePath -> IO ()
 store2 m p1 p2 = do
                     runX (  m      >>>
                             (
@@ -130,7 +131,8 @@ reifyCity  = arrIO (return . reiObj)
 -- ...........................:::::::: IO ::::::::........................... --
 
 loadTopo   :: FilePath -> IOSArrow XmlTree [TopoRelation]
-loadTopo  f = {-# SCC "TC_loadTopo" #-}  loadXML xpRelSet f >>> arrIO (\(Rels rs) -> return rs)
+loadTopo  f = {-# SCC "TC_loadTopo" #-}  loadXML xpRelSet f 
+                >>> arrIO (\(Rels rs) -> return rs)
 
 storeTopo  :: FilePath -> IOSArrow [TopoRelation] XmlTree
 storeTopo f = arrIO (return . Rels) >>> storeXML xpRelSet f

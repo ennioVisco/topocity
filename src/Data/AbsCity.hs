@@ -19,7 +19,6 @@ module Data.AbsCity where
 import           Data.Text                (pack)
 import           Data.Tree.NTree.TypeDefs
 import           Libs.Basics
-import           Libs.NTreeExtras
 
 
 -- ......................:::::::: Data Types ::::::::....................... --

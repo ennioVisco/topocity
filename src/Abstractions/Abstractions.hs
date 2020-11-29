@@ -26,6 +26,8 @@ import           Data.Tree.NTree.TypeDefs
 
 import           Abstractions.CityGML.Core
 
+type CityGML = (CityModel, [TopoRelation])
+
 
 -- | Link Abstractions
 instance AbstractLink TopoRelation where
