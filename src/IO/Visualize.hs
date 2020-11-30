@@ -70,12 +70,10 @@ draw g p1 p2 = do
 
 bger :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
 bger g p1 = do
-                let f1 = outDir ++ p1
                 runX (  g >>>
                         encodeBigraph >>>
-                        storeToFile (f1 ++ ".big")
+                        storeToFile p1 -- ++ ".big")
                      );
-
                 -- call BigraphER:
                 {-createProcess (proc "dot"
                     ["-Tpng", f1 ++ ".dot", "-o", f1 ++ ".png" ]);

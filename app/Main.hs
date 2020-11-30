@@ -64,7 +64,6 @@ doGet :: (FilePath, FilePath) -> IO (IOSArrow XmlTree BiGraph)
 doGet fs = do
     s <- loadHandler fs
     let v = rnfA $ get s
-    sysLog "GET transformation completed correctly."
     return v
 
 loadHandler :: (FilePath, FilePath) -> IO (IOSArrow XmlTree AbsCity)
@@ -86,7 +85,8 @@ storeHandler c v = do
     let o = d ++ outDir ++ outFile
     p <- canonicalizePath o
     sysLog $ "Storing the GET result in '" ++ p ++ "'..."
-    dump v o
+    -- dump v o
+    bger v p
     sysLog "Bigraph stored correctly."
 
 printHandler :: String -> IOSArrow XmlTree BiGraph -> IO ()
