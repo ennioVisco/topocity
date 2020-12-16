@@ -63,6 +63,7 @@ packages:
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
 extra-deps:
+- dotgen-0.4.2
 - BiGUL-1.0.1
 - hexpat-0.20.13
 - git: https://github.com/ennioVisco/citygml4hs.git
