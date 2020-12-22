@@ -30,7 +30,8 @@ p x = pack x
 
 -- | General bigraph scheme:
 -- | 1 - Controls
--- | 2 - Bigraph with "." and "|" for branching
+-- | 2 - Bigraph nesting with "." for leaves and "|" for branching
+-- | 3 - {x1, x2, ...} for per-node names and links
 encodeBG :: BiGraph -> Text
 encodeBG b = {-# SCC "TC_ViewEncode" #-} let h = mergeBiGraphs b
                 in encodeCtrls h +++ 
@@ -60,11 +61,16 @@ showLink :: BiGraphEdge -> Text
 showLink (i, (t, _)) = p i +++ p "-" +++ p t
 
 showNode :: BiGraphNode -> Text
-showNode (i, t) = p i +++ p "-" +++ p t
+showNode (i, t) = p (sanitize i) +++ p "-" +++ p (sanitize t)
 
 showCtrl :: AbsHypergraph -> Text
 showCtrl (NTree (n, ls) _) =  p "ctrl " +++ showNode n +++ p " = " +++ 
                               p (show $ length ls) +++ p ";\n"
+
+sanitize :: String -> String
+sanitize "" = ""
+sanitize ('-' : xs) = '_' : sanitizeID xs
+sanitize (':' : xs) = '_' : sanitizeID xs
 
 -- | String concatenation by comma ( , ).
 concomma :: Text -> Text -> Text

@@ -5,6 +5,7 @@ stack.yaml.lock
 
 .vscode/
 
+reports/
 in/local/
 in/vienna/
 out/
