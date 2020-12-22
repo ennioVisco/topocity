@@ -25,6 +25,15 @@ import           Libs.NTreeExtras
 (+++) :: Text -> Text -> Text
 (+++) x y = x `append` y
 
+(|+>) :: String -> Text -> Text
+(|+>) x y = pack x `append` y
+
+(<+|) :: Text -> String -> Text
+(<+|) x y = x `append` pack y
+
+(<+>) :: Text -> Text -> Text
+(<+>) x y = x `append` y
+
 p :: String -> Text
 p x = pack x
 
@@ -33,11 +42,13 @@ p x = pack x
 -- | 2 - Bigraph nesting with "." for leaves and "|" for branching
 -- | 3 - {x1, x2, ...} for per-node names and links
 encodeBG :: BiGraph -> Text
-encodeBG b = {-# SCC "TC_ViewEncode" #-} let h = mergeBiGraphs b
-                in encodeCtrls h +++ 
-                p "big a0 = " +++ toRules h +++  p ";\n"
+encodeBG b =   {-# SCC "TC_ViewEncode" #-} 
+               let h = mergeBiGraphs b
+               in encodeCtrls h <+| "big a0 = " <+> toRules h <+| ";\n"
 
 
+-- | Control encoding criterion:
+-- | We add a line for each control
 encodeCtrls :: AbsHypergraph -> Text
 encodeCtrls n@(NTree d cs) = foldr (append.showCtrl) (showCtrl n) cs
 
@@ -69,8 +80,8 @@ showCtrl (NTree (n, ls) _) =  p "ctrl " +++ showNode n +++ p " = " +++
 
 sanitize :: String -> String
 sanitize "" = ""
-sanitize ('-' : xs) = '_' : sanitizeID xs
-sanitize (':' : xs) = '_' : sanitizeID xs
+sanitize ('-' : xs) = '_' : sanitize xs
+sanitize (':' : xs) = '_' : sanitize xs
 
 -- | String concatenation by comma ( , ).
 concomma :: Text -> Text -> Text
