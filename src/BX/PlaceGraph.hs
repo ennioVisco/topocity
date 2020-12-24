@@ -19,7 +19,7 @@
 
 -- ------------------------------------------------------------
 
-module BX.PlaceGraph (syncTree) where
+module BX.PlaceGraph (syncTree, printPut, printGet) where
 
 import           BX.BiGUL.KeyAlign
 import           BX.Shared

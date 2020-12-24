@@ -1,9 +1,14 @@
+module PlaceGraph where
+import         Data.Tree.NTree.TypeDefs
+import BX.PlaceGraph (printPut, printGet, syncTree)
 
+    
 pp = printPut syncTree
 gg = printGet syncTree
 
 
 -- TESTING
+cgml :: NTree (Integer, ([Char], [Char]))
 cgml =  NTree (1, ("City","City1"))
         [
             NTree (2, ("Building", "Building2"))

@@ -1,3 +1,5 @@
+module LinkGraph where   
+import         Data.Tree.NTree.TypeDefs
 
 -- TESTING
 cgml =  (

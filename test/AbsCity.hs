@@ -1,3 +1,7 @@
+module AbsCity where 
+import         Data.Tree.NTree.TypeDefs
+import         Libs.NTreeExtras ( addChildrenAt )
+
 -- TESTING
 buildings = [
                 NTree ("2", ("Building", "Building2")) [],

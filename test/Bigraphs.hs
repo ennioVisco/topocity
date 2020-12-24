@@ -1,3 +1,7 @@
+
+module Bigraphs where
+import           Data.Tree.NTree.TypeDefs
+
 -- TESTING
 l1 = [
                 NTree ("2", "Building") (l2_1 ++ l2_2),
