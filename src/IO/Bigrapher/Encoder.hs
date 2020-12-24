@@ -50,6 +50,7 @@ nodeToRule False n (d, ls) = node d <+> linksToRules ls
 nodeToRule True  n (d, ls) = tab  n <+> node d <+> linksToRules ls <+> line ""
 
 linksToRules :: [BiGraphEdge] -> Text
+linksToRules [] = pack ""
 linksToRules (x:xs) = foldr (concomma.link) (link x) xs <+| "}"
 
 branch :: Bool -> Int -> Text -> AbsHypergraph -> Text
