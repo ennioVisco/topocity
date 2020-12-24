@@ -25,9 +25,13 @@ import      Data.Foldable               (foldr)
 import      Data.List                   (maximumBy,groupBy)
 
 sanitize :: String -> String
-sanitize "" = ""
+sanitize [] = ""
+sanitize "-"  = "_"
+sanitize ":"  = "_"
+sanitize [x]  = [x]
 sanitize ('-' : xs) = '_' : sanitize xs
 sanitize (':' : xs) = '_' : sanitize xs
+sanitize (x : xs) = x : sanitize xs
 
 node :: BiGraphNode -> Text
 node (i, t) = sanitize t |+| "{" <+| sanitize i <+| ", "
