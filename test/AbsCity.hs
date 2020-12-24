@@ -1,6 +1,6 @@
 module AbsCity where 
 import         Data.Tree.NTree.TypeDefs
-import         Libs.NTreeExtras ( addChildrenAt )
+import         Utilities.NTreeExtras ( addChildrenAt )
 
 -- TESTING
 buildings = [

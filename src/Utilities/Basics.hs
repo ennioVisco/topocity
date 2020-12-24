@@ -2,7 +2,7 @@
 -- ------------------------------------------------------------
 
 {- |
-   Module     : Libs.Basics
+   Module     : Utilities.Basics
 
    Maintainer : Ennio Visconti (ennio.visconti@mail.polimi.it)
    Stability  : stable
@@ -15,7 +15,7 @@
 
 -- ------------------------------------------------------------
 
-module Libs.Basics where
+module Utilities.Basics where
 
 import           Data.List.Ordered
 import           Data.Text         (Text)

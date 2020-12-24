@@ -14,7 +14,7 @@
 
 -- ------------------------------------------------------------
 
-module Libs.Arrows
+module Utilities.Arrows
     ( fstA
     , sndA
     --, runXY
@@ -23,7 +23,7 @@ module Libs.Arrows
     ) where
 
 import           Data.Tree.NTree.TypeDefs
-import           Libs.NTreeExtras
+import           Utilities.NTreeExtras
 import           Text.XML.HXT.Core
 
 -- ........................:::::::: IO Arrows ::::::::....................... --

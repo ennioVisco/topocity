@@ -15,12 +15,11 @@
 -- ------------------------------------------------------------
 
 {-# LANGUAGE FlexibleInstances    #-}
-{-# LANGUAGE TypeSynonymInstances #-}
 
 module Data.Bigraphs where
 
 import           Data.Tree.NTree.TypeDefs
-import           Libs.Basics
+import           Utilities.Basics
 
 -- ......................:::::::: Data Types ::::::::....................... --
 

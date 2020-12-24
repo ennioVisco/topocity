@@ -33,8 +33,8 @@ import           Generics.BiGUL.Interpreter
 import           Generics.BiGUL.Lib
 import           Generics.BiGUL.TH
 import           GHC.Generics
-import           Libs.Basics
-import           Libs.NTreeExtras
+import           Utilities.Basics
+import           Utilities.NTreeExtras
 import           Policies.Default
 
 -- Make the internal structure of AbsCityTree and PlaceGraph transformable

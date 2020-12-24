@@ -24,8 +24,8 @@ import           Data.Text                (pack, unpack)
 import           Data.Tree.NTree.TypeDefs
 import           GHC.Generics
 import           Identifiable
-import           Libs.Basics              (Type)
-import           Libs.NTreeExtras
+import           Utilities.Basics              (Type)
+import           Utilities.NTreeExtras
 
 class
     (Show o, Read o, Generic o, Data o, Identifiable o) =>

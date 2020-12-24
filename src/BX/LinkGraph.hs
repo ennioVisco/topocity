@@ -32,7 +32,7 @@ import           BX.BiGUL.KeyAlign
 import           BX.Shared
 import           Data.AbsCity
 import           Data.Bigraphs
-import           Libs.Basics
+import           Utilities.Basics
 
 -- TODO: this should be replaced by a generc policy plugged in by the caller.
 import           Policies.Default

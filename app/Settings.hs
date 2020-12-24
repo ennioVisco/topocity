@@ -24,3 +24,6 @@ outDir = "/out/"
 
 -- | Default output file
 outFile = "out-get.txt"
+
+-- | Output Prettifier Enabled or not
+pretty = True

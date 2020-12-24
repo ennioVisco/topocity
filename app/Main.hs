@@ -86,7 +86,7 @@ storeHandler c v = do
     p <- canonicalizePath o
     sysLog $ "Storing the GET result in '" ++ p ++ "'..."
     -- dump v o
-    bger v p
+    bger Settings.pretty v p
     sysLog "Bigraph stored correctly."
 
 printHandler :: String -> IOSArrow XmlTree BiGraph -> IO ()

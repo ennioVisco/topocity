@@ -20,7 +20,7 @@ module Policies.Policy where
 
 import           Data.AbsCity
 import           Data.Bigraphs
-import           Libs.Basics
+import           Utilities.Basics
 
 class Policy where
 

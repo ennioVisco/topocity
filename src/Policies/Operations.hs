@@ -21,9 +21,9 @@ module Policies.Operations where
 import           BX.Shared
 import           Data.Bigraphs
 import           Data.Tree.NTree.TypeDefs
-import           Libs.Arrows
-import           Libs.Basics
-import           Libs.NTreeExtras
+import           Utilities.Arrows
+import           Utilities.Basics
+import           Utilities.NTreeExtras
 import           Text.XML.HXT.Core
 
 -- ........................:::::::: MODIFIERS ::::::::....................... --

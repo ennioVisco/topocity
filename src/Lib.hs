@@ -47,7 +47,7 @@ import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Binary               (Binary, encodeFile)
 import           Data.Text                 (Text, pack)
-import           Libs.Arrows
+import           Utilities.Arrows
 import           IO.Files
 import           IO.Visualize
 import           Policies.Operations

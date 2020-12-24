@@ -21,8 +21,8 @@ import           BX.PlaceGraph
 import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Maybe
-import           Libs.Arrows
-import           Libs.NTreeExtras
+import           Utilities.Arrows
+import           Utilities.NTreeExtras
 import           Text.XML.HXT.Core
 
 

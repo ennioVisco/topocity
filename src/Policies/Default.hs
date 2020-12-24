@@ -5,7 +5,7 @@ import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Text                (append, pack)
 import           Data.Tree.NTree.TypeDefs
-import           Libs.Basics
+import           Utilities.Basics
 import           Policies.Stubs.Building
 
 -- data Default =

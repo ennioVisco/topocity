@@ -20,8 +20,8 @@ import           Data.AbsCity
 import           Data.Bigraphs
 import           Data.Text                (pack)
 import           Data.Tree.NTree.TypeDefs
-import           Libs.Basics
-import           Libs.NTreeExtras
+import           Utilities.Basics
+import           Utilities.NTreeExtras
 
 -- ................:::::: KEY EXTRACTORS ::::::................ --
 

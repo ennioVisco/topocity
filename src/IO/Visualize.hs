@@ -21,11 +21,11 @@ import           Data.Text                as T (Text, pack)
 import           Data.Text.IO             as I (putStr)
 import           Data.Text.Lazy           as L (Text, toStrict)
 import           Data.Tree.NTree.TypeDefs
-import           Libs.Arrows
-import           IO.BGEncoder
-import           IO.BGVisualizer
+import           Utilities.Arrows
+import           IO.Bigrapher.Encoder
+import           IO.Bigrapher.Visualizer
 import           IO.Files
-import           Libs.NTreeExtras
+import           Utilities.NTreeExtras
 import           System.Process
 import           Text.XML.HXT.Core
 
@@ -43,10 +43,10 @@ display d = do
 
 -- | 'encode' is a wrapper for the experimental feature of translating a BiGraph
 -- | into bigraphER's syntax.
-encode :: IOSArrow XmlTree BiGraph -> IO ()
-encode d = do
+encode :: Bool -> IOSArrow XmlTree BiGraph -> IO ()
+encode p d = do
             bg <- runX $ d >>> arrIO return
-            I.putStr $ encodeBG (head bg);
+            I.putStr $ encodeBG p (head bg);
             return ()
 
 -- .....................:::::::: EXPERIMENTAL ::::::::...................... --
@@ -68,10 +68,10 @@ draw g p1 p2 = do
                         ["-Tpng", f2 ++ ".dot", "-o", f2 ++ ".png" ]);
                     return ()
 
-bger :: IOSArrow XmlTree BiGraph -> FilePath -> IO ()
-bger g p1 = do
+bger :: Bool -> IOSArrow XmlTree BiGraph -> FilePath -> IO ()
+bger p g p1 = do
                 runX (  g >>>
-                        encodeBigraph >>>
+                        encodeBigraph p >>>
                         storeToFile p1 -- ++ ".big")
                      );
                 -- call BigraphER:
@@ -86,8 +86,8 @@ rawBigraph = arrIO (\(x,y) -> return $ pack $ printTree x ++ sList y)
              where
                sList xs = unlines $ map show xs
 
-encodeBigraph :: IOSArrow BiGraph T.Text
-encodeBigraph = arrIO $ return . encodeBG
+encodeBigraph :: Bool -> IOSArrow BiGraph T.Text
+encodeBigraph p = arrIO $ return . encodeBG p
 
 drawBigraphL :: IOSArrow BiGraph (L.Text, L.Text)
 drawBigraphL = arrIO $ return . showBigraph . bi2graph

@@ -14,7 +14,7 @@
 
 -- ------------------------------------------------------------
 
-module IO.BGVisualizer where
+module IO.Bigrapher.Visualizer where
 
 import           Data.Bigraphs
 import           Data.Graph.Inductive.Example
@@ -25,7 +25,7 @@ import           Data.GraphViz.Parsing
 import           Data.GraphViz.Printing
 import           Data.Text.Lazy                    (Text, append, pack, unpack)
 import           Data.Tree.NTree.TypeDefs
-import           Libs.NTreeExtras
+import           Utilities.NTreeExtras
 
 type Dictionary = [(Node, BiGraphNode)]
 
