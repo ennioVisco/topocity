@@ -58,7 +58,7 @@ branch p n x y = x `conbar` toRules p y (n + 1)
 
 
 -- | Control encoding criterion:
--- | We add a line for each control
+   -- | We add a line for each control
 -- encodeCtrls :: AbsHypergraph -> Text
 -- encodeCtrls n@(NTree d cs) = foldr (append.showCtrl) (showCtrl n) cs
 
