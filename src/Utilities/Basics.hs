@@ -38,12 +38,18 @@ noCond _ = True
 
 -- | filters a list by selecting elements in which a subelement is present
 -- | (used by 'BiGraph').
-subGraph :: (Ord a) => a -> [(b, (c, [a]))] -> [(b, (c, [a]))]
+subGraph :: (Eq a) => (a, d) -> [(b, (c, [(a, d)]))] -> [(b, (c, [(a, d)]))]
 subGraph n = filter (isPresent n)
 
 -- | Checks if n is an element of a triple (used by 'BiGraph').
-isPresent :: (Ord a) => a -> (b, (c, [a])) -> Bool
-isPresent n e@(_, (_, ns)) = n `member` ns
+isPresent :: (Eq a) => (a, d) -> (b, (c, [(a, d)])) -> Bool
+isPresent n (_, (_, ns)) = n `linkMember` ns
+
+-- | Checks whether the node is a member of the link or not
+linkMember :: (Eq a) => (a, b) -> [(a, b)] -> Bool 
+linkMember x [] = False
+linkMember x@(i, _) ((i', _):xs) | i == i' = True 
+                                 | otherwise = linkMember x xs
 
 -- | Takes a Boolean Function and if not f(a, b),
 -- | pushes a to the end of [a]
