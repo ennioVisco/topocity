@@ -35,7 +35,8 @@ encodeBG False b =
       in ctrls h <+| "big a0 = " <+> toRules False h 0 <+| ";" 
 encodeBG True b = 
    let h = mergeBiGraphs b
-      in ctrls h <+> line "big a0 = " <+> toRules True h 0 <+> line ";"
+      in ctrls h <+> line " " <+> 
+         line "big a0 = " <+> toRules True h 0 <+> line ";"
 
 
 
@@ -43,20 +44,23 @@ toRules :: Bool -> AbsHypergraph -> Int -> Text
 toRules p (NTree n []) i = nodeToRule p i n
 toRules p (NTree n (c:cs)) i = 
    let others = foldl (branch p i) (toRules p c (i + 1)) cs
-      in nodeToRule p i n <+| ".("  <+> others <+| ")"
+      in nodeToRule p i n <+> children p i others 
 
 nodeToRule :: Bool -> Int -> (BiGraphNode, [BiGraphEdge]) -> Text
 nodeToRule False n (d, ls) = node d <+> linksToRules ls
 nodeToRule True  n (d, ls) = tab  n <+> node d <+> linksToRules ls <+> line ""
 
 linksToRules :: [BiGraphEdge] -> Text
-linksToRules [] = pack ""
+linksToRules [] = pack "}"
 linksToRules (x:xs) = foldr (concomma.link) (link x) xs <+| "}"
 
 branch :: Bool -> Int -> Text -> AbsHypergraph -> Text
-branch p n x y = x `conbar` toRules p y (n + 1)
+branch False n x y = x `conbar` toRules False y (n + 1)
+branch True  n x y = x <+> tab n `conbar` toRules True y (n + 1)
 
-
+children :: Bool -> Int -> Text -> Text
+children False n xs =  ".("  |+> xs <+> tab n <+| ")"
+children True  n xs = tab n <+| ".("  <+> xs <+> tab n <+| ")"
 
 -- | Control encoding criterion:
    -- | We add a line for each control

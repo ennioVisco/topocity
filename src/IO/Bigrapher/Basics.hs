@@ -15,26 +15,26 @@
 -- ------------------------------------------------------------
 
 module IO.Bigrapher.Basics where
-import      Utilities.Basics            (Type)
-import      Utilities.TextExtras
-import      Utilities.NTreeExtras       (toList)
-import      Data.Bigraphs          
-import      Data.Tree.NTree.TypeDefs    ()
-import      Data.Text                   (Text, pack)
-import      Data.Foldable               (foldr)
-import      Data.List                   (maximumBy,groupBy)
+import           Data.Bigraphs
+import           Data.Foldable            (foldr)
+import           Data.List                (groupBy, maximumBy, sort)
+import           Data.Text                (Text, pack)
+import           Data.Tree.NTree.TypeDefs ()
+import           Utilities.Basics         (Type)
+import           Utilities.NTreeExtras    (toList)
+import           Utilities.TextExtras
 
 sanitize :: String -> String
-sanitize [] = ""
-sanitize "-"  = "_"
-sanitize ":"  = "_"
-sanitize [x]  = [x]
+sanitize []         = ""
+sanitize "-"        = "_"
+sanitize ":"        = "_"
+sanitize [x]        = [x]
 sanitize ('-' : xs) = '_' : sanitize xs
 sanitize (':' : xs) = '_' : sanitize xs
-sanitize (x : xs) = x : sanitize xs
+sanitize (x : xs)   = x : sanitize xs
 
 node :: BiGraphNode -> Text
-node (i, t) = sanitize t |+| "{" <+| sanitize i <+| ", "
+node (i, t) = sanitize t |+| "{" <+| sanitize i
 
 link :: BiGraphEdge -> Text
 link (i, (t, _)) = sanitize i |+| "_" <+| sanitize t
@@ -43,7 +43,7 @@ link (i, (t, _)) = sanitize i |+| "_" <+| sanitize t
 -- ........................:::::::: Controls ::::::::........................ --
 
 -- | To extract controls:
--- | 1. Extract a list of (type, #ports) 
+-- | 1. Extract a list of (type, #ports)
 -- |    Note: the node UID is added as a port
 -- | 2. Group them by type
 -- | 3. Select the (type, #ports) with max. #ports
@@ -56,19 +56,21 @@ toCtrl ((_, t), es) = (t, length es + 1)
 
 groupByType :: [(Type, Int)] -> [[(Type, Int)]]
 groupByType [] = []
-groupByType xs = groupBy (\(t1, _) (t2, _) -> t1 == t2) xs
+groupByType xs = groupBy (\(t1, _) (t2, _) -> t1 == t2) $ sort xs
 
 maxPorts :: [(Type, Int)] -> (Type, Int)
-maxPorts []     = error "Unsupported Empty List"
-maxPorts [x]    = x
-maxPorts xs     = maximumBy (\(_, n) (_, m) -> compare n m) xs
+maxPorts []  = error "Unsupported Empty List"
+maxPorts [x] = x
+maxPorts xs  = maximumBy (\(_, n) (_, m) -> compare n m) xs
 
 mergeCtrls :: [[(Type, Int)]] -> [(Type, Int)]
 mergeCtrls = map maxPorts
 
 printCtrls :: [(Type, Int)] -> Text
-printCtrls  = let toLine (t, n) = line 
+printCtrls  = let toLine (t, n) = line
                             ("ctrl " ++ sanitize t ++ " = " ++ show n ++ ";")
               in foldr ((<+>).toLine) (pack "")
-                    
-                                    
+
+--ord :: a -> a -> Ordering 
+--ord 
+
