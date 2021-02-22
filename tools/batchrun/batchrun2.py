@@ -3,7 +3,11 @@ import sys
 from storage import list_dir
 from time import gmtime, strftime
 
-DIR_PATH = "../../in/vienna/"
+DATA_DIR = "mini/"
+
+DIR_PATH_IN = "../../in/" + DATA_DIR
+
+DIR_PATH_OUT = r"../../out/" + DATA_DIR
 
 def main():
     # Logging init
@@ -11,13 +15,13 @@ def main():
     time = strftime("%Y_%m_%d__%H_%M_%S", gmtime())
     log_file = open("batchrun_" + time + ".log","w")
 
-    files = list_dir(DIR_PATH)
+    files = list_dir(DIR_PATH_IN)
 
     print(str(len(files)) + " model(s) found.")
     i = 0
     for f in files:
         i = i + 1
-        runner(DIR_PATH + f, log_file, old_stdout)
+        runner(DIR_PATH_IN + f, log_file, old_stdout)
         print("Executed model " + str(i) + " of " + str(len(files)) + ".")
 
     # Logging end
@@ -28,7 +32,7 @@ def main():
 def runner(file, log, old_log):
     sys.stdout = log
     cmd = [ 'java', r'-jar', r'citygml-tools.jar',
-            r'-i', file, r'-d', '-1', r'-c', 'e', r'-o', r'../../out/vienna/']
+            r'-i', file, r'-d', '0', r'-c', 'e', r'-o', DIR_PATH_OUT]
     process = subprocess.Popen(cmd,
                             shell=True, stderr=subprocess.DEVNULL,
                             stdout=subprocess.PIPE,

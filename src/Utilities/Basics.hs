@@ -60,6 +60,10 @@ alignLists f (x:xs) (y:ys) = if f x y
                              then x : alignLists f xs ys
                              else alignLists f xs (y:ys) ++ [x]
 
+-- | Takes a list and checks whether all elements are equal
+allTheSame :: (Eq a) => [a] -> Bool
+allTheSame xs = all (== head xs) (tail xs)
+
 -- | Cobines two lists removing duplicates.
 combineNub :: Ord a => [a] -> [a] -> [a]
 {-

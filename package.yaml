@@ -1,10 +1,10 @@
 name:                topocity
-version:             0.1.0.0
-github:              "polaretto/topocity"
+version:             0.2.0.0
+github:              "ennioVisco/topocity"
 license:             OtherLicense
 author:              "Ennio Visconti"
-maintainer:          "ennio.visconti@gmail.com"
-copyright:           "2018 Ennio Visconti"
+maintainer:          "ennio.visconti@tuwien.ac.at"
+copyright:           "2018-2021 Ennio Visconti"
 
 extra-source-files:
 - README.md
